@@ -24,7 +24,7 @@ import {
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
@@ -34,7 +34,7 @@ const items = [
   },
   {
     title: "Project",
-    url: "#",
+    url: "/project",
     icon: FolderOpenDot,
   },
   {

@@ -3,21 +3,28 @@ import Dashboard from "./app/dashboard/Dashboard";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./app/login/Login";
 import LandingPage from "./app/Static/Static";
-import Project from "./app/Project/Project";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Token } from "./components/Storage/Storage";
 
 function App() {
   return (
     <>
-      <LandingPage />
-      {/* <Dashboard/> */}
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        {Token === null ? <LandingPage /> : <Dashboard />}
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+      {/* <LandingPage /> */}
+      {/* {Token === null ? <LandingPage /> : <Dashboard />}
 
       <Router>
         <Routes>
-          <Route path="dashboard" element={<Dashboard />} />
-          {/* <Route path="/login" element={<Login />} /> */}
-          <Route path="/project" element={<Project />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
-      </Router>
+      </Router> */}
     </>
   );
 }
