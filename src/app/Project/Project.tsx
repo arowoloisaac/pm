@@ -34,12 +34,12 @@ const Project = () => {
     <>
       <div className="w-full ">
         <div className="container mx-auto  px-4  pb-4">
-          <div className="flex flex-row justify-end pb-1">
+          {/* <div className="flex flex-row justify-end pb-1">
             <Button>
               <Plus />
               Add
             </Button>
-          </div>
+          </div> */}
 
           <div className="py-1">
             {/* Collapsible Search Bar */}
@@ -96,9 +96,14 @@ const Project = () => {
                   </div>
 
                   {/* Search Button */}
-                  <div className="flex justify-end">
+                  <div className="flex justify-end gap-3">
                     <Button className="w-full md:w-auto px-4 py-2 rounded">
                       Search
+                    </Button>
+
+                    <Button>
+                      <Plus />
+                      Add Project
                     </Button>
                   </div>
                 </div>

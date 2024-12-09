@@ -1,3 +1,4 @@
+import Theme from "@/components/Theme";
 import { Button } from "@/components/ui/button";
 
 const LandingPage = () => {
@@ -16,6 +17,7 @@ const LandingPage = () => {
             <div className="flex gap-1 text-end" style={{ paddingTop: "10px" }}>
               <Button variant={"outline"}>Login</Button>
               <Button variant={"outline"}>Register</Button>
+              <Theme />
             </div>
           </div>
         </div>
