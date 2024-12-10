@@ -13,6 +13,8 @@ import {
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Project from "../Project/Project";
 import Theme from "@/components/Theme";
+import DashboardUserNav from "./userNav";
+
 
 export default function Dashboard() {
   // const { setTheme } = useTheme();
@@ -30,10 +32,10 @@ export default function Dashboard() {
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          <div className="ml-auto px-3">
-            <Theme/>
-           
-            {/* use a drop down and avatar here  */}
+          <div className="ml-auto flex items-center space-x-4 ">
+            <div></div>
+            <Theme />
+            <DashboardUserNav />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">

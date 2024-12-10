@@ -113,7 +113,7 @@ const Project = () => {
 
           {/* for displaying the project container */}
           <div className="container mx-auto border-2 px-4 py-4">
-            <div className="grid max-[500px]:grid-cols-1  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-5">
+            <div className="grid max-[500px]:grid-cols-1  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-5">
               <div>
                 <Card>
                   <CardHeader>

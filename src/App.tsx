@@ -1,8 +1,8 @@
 "use client";
 import "./App.css";
 import Dashboard from "./app/dashboard/Dashboard";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./app/login/Login";
+import { BrowserRouter as Router, Routes, Route } from "react-router";
+import Login from "./app/Login/Login";
 import LandingPage from "./app/Static/Static";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Token } from "./components/Storage/Storage";

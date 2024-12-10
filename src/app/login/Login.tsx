@@ -1,7 +1,45 @@
+import { ApiResponse, ApiUrl } from "@/components/Storage/Storage";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import Axios from "axios";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router";
+
 
 const Login = () => {
+  const useNavigator = useNavigate();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const data = {
+    email: formData.email,
+    password: formData.password,
+  };
+
+  console.log(data)
+
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const login = (e: any) => {
+    e.preventDefault()
+    Axios.post<ApiResponse>(`${ApiUrl}/login`, data).then((res) => {
+      if (res.status === 200) {
+        localStorage.setItem("token", res.data.token);
+        useNavigator("/");
+        window.location.reload();
+      }
+    });
+  };
+
+  useEffect(() => {
+    login;
+  }, []);
+
   return (
     <div className="flex h-screen w-full items-center justify-center px-4">
       <Card className="mx-auto max-w-sm">
@@ -29,7 +67,9 @@ const Login = () => {
                     required
                     autoComplete="email"
                     placeholder="name@email.com"
-                    // className="block w-full rounded-md border-gray-200 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                    onChange={(e) =>
+                      handleChange("email", e.target.value)
+                    }
                   />
                 </div>
               </div>
@@ -58,6 +98,9 @@ const Login = () => {
                     type="password"
                     required
                     autoComplete="current-password"
+                    onChange={(e) =>
+                      handleChange("password", e.target.value)
+                    }
                     className="block w-full rounded-md border-gray-200 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                   />
                 </div>
@@ -65,6 +108,7 @@ const Login = () => {
 
               <div>
                 <button
+                  onClick={login}
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
@@ -75,19 +119,19 @@ const Login = () => {
 
             <p className="mt-10 text-center text-sm/6 text-gray-500">
               Not a member?{" "}
-              <a
-                href="#"
+              <Link
+                to={"/register"}
+                // href="#"
                 className="font-semibold text-indigo-600 hover:text-indigo-500"
               >
                 Create Account
-              </a>
+              </Link>
             </p>
           </div>
         </div>
       </Card>
     </div>
   );
-}
+};
 
-
-export default Login
+export default Login;
