@@ -12,13 +12,19 @@ function App() {
   return (
     <>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        {Token === null ? <LandingPage /> : <Dashboard />}
-        <Router>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Registration />} />
-          </Routes>
-        </Router>
+        {Token === null ? (
+          <>
+            <LandingPage />
+            <Router>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Registration />} />
+              </Routes>
+            </Router>
+          </>
+        ) : (
+          <Dashboard />
+        )}
       </ThemeProvider>
       {/* <LandingPage /> */}
       {/* {Token === null ? <LandingPage /> : <Dashboard />}

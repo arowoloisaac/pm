@@ -26,25 +26,36 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { IProject } from "./utils";
+import ProjectLayout from "./Layout/project-layout";
+
+import Axios from "axios";
+import { ApiUrl, Token } from "@/components/Storage/Storage";
 
 const Project = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [projects, getProjects] = useState<IProject[]>([]);
+ 
+  const getProject = () => {
+    Axios.get(`${ApiUrl}/project`, {
+      headers: { Authorization: `Bearer ${Token}` },
+    }).then((res) => {
+      getProjects(res.data)
+    }).catch((ex) => console.log(ex.Message));
+  };
+
+  useEffect(() => {
+    getProject();
+  }, [Token]);
+
+  // console.log(projects)
   return (
     <>
       <div className="w-full ">
         <div className="container mx-auto  px-4  pb-4">
-          {/* <div className="flex flex-row justify-end pb-1">
-            <Button>
-              <Plus />
-              Add
-            </Button>
-          </div> */}
-
           <div className="py-1">
-            {/* Collapsible Search Bar */}
             <div className="border border-gray-300 ">
-              {/* Toggle Button (visible on small screens) */}
               <div className="flex justify-between items-center bg-gray-200 p-4 md:hidden">
                 <h2 className="text-lg font-medium">Search</h2>
                 <button
@@ -114,231 +125,7 @@ const Project = () => {
           {/* for displaying the project container */}
           <div className="container mx-auto border-2 px-4 py-4">
             <div className="grid max-[500px]:grid-cols-1  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-5">
-              <div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Project Title</CardTitle>
-                  </CardHeader>
-                  <CardContent className="grid gap-4">
-                    <div className=" flex items-center space-x-4 rounded-md border p-4">
-                      <div className="flex-1 space-y-1">
-                        <CardDescription>project description</CardDescription>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <Separator className="my" />
-                  <CardFooter>
-                    <div className="flex-1">
-                      <div className="flex">
-                        <div className="basis-10/12">
-                          <CardDescription>01</CardDescription>
-                        </div>
-
-                        <div className="pr-3">
-                          <Separator orientation="vertical" />
-                        </div>
-
-                        <div className="basis-1/2">
-                          <CardDescription>01</CardDescription>
-                        </div>
-                      </div>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </div>
-
-              <div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Project Title</CardTitle>
-                  </CardHeader>
-                  <CardContent className="grid gap-4">
-                    <div className=" flex items-center space-x-4 rounded-md border p-4">
-                      <div className="flex-1 space-y-1">
-                        <CardDescription>project description</CardDescription>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <Separator className="my" />
-                  <CardFooter>
-                    <div className="flex-1">
-                      <div className="flex">
-                        <div className="basis-10/12">
-                          <CardDescription>01</CardDescription>
-                        </div>
-
-                        <div className="pr-3">
-                          <Separator orientation="vertical" />
-                        </div>
-
-                        <div className="basis-1/2">
-                          <CardDescription>01</CardDescription>
-                        </div>
-                      </div>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </div>
-              <div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Project Title</CardTitle>
-                  </CardHeader>
-                  <CardContent className="grid gap-4">
-                    <div className=" flex items-center space-x-4 rounded-md border p-4">
-                      <div className="flex-1 space-y-1">
-                        <CardDescription>project description</CardDescription>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <Separator className="my" />
-                  <CardFooter>
-                    <div className="flex-1">
-                      <div className="flex">
-                        <div className="basis-10/12">
-                          <CardDescription>01</CardDescription>
-                        </div>
-
-                        <div className="pr-3">
-                          <Separator orientation="vertical" />
-                        </div>
-
-                        <div className="basis-1/2">
-                          <CardDescription>01</CardDescription>
-                        </div>
-                      </div>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </div>
-              <div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Project Title</CardTitle>
-                  </CardHeader>
-                  <CardContent className="grid gap-4">
-                    <div className=" flex items-center space-x-4 rounded-md border p-4">
-                      <div className="flex-1 space-y-1">
-                        <CardDescription>project description</CardDescription>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <Separator className="my" />
-                  <CardFooter>
-                    <div className="flex-1">
-                      <div className="flex">
-                        <div className="basis-10/12">
-                          <CardDescription>01</CardDescription>
-                        </div>
-
-                        <div className="pr-3">
-                          <Separator orientation="vertical" />
-                        </div>
-
-                        <div className="basis-1/2">
-                          <CardDescription>01</CardDescription>
-                        </div>
-                      </div>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </div>
-              <div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Project Title</CardTitle>
-                  </CardHeader>
-                  <CardContent className="grid gap-4">
-                    <div className=" flex items-center space-x-4 rounded-md border p-4">
-                      <div className="flex-1 space-y-1">
-                        <CardDescription>project description</CardDescription>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <Separator className="my" />
-                  <CardFooter>
-                    <div className="flex-1">
-                      <div className="flex">
-                        <div className="basis-10/12">
-                          <CardDescription>01</CardDescription>
-                        </div>
-
-                        <div className="pr-3">
-                          <Separator orientation="vertical" />
-                        </div>
-
-                        <div className="basis-1/2">
-                          <CardDescription>01</CardDescription>
-                        </div>
-                      </div>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </div>
-              <div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Project Title</CardTitle>
-                  </CardHeader>
-                  <CardContent className="grid gap-4">
-                    <div className=" flex items-center space-x-4 rounded-md border p-4">
-                      <div className="flex-1 space-y-1">
-                        <CardDescription>project description</CardDescription>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <Separator className="my" />
-                  <CardFooter>
-                    <div className="flex-1">
-                      <div className="flex">
-                        <div className="basis-10/12">
-                          <CardDescription>01</CardDescription>
-                        </div>
-
-                        <div className="pr-3">
-                          <Separator orientation="vertical" />
-                        </div>
-
-                        <div className="basis-1/2">
-                          <CardDescription>01</CardDescription>
-                        </div>
-                      </div>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </div>
-              <div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Project Title</CardTitle>
-                  </CardHeader>
-                  <CardContent className="grid gap-4">
-                    <div className=" flex items-center space-x-4 rounded-md border p-4">
-                      <div className="flex-1 space-y-1">
-                        <CardDescription>project description</CardDescription>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <Separator className="my" />
-                  <CardFooter>
-                    <div className="flex-1">
-                      <div className="flex">
-                        <div className="basis-10/12">
-                          <CardDescription>01</CardDescription>
-                        </div>
-
-                        <div className="pr-3">
-                          <Separator orientation="vertical" />
-                        </div>
-
-                        <div className="basis-1/2">
-                          <CardDescription>01</CardDescription>
-                        </div>
-                      </div>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </div>
+              <ProjectLayout items={projects} />
             </div>
           </div>
           <div className="p-0.5"></div>

@@ -28,6 +28,7 @@ export function Registration() {
     password: formData.password,
   };
 
+  
   const [status, setStatus] = useState("");
   const [ageError, setAgeError] = useState<string>("");
 

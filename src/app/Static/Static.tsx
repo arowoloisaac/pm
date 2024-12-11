@@ -1,6 +1,6 @@
+"use client";
 import Theme from "@/components/Theme";
 import { Button } from "@/components/ui/button";
-
 const LandingPage = () => {
   return (
     <>
@@ -9,14 +9,19 @@ const LandingPage = () => {
           <div className="flex flex-row">
             <div
               className="basis-1/3 text-red-100 text-start"
-              style={{ paddingTop: "10px" }}
+              style={{ paddingTop: "10px", paddingLeft: "10px" }}
             >
               Logo
             </div>
             <div className="basis-1/2"></div>
             <div className="flex gap-1 text-end" style={{ paddingTop: "10px" }}>
-              <Button variant={"outline"}>Login</Button>
-              <Button variant={"outline"}>Register</Button>
+              <a href="/login">
+                <Button variant={"outline"}>Login</Button>
+              </a>
+              <a href="/register">
+                <Button variant={"outline"}>Register</Button>
+              </a>
+
               <Theme />
             </div>
           </div>
@@ -26,5 +31,4 @@ const LandingPage = () => {
   );
 };
 
-
-export default LandingPage
+export default LandingPage;
