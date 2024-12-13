@@ -1,20 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/components/ui/pagination";
+import { Plus } from "lucide-react";
 
 import {
   Select,
@@ -27,29 +12,33 @@ import {
 } from "@/components/ui/select";
 
 import { useEffect, useState } from "react";
-import { IProject } from "./utils";
-import ProjectLayout from "./Layout/project-layout";
-
+import { IPaginate, IProject } from "./utils";
+import ProjectLayout from "../Layout/project-layout";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
+import PaginationComp from "../Layout/Paginator";
 
 const Project = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [projects, getProjects] = useState<IProject[]>([]);
- 
-  const getProject = () => {
-    Axios.get(`${ApiUrl}/project`, {
+
+  const [getPaginations, setPaginations] = useState<IPaginate>();
+
+  const getProject = async () => {
+    await Axios.get(`${ApiUrl}/project/get`, {
       headers: { Authorization: `Bearer ${Token}` },
-    }).then((res) => {
-      getProjects(res.data)
-    }).catch((ex) => console.log(ex.Message));
+    })
+      .then((res) => {
+        getProjects(res.data.projects);
+        setPaginations(res.data.pagination);
+      })
+      .catch((ex) => console.log(ex.Message));
   };
 
   useEffect(() => {
     getProject();
   }, [Token]);
 
-  // console.log(projects)
   return (
     <>
       <div className="w-full ">
@@ -133,29 +122,9 @@ const Project = () => {
           <div className="container mx-auto  border-2 px-4 py-4">
             <div className="flex flex-auto flex-row">
               <div className="flex-1  justify-start">
-                <p className="pt-2">Projects: 1004</p>
+                <p className="pt-2">Projects: {getPaginations?.totalItems}</p>
               </div>
-              <div className="justify-end ">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationLink>
-                        <Button>
-                          <ChevronLeft />
-                        </Button>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem className="px-2">1-12</PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink>
-                        <Button>
-                          <ChevronRight />
-                        </Button>
-                      </PaginationLink>
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              </div>
+              <PaginationComp item={getPaginations} />
             </div>
           </div>
         </div>
