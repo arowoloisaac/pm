@@ -17,7 +17,7 @@ import ProjectLayout from "../Layout/project-layout";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
 import PaginationComp from "../Layout/Paginator";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Project = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -26,13 +26,15 @@ const Project = () => {
 
   const [progressFilter, setProgressFilter] = useState<string>("");
   const [complexityFilter, setComplexityFilter] = useState<string>("");
+  const [itemPerPageFilter, setItemPerPageFilter] = useState<string>("");
 
   const generateUrl = (page = 1) => {
     const params = new URLSearchParams();
     params.append("page", page.toString());
-    params.append("itemPerPage", "4");
+    // params.append("itemPerPage", "4");
     if (progressFilter) params.append("progress", progressFilter);
     if (complexityFilter) params.append("complexity", complexityFilter);
+    if (itemPerPageFilter) params.append("itemPerPage", itemPerPageFilter);
 
     return `${ApiUrl}/project/get?${params.toString()}`;
   };
@@ -61,7 +63,7 @@ const Project = () => {
   useEffect(() => {
     const currentPage = page ? parseInt(page) : 1;
     getProject(currentPage);
-  }, [Token, progressFilter, complexityFilter, page]);
+  }, [Token, progressFilter, complexityFilter, itemPerPageFilter, page]);
 
   return (
     <>
@@ -87,7 +89,7 @@ const Project = () => {
                 <div className="flex flex-wrap md:flex-nowrap items-center gap-4 p-2">
                   <div className="flex flex-auto flex-wrap md:flex-nowrap gap-4 ">
                     <Select onValueChange={setProgressFilter}>
-                      <SelectTrigger className="w-full md:w-44 p-2 border border-gray-300 rounded">
+                      <SelectTrigger className="w-full md:w-44 p-2 border border-gray-400 rounded">
                         <SelectValue placeholder="Filter by progress" />
                       </SelectTrigger>
                       <SelectContent>
@@ -102,7 +104,7 @@ const Project = () => {
                     </Select>
 
                     <Select onValueChange={setComplexityFilter}>
-                      <SelectTrigger className="w-full md:w-44 p-2 border border-gray-300 rounded">
+                      <SelectTrigger className="w-full md:w-44 p-2 border border-gray-400 rounded">
                         <SelectValue placeholder="filter by Complexity" />
                       </SelectTrigger>
                       <SelectContent>
@@ -111,6 +113,21 @@ const Project = () => {
                           <SelectItem value="Easy">Easy</SelectItem>
                           <SelectItem value="Medium">Medium</SelectItem>
                           <SelectItem value="Hard">Hard</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+
+                    {/* item filter */}
+                    <Select onValueChange={setItemPerPageFilter}>
+                      <SelectTrigger className="w-full md:w-20 p-2 border border-gray-400 rounded">
+                        <SelectValue placeholder="Items" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Complexity</SelectLabel>
+                          <SelectItem value="5">5</SelectItem>
+                          <SelectItem value="8">8</SelectItem>
+                          <SelectItem value="12">12</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
