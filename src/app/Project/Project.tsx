@@ -17,35 +17,59 @@ import ProjectLayout from "../Layout/project-layout";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
 import PaginationComp from "../Layout/Paginator";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 const Project = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const [projects, getProjects] = useState<IProject[]>([]);
+  const { page } = useParams<{ page: string }>();
+  const navigate = useNavigate();
 
+  const [progressFilter, setProgressFilter] = useState<string>("");
+  const [complexityFilter, setComplexityFilter] = useState<string>("");
+
+  const generateUrl = (page = 1) => {
+    const params = new URLSearchParams();
+    params.append("page", page.toString());
+    params.append("itemPerPage", "4");
+    if (progressFilter) params.append("progress", progressFilter);
+    if (complexityFilter) params.append("complexity", complexityFilter);
+
+    return `${ApiUrl}/project/get?${params.toString()}`;
+  };
+
+  const [projects, setProjects] = useState<IProject[]>([]);
   const [getPaginations, setPaginations] = useState<IPaginate>();
 
-  const getProject = async () => {
-    await Axios.get(`${ApiUrl}/project/get`, {
-      headers: { Authorization: `Bearer ${Token}` },
-    })
-      .then((res) => {
-        getProjects(res.data.projects);
+  const getProject = async (page = 1) => {
+    try {
+      const res = await Axios.get(generateUrl(page), {
+        headers: { Authorization: `Bearer ${Token}` },
+      });
+      if (res.status === 200) {
+        setProjects(res.data.projects);
         setPaginations(res.data.pagination);
-      })
-      .catch((ex) => console.log(ex.Message));
+      }
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    navigate(`/project/${newPage}`); // Navigate to the new page
   };
 
   useEffect(() => {
-    getProject();
-  }, [Token]);
+    const currentPage = page ? parseInt(page) : 1;
+    getProject(currentPage);
+  }, [Token, progressFilter, complexityFilter, page]);
 
   return (
     <>
       <div className="w-full ">
         <div className="container mx-auto  px-4  pb-4">
           <div className="py-1">
-            <div className="border border-gray-300 ">
-              <div className="flex justify-between items-center bg-gray-200 p-4 md:hidden">
+            <div className="border-2">
+              <div className="flex justify-between items-center p-4 md:hidden">
                 <h2 className="text-lg font-medium">Search</h2>
                 <button
                   onClick={() => setIsCollapsed(!isCollapsed)}
@@ -62,34 +86,31 @@ const Project = () => {
               >
                 <div className="flex flex-wrap md:flex-nowrap items-center gap-4 p-2">
                   <div className="flex flex-auto flex-wrap md:flex-nowrap gap-4 ">
-                    <Select>
+                    <Select onValueChange={setProgressFilter}>
                       <SelectTrigger className="w-full md:w-44 p-2 border border-gray-300 rounded">
                         <SelectValue placeholder="Filter by progress" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>Progress</SelectLabel>
-                          <SelectItem value="apple">Apple</SelectItem>
-                          <SelectItem value="banana">Banana</SelectItem>
-                          <SelectItem value="blueberry">Blueberry</SelectItem>
-                          <SelectItem value="grapes">Grapes</SelectItem>
-                          <SelectItem value="pineapple">Pineapple</SelectItem>
+                          <SelectLabel>Status</SelectLabel>
+                          <SelectItem value="Todo">Todo</SelectItem>
+                          <SelectItem value="InProcess">In Progress</SelectItem>
+                          <SelectItem value="Done">Done</SelectItem>
+                          <SelectItem value="Canceled">Canceled</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
 
-                    <Select>
+                    <Select onValueChange={setComplexityFilter}>
                       <SelectTrigger className="w-full md:w-44 p-2 border border-gray-300 rounded">
                         <SelectValue placeholder="filter by Complexity" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Complexity</SelectLabel>
-                          <SelectItem value="apple">Apple</SelectItem>
-                          <SelectItem value="banana">Banana</SelectItem>
-                          <SelectItem value="blueberry">Blueberry</SelectItem>
-                          <SelectItem value="grapes">Grapes</SelectItem>
-                          <SelectItem value="pineapple">Pineapple</SelectItem>
+                          <SelectItem value="Easy">Easy</SelectItem>
+                          <SelectItem value="Medium">Medium</SelectItem>
+                          <SelectItem value="Hard">Hard</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -100,11 +121,12 @@ const Project = () => {
                     <Button className="w-full md:w-auto px-4 py-2 rounded">
                       Search
                     </Button>
-
-                    <Button>
-                      <Plus />
-                      Add Project
-                    </Button>
+                    <a href="/create">
+                      <Button>
+                        <Plus />
+                        Add Project
+                      </Button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -124,7 +146,11 @@ const Project = () => {
               <div className="flex-1  justify-start">
                 <p className="pt-2">Projects: {getPaginations?.totalItems}</p>
               </div>
-              <PaginationComp item={getPaginations} />
+              <PaginationComp
+                item={getPaginations}
+                fetchProjects={getProject}
+                handlePageChange={handlePageChange}
+              />{" "}
             </div>
           </div>
         </div>

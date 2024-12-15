@@ -14,10 +14,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Project from "../Project/Project";
 import Theme from "@/components/Theme";
 import DashboardUserNav from "../Layout/userNav";
-
+import AddProject from "../Project/func/AddProject";
 
 export default function Dashboard() {
-  // const { setTheme } = useTheme();
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -42,7 +41,10 @@ export default function Dashboard() {
           <Router>
             <Routes>
               <Route path="/" element={<Project />} />
+              <Route path="/project/:page" element={<Project />} />
               <Route path="/project" element={<Project />} />
+
+              <Route path="/project/create" element={<AddProject />} />
             </Routes>
           </Router>
         </div>

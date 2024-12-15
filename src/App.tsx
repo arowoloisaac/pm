@@ -19,6 +19,7 @@ function App() {
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Registration />} />
+                {/* <Route path="/:page" element={<Project />} /> */}
               </Routes>
             </Router>
           </>
@@ -31,7 +32,7 @@ function App() {
 
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/:page" element={<Project />} />
         </Routes>
       </Router> */}
     </>

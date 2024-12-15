@@ -9,6 +9,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { IProject } from "../Project/utils";
 
+
 const ProjectLayout = ({ items }: { items: IProject[] }) => {
   return (
     <>
@@ -25,7 +26,7 @@ const ProjectLayout = ({ items }: { items: IProject[] }) => {
                 <div className=" flex items-center space-x-4 rounded-md border p-4">
                   <div className="flex-1 space-y-1">
                     <CardDescription>
-                      {project.description.slice(0, 52)}{project.description.length > 0 ? (<>.........</>): (<span><strong>No content in here</strong></span>)}
+                      {project.description.slice(0,30)}{project.description.length > 30 ? (<>.........</>) : project.description.length < 30 ? (<></>) : (<span><strong>No content in here</strong></span>)}
                     </CardDescription>
                   </div>
                 </div>
@@ -34,7 +35,7 @@ const ProjectLayout = ({ items }: { items: IProject[] }) => {
               <CardFooter>
                 <div className="flex-1">
                   <div className="flex">
-                    <div className="basis-10/12 max-[400px]:basis-2/5">
+                    <div className="basis-1/2 max-[400px]:basis-2/5">
                       <CardDescription>{project.complexity}</CardDescription>
                     </div>
                     <div className="pr-3">
@@ -43,7 +44,7 @@ const ProjectLayout = ({ items }: { items: IProject[] }) => {
                     <div className="basis-1/2 max-[400px]::basis-10/12">
                       <CardDescription>
                         {" "}
-                        created: {project.dateCreated.split("T")[0]}
+                         {project.progress}
                       </CardDescription>
                     </div>
                   </div>

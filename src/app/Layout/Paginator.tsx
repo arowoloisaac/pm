@@ -7,37 +7,68 @@ import {
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { IPaginate } from "../Project/utils";
-// Button.setAttribute;
-const PaginationComp = ({item}: {item? : IPaginate}) => {
+import { useState } from "react";
 
-    console.log(item?.start)
+
+
+const PaginationComp = ({
+  item,
+  fetchProjects,
+  handlePageChange,
+}: {
+  item?: IPaginate;
+  fetchProjects: (page: number) => void;
+  handlePageChange: (page: number) => void;
+}) => {
+  const [getNumber, setNumber] = useState<number>(item?.current ?? 1);
+
+  const handleForward = async () => {
+    if (getNumber < (item?.count || 1)) {
+      const nextPage = getNumber + 1;
+      setNumber(nextPage);
+      fetchProjects(nextPage);
+      handlePageChange(nextPage);
+    }
+  };
+
+  const handleBackward = async () => {
+    if (getNumber > 1) {
+      const prevPage = getNumber - 1;
+      setNumber(prevPage);
+      fetchProjects(prevPage);
+       handlePageChange(prevPage);
+    }
+  };
+
   return (
-    <>
-      
-      <div className="justify-end ">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationLink>
-                <Button>
-                  <ChevronLeft />
-                </Button>
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem className="px-2">{item?.start.toString()}-{item?.end}</PaginationItem>
-            <PaginationItem>
-              <PaginationLink>
-                <Button>
-                  <ChevronRight />
-                </Button>
-              </PaginationLink>
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
-    </>
+    <div className="justify-end">
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationLink>
+              <Button onClick={handleBackward} disabled={getNumber === 1}>
+                <ChevronLeft />
+              </Button>
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem className="px-2">
+            {item?.start || 0} - {item?.end || 0}
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink>
+              <Button
+                onClick={handleForward}
+                disabled={getNumber >= (item?.count || 1)}
+              >
+                <ChevronRight />
+              </Button>
+            </PaginationLink>
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
   );
 };
 
 
-export default PaginationComp
+export default PaginationComp;
