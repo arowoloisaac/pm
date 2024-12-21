@@ -15,6 +15,7 @@ import Project from "../Project/Project";
 import Theme from "@/components/Theme";
 import DashboardUserNav from "../Layout/userNav";
 import AddProject from "../Project/func/AddProject";
+import Profile from "../Profile/Profile";
 
 export default function Dashboard() {
   return (
@@ -34,7 +35,7 @@ export default function Dashboard() {
           <div className="ml-auto flex items-center space-x-4 ">
             <div></div>
             <Theme />
-            <DashboardUserNav />
+            <DashboardUserNav profile={null}  />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
@@ -43,7 +44,7 @@ export default function Dashboard() {
               <Route path="/" element={<Project />} />
               <Route path="/project/:page" element={<Project />} />
               <Route path="/project" element={<Project />} />
-
+              <Route path="/profile" element={<Profile />} />
               <Route path="/project/create" element={<AddProject />} />
             </Routes>
           </Router>

@@ -20,6 +20,8 @@ import PaginationComp from "../Layout/Paginator";
 import { useParams, useNavigate } from "react-router-dom";
 
 const Project = () => {
+
+  // console.log(viewProfile())
   const [isCollapsed, setIsCollapsed] = useState(true);
   const { page } = useParams<{ page: string }>();
   const navigate = useNavigate();
@@ -135,9 +137,6 @@ const Project = () => {
 
                   {/* Search Button */}
                   <div className="flex justify-end gap-3">
-                    <Button className="w-full md:w-auto px-4 py-2 rounded">
-                      Search
-                    </Button>
                     <a href="/create">
                       <Button>
                         <Plus />

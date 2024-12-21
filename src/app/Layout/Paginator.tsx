@@ -9,8 +9,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { IPaginate } from "../Project/utils";
 import { useState } from "react";
 
-
-
 const PaginationComp = ({
   item,
   fetchProjects,
@@ -36,12 +34,12 @@ const PaginationComp = ({
       const prevPage = getNumber - 1;
       setNumber(prevPage);
       fetchProjects(prevPage);
-       handlePageChange(prevPage);
+      handlePageChange(prevPage);
     }
   };
 
   return (
-    <div className="justify-end">
+    <div className="-end">
       <Pagination>
         <PaginationContent>
           <PaginationItem>
@@ -69,6 +67,5 @@ const PaginationComp = ({
     </div>
   );
 };
-
 
 export default PaginationComp;

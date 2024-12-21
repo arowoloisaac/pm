@@ -1,7 +1,7 @@
 const EditProfile = () => {
   return (
     <>
-      edit
+     
       <></>
     </>
   );

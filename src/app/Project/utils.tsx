@@ -18,3 +18,12 @@ export interface IPaginate {
   current: number | any;
   count: number | any;
 }
+
+
+export interface IProfile {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  birthdate: string ;
+}

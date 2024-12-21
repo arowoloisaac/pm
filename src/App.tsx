@@ -6,7 +6,8 @@ import Login from "./app/Login/Login";
 import LandingPage from "./app/Static/Static";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Token } from "./components/Storage/Storage";
-import { Registration } from "./app/Register/Registeration";
+import { Registration } from "./app/Register/Registration";
+import Profile from "./app/Profile/Profile";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Registration />} />
-                {/* <Route path="/:page" element={<Project />} /> */}
+                <Route path="/profile" element={<Profile />} />
               </Routes>
             </Router>
           </>

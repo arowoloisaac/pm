@@ -28,9 +28,10 @@ export function Registration() {
     password: formData.password,
   };
 
-  
-  const [status, setStatus] = useState("");
   const [ageError, setAgeError] = useState<string>("");
+  const [phoneError, setPhoneError] = useState({
+    phoneNumber: "",
+  });
 
   const calculateAge = (birthDate: string): number => {
     const birth = dayjs(birthDate);
@@ -41,15 +42,43 @@ export function Registration() {
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+
+    //for phone number
+    if (field === "phoneNumber") {
+      const isValid = /^\+?[1-9]\d{1,14}$/.test(value);
+      setPhoneError({
+        ...phoneError,
+        phoneNumber: isValid ? "" : "Invalid phone number format.",
+      });
+    }
+
+    if (field === "birthDate") {
+      const age = calculateAge(value);
+      if (age <= 10) {
+        setAgeError("You must be older than 10 years to register.");
+      } else {
+        setAgeError("");
+      }
+    }
   };
 
   const register = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (!formData.phoneNumber) {
+      setPhoneError((prev) => ({
+        ...prev,
+        phoneNumber: "Phone number is required.",
+      }));
+      return;
+    }
 
-    const age = calculateAge(data.birthDate);
-    if (age <= 10) {
-      setAgeError("You must be older than 10 years to register.");
-      setStatus("");
+    if (phoneError.phoneNumber) {
+      console.log("Fix errors before submitting!");
+      return;
+    }
+
+    if (ageError) {
+      console.log("Fix errors before submitting!");
       return;
     }
 
@@ -61,11 +90,13 @@ export function Registration() {
           window.location.reload();
         }
       })
-      .catch((ex) => alert(ex.Message));
+      .catch((ex) => {
+        alert(ex.data.response);
+        console.log(ex);
+      });
   };
 
   useEffect(() => {
-    console.log(status);
     register;
   }, []);
 
@@ -153,7 +184,7 @@ export function Registration() {
               <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="tel"
-                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  pattern="^\+?[1-9]\d{1,14}$"
                   name="floating_phone"
                   id="floating_phone"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -168,7 +199,13 @@ export function Registration() {
                 >
                   Phone number (123-456-7890)
                 </label>
+                {phoneError.phoneNumber && (
+                  <p className="text-red-500 text-sm mt-1">
+                    Invalid phone number format
+                  </p>
+                )}
               </div>
+
               <div className="relative z-0 w-full mb-5 group">
                 <div className="relative max-w-sm">
                   <Datepicker
