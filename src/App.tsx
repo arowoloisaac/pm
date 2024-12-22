@@ -8,8 +8,11 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Token } from "./components/Storage/Storage";
 import { Registration } from "./app/Register/Registration";
 import Profile from "./app/Profile/Profile";
+import { useClearExpiredItems } from "./components/backgroundJob/backgroundJob";
 
 function App() {
+  useClearExpiredItems();
+
   return (
     <>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">

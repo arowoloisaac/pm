@@ -1,8 +1,4 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,16 +10,35 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useEffect, useState } from "react";
 import { IProfile } from "../Project/utils";
+import { viewProfile } from "../Profile/profileDetails/profile";
+import { Token } from "@/components/Storage/Storage";
 
-const DashboardUserNav = ({profile} : {profile: IProfile | any}) => {
+const DashboardUserNav = () => {
+  const [getProfile, setProfile] = useState<IProfile | any>({});
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const data = await viewProfile();
+      if (data) {
+        setProfile(data);
+      }
+    };
+
+    fetchProfile();
+  }, [Token]);
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarImage
+                // src="https://github.com/shadcn.png"
+                src={getProfile.avatarUrl}
+                alt="@shadcn"
+              />
               <AvatarFallback>SC</AvatarFallback>
             </Avatar>
           </Button>
@@ -33,31 +48,22 @@ const DashboardUserNav = ({profile} : {profile: IProfile | any}) => {
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">shadcn</p>
               <p className="text-xs leading-none text-muted-foreground">
-                m@example.com
+                {getProfile.email}
               </p>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>
-              Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Edit Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Settings
-            </DropdownMenuItem>
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Edit Profile</DropdownMenuItem>
+            <DropdownMenuItem>Settings</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            Log out
-          </DropdownMenuItem>
+          <DropdownMenuItem>Log out</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>
   );
 };
 
-
-export default DashboardUserNav
+export default DashboardUserNav;

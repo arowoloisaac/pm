@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import Axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
-
+import { setWithExpiry } from "../../components/backgroundJob/backgroundJob";
 
 const Login = () => {
   const useNavigator = useNavigate();
@@ -19,17 +19,18 @@ const Login = () => {
     password: formData.password,
   };
 
-  console.log(data)
+  console.log(data);
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const login = (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     Axios.post<ApiResponse>(`${ApiUrl}/login`, data).then((res) => {
       if (res.status === 200) {
-        localStorage.setItem("token", res.data.token);
+        setWithExpiry("token", res.data.token, 3);
+        // localStorage.setItem("token", res.data.token);
         useNavigator("/");
         window.location.reload();
       }
@@ -67,9 +68,7 @@ const Login = () => {
                     required
                     autoComplete="email"
                     placeholder="name@email.com"
-                    onChange={(e) =>
-                      handleChange("email", e.target.value)
-                    }
+                    onChange={(e) => handleChange("email", e.target.value)}
                   />
                 </div>
               </div>
@@ -98,9 +97,7 @@ const Login = () => {
                     type="password"
                     required
                     autoComplete="current-password"
-                    onChange={(e) =>
-                      handleChange("password", e.target.value)
-                    }
+                    onChange={(e) => handleChange("password", e.target.value)}
                     className="block w-full rounded-md border-gray-200 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                   />
                 </div>

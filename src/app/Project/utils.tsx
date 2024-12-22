@@ -25,5 +25,6 @@ export interface IProfile {
   lastName: string;
   email: string;
   phoneNumber: string;
-  birthdate: string ;
+  birthdate: string;
+  avatarUrl: string;
 }

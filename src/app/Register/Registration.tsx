@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { ApiResponse, ApiUrl } from "@/components/Storage/Storage";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { setWithExpiry } from "../../components/backgroundJob/backgroundJob";
 
 export function Registration() {
   const useNavigator = useNavigate();
@@ -85,7 +86,8 @@ export function Registration() {
     Axios.post<ApiResponse>(`${ApiUrl}/register`, data)
       .then((res) => {
         if (res.status === 200) {
-          localStorage.setItem("token", res.data.token);
+          setWithExpiry("token", res.data.token, 3);
+          // localStorage.setItem("token", res.data.token);
           useNavigator("/");
           window.location.reload();
         }

@@ -2,29 +2,25 @@ import { Token } from "@/components/Storage/Storage";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import Axios from "axios";
 import { useEffect, useState } from "react";
 import { IProfile } from "../Project/utils";
+import { viewProfile } from "./profileDetails/profile";
 
 const Profile = () => {
-const [getProfile, setProfile] = useState<IProfile | any>({});
-const [loading, setLoading] = useState(true);
-const [error, setError] = useState<string | null>(null);
+  const [getProfile, setProfile] = useState<IProfile | any>({});
 
-useEffect(() => {
-  const fetchProfile = async () => {
-    const data = await viewProfile();
-    if (data) {
-      setProfile(data);
-    } else {
-      setError("Failed to load profile");
-    }
-    setLoading(false);
-  };
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const data = await viewProfile();
+      if (data) {
+        setProfile(data);
+      }
+    };
 
-  fetchProfile();
-}, [Token]);
+    fetchProfile();
+  }, [Token]);
 
+  console.log(getProfile)
   return (
     <>
       <div className="pt-16 px-2 pb-8">
@@ -43,7 +39,8 @@ useEffect(() => {
                 <div className="flex-auto justify-start items-center">
                   <img
                     className="inline-flex object-cover border-4 rounded-full h-16 w-16 !h-32 !w-32"
-                    src="https://github.com/shadcn.png"
+                    // src="https://github.com/shadcn.png"
+                    src={getProfile.avatarUrl}
                     alt=""
                   />
                 </div>
@@ -107,19 +104,4 @@ useEffect(() => {
   );
 };
 
-// export default Profile;
-
-const viewProfile = async (): Promise<IProfile | null> => {
-  try {
-    const response = await Axios.get("https://localhost:7120/api/profile", {
-      headers: { Authorization: `Bearer ${Token}` },
-    });
-    return response.data;
-  } catch (err: any) {
-    console.error("Error fetching profile:", err.message || err);
-    return null; // Return null in case of an error
-  }
-};
-
 export default Profile;
-viewProfile;

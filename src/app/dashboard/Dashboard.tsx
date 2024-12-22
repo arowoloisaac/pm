@@ -35,7 +35,7 @@ export default function Dashboard() {
           <div className="ml-auto flex items-center space-x-4 ">
             <div></div>
             <Theme />
-            <DashboardUserNav profile={null}  />
+            <DashboardUserNav />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
