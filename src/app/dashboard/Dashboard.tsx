@@ -16,6 +16,8 @@ import Theme from "@/components/Theme";
 import DashboardUserNav from "../Layout/userNav";
 import AddProject from "../Project/func/AddProject";
 import Profile from "../Profile/Profile";
+import CreateProject from "../Project/Layouts/CreateProject";
+
 
 export default function Dashboard() {
   return (
@@ -45,7 +47,7 @@ export default function Dashboard() {
               <Route path="/project/:page" element={<Project />} />
               <Route path="/project" element={<Project />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/project/create" element={<AddProject />} />
+              <Route path="/project/create" element={<CreateProject />} />
             </Routes>
           </Router>
         </div>

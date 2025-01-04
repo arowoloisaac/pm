@@ -7,8 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { IProject } from "../Project/utils";
-
+import { IProject } from "../utils";
 
 const ProjectLayout = ({ items }: { items: IProject[] }) => {
   return (
@@ -26,7 +25,16 @@ const ProjectLayout = ({ items }: { items: IProject[] }) => {
                 <div className=" flex items-center space-x-4 rounded-md border p-4">
                   <div className="flex-1 space-y-1">
                     <CardDescription>
-                      {project.description.slice(0,30)}{project.description.length > 30 ? (<>.........</>) : project.description.length < 30 ? (<></>) : (<span><strong>No content in here</strong></span>)}
+                      {project.overview.slice(0, 30)}
+                      {project.overview.length > 30 ? (
+                        <>.........</>
+                      ) : project.overview.length < 30 ? (
+                        <></>
+                      ) : (
+                        <span>
+                          <strong>No content in here</strong>
+                        </span>
+                      )}
                     </CardDescription>
                   </div>
                 </div>
@@ -42,10 +50,7 @@ const ProjectLayout = ({ items }: { items: IProject[] }) => {
                       <Separator orientation="vertical" />
                     </div>
                     <div className="basis-1/2 max-[400px]::basis-10/12">
-                      <CardDescription>
-                        {" "}
-                         {project.progress}
-                      </CardDescription>
+                      <CardDescription> {project.progress}</CardDescription>
                     </div>
                   </div>
                 </div>

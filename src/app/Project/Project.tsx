@@ -13,14 +13,13 @@ import {
 
 import { useEffect, useState } from "react";
 import { IPaginate, IProject } from "./utils";
-import ProjectLayout from "../Layout/project-layout";
+import ProjectLayout from "./Layouts/project-layout";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
 import PaginationComp from "../Layout/Paginator";
 import { useParams, useNavigate } from "react-router-dom";
 
 const Project = () => {
-
   // console.log(viewProfile())
   const [isCollapsed, setIsCollapsed] = useState(true);
   const { page } = useParams<{ page: string }>();
@@ -137,7 +136,7 @@ const Project = () => {
 
                   {/* Search Button */}
                   <div className="flex justify-end gap-3">
-                    <a href="/create">
+                    <a href="project/create">
                       <Button>
                         <Plus />
                         Add Project
