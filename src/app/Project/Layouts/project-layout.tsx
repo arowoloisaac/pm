@@ -6,58 +6,161 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+
+
+import {  MoreHorizontal } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
 import { Separator } from "@/components/ui/separator";
 import { IProject } from "../utils";
 
-const ProjectLayout = ({ items }: { items: IProject[] }) => {
+ 
+
+const ProjectLayout = ({ items, isLoading }: { items: IProject[], isLoading: boolean }) => {
   return (
     <>
-      {items.length === 0 ? (
-        <div>no project yet</div>
-      ) : (
-        items.map((project) => (
-          <div id={project.id}>
-            <Card>
-              <CardHeader>
-                <CardTitle>{project.name}</CardTitle>
-              </CardHeader>
-              <CardContent className="grid gap-4">
-                <div className=" flex items-center space-x-4 rounded-md border p-4">
-                  <div className="flex-1 space-y-1">
-                    <CardDescription>
-                      {project.overview.slice(0, 30)}
-                      {project.overview.length > 30 ? (
-                        <>.........</>
-                      ) : project.overview.length < 30 ? (
-                        <></>
-                      ) : (
-                        <span>
-                          <strong>No content in here</strong>
-                        </span>
-                      )}
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardContent>
-              <Separator className="my" />
-              <CardFooter>
-                <div className="flex-1">
-                  <div className="flex">
-                    <div className="basis-1/2 max-[400px]:basis-2/5">
-                      <CardDescription>{project.complexity}</CardDescription>
-                    </div>
-                    <div className="pr-3">
-                      <Separator orientation="vertical" />
-                    </div>
-                    <div className="basis-1/2 max-[400px]::basis-10/12">
-                      <CardDescription> {project.progress}</CardDescription>
-                    </div>
-                  </div>
-                </div>
-              </CardFooter>
-            </Card>
+      {isLoading ? (
+        <div className="h-96 content-center">
+          <div className=" flex flex-row justify-center">
+            <div>
+              <span>
+                <h2 className="font-serif">No created projects yet</h2>
+              </span>
+              <div className="flex justify-center">
+                {" "}
+                <a className="italic underline" href="/project/create">
+                  Create Project
+                </a>
+              </div>
+            </div>
           </div>
-        ))
+        </div>
+      ) : (
+        <div>
+          {items.length === 0 ? (
+            <div className="h-96 content-center">
+              <div className=" flex flex-row justify-center">
+                <div>
+                  <span>
+                    <h2 className="font-serif">No created projects yet</h2>
+                  </span>
+                  <div className="flex justify-center">
+                    {" "}
+                    <a className="italic underline" href="/project/create">
+                      Create Project
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="grid max-[500px]:grid-cols-1  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-5">
+              {items.map((project) => (
+                <div>
+                  <div id={project.id}>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>
+                          <div className="flex justify-between items-stretch">
+                            <div>{project.name}</div>
+                            <div className="self-start">
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" className="size-px">
+                                    <MoreHorizontal />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                  align="end"
+                                  className="w-[150px]"
+                                >
+                                  {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
+                                  <DropdownMenuGroup>
+                                    <DropdownMenuItem>
+                                      Assign to
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                      Set due date
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuSub>
+                                      <DropdownMenuSubTrigger>
+                                        Apply label
+                                      </DropdownMenuSubTrigger>
+                                      <DropdownMenuSubContent className="p-0"></DropdownMenuSubContent>
+                                    </DropdownMenuSub>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem className="text-red-600">
+                                      Delete
+                                    </DropdownMenuItem>
+                                  </DropdownMenuGroup>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </div>
+                          </div>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="grid gap-4">
+                        <div className=" flex items-center space-x-4 rounded-md border p-4">
+                          <div className="flex-1 space-y-1">
+                            <CardDescription>
+                              {project.overview.slice(0, 30)}
+                              {project.overview.length > 30 ? (
+                                <>.........</>
+                              ) : project.overview.length < 30 &&
+                                project.overview.length > 1 ? (
+                                <></>
+                              ) : (
+                                <span>
+                                  <strong>No project overview</strong>
+                                </span>
+                              )}
+                            </CardDescription>
+                          </div>
+                        </div>
+                      </CardContent>
+                      <Separator className="my" />
+                      <CardFooter>
+                        <div className="flex-1">
+                          <div className="flex">
+                            <div className="basis-1/2 max-[400px]:basis-2/5">
+                              <CardDescription>
+                                {project.complexity}
+                              </CardDescription>
+                            </div>
+                            <div className="pr-3">
+                              <Separator orientation="vertical" />
+                            </div>
+                            <div className="basis-1/2 max-[400px]::basis-10/12">
+                              <CardDescription>
+                                {" "}
+                                {project.progress}
+                              </CardDescription>
+                            </div>
+                          </div>
+                        </div>
+                      </CardFooter>
+                    </Card>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       )}
     </>
   );

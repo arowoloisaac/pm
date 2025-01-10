@@ -14,7 +14,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Project from "../Project/Project";
 import Theme from "@/components/Theme";
 import DashboardUserNav from "../Layout/userNav";
-import AddProject from "../Project/func/AddProject";
 import Profile from "../Profile/Profile";
 import CreateProject from "../Project/Layouts/CreateProject";
 

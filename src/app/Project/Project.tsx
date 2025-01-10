@@ -20,10 +20,11 @@ import PaginationComp from "../Layout/Paginator";
 import { useParams, useNavigate } from "react-router-dom";
 
 const Project = () => {
-  // console.log(viewProfile())
   const [isCollapsed, setIsCollapsed] = useState(true);
   const { page } = useParams<{ page: string }>();
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(true)
 
   const [progressFilter, setProgressFilter] = useState<string>("");
   const [complexityFilter, setComplexityFilter] = useState<string>("");
@@ -42,6 +43,7 @@ const Project = () => {
 
   const [projects, setProjects] = useState<IProject[]>([]);
   const [getPaginations, setPaginations] = useState<IPaginate>();
+  console.log(projects)
 
   const getProject = async (page = 1) => {
     try {
@@ -49,6 +51,7 @@ const Project = () => {
         headers: { Authorization: `Bearer ${Token}` },
       });
       if (res.status === 200) {
+        setIsLoading(false)
         setProjects(res.data.projects);
         setPaginations(res.data.pagination);
       }
@@ -150,24 +153,26 @@ const Project = () => {
 
           {/* for displaying the project container */}
           <div className="container mx-auto border-2 px-4 py-4">
-            <div className="grid max-[500px]:grid-cols-1  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-5">
-              <ProjectLayout items={projects} />
-            </div>
+            <ProjectLayout items={projects} isLoading={isLoading}/>
           </div>
           <div className="p-0.5"></div>
           {/* pagination */}
-          <div className="container mx-auto  border-2 px-4 py-4">
-            <div className="flex flex-auto flex-row">
-              <div className="flex-1  justify-start">
-                <p className="pt-2">Projects: {getPaginations?.totalItems}</p>
+          {Number(getPaginations?.totalItems) < 1 ? (
+            <span></span>
+          ) : (
+            <div className="container mx-auto  border-2 px-4 py-4">
+              <div className="flex flex-auto flex-row">
+                <div className="flex-1  justify-start">
+                  <p className="pt-2">Projects: {getPaginations?.totalItems}</p>
+                </div>
+                <PaginationComp
+                  item={getPaginations}
+                  fetchProjects={getProject}
+                  handlePageChange={handlePageChange}
+                />{" "}
               </div>
-              <PaginationComp
-                item={getPaginations}
-                fetchProjects={getProject}
-                handlePageChange={handlePageChange}
-              />{" "}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>

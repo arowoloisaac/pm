@@ -54,7 +54,7 @@ const DashboardUserNav = () => {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <a href="">
+            <a href="/profile">
               <DropdownMenuItem>Profile</DropdownMenuItem>
             </a>
             <DropdownMenuItem>Profile</DropdownMenuItem>
