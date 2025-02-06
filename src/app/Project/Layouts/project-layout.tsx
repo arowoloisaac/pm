@@ -19,32 +19,36 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-
-
-import {  MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
 import { Separator } from "@/components/ui/separator";
-import { IProject } from "../utils";
+import { IProject } from "../utils/utils";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useNavigate } from "react-router-dom";
 
- 
-
-const ProjectLayout = ({ items, isLoading }: { items: IProject[], isLoading: boolean }) => {
+const ProjectLayout = ({
+  items,
+  isLoading,
+}: {
+  items: IProject[];
+  isLoading: boolean;
+}) => {
+  const navigate = useNavigate();
+  const handleClick = (id: string) => {
+    navigate(`/project/overview/${id}`);
+  };
   return (
     <>
       {isLoading ? (
         <div className="h-96 content-center">
           <div className=" flex flex-row justify-center">
-            <div>
-              <span>
-                <h2 className="font-serif">No created projects yet</h2>
-              </span>
-              <div className="flex justify-center">
-                {" "}
-                <a className="italic underline" href="/project/create">
-                  Create Project
-                </a>
+            <div className="flex items-center space-x-4">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
               </div>
             </div>
           </div>
@@ -68,11 +72,16 @@ const ProjectLayout = ({ items, isLoading }: { items: IProject[], isLoading: boo
               </div>
             </div>
           ) : (
-            <div className="grid max-[500px]:grid-cols-1  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-5">
+            <div className="grid max-[500px]:grid-cols-1  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
               {items.map((project) => (
                 <div>
                   <div id={project.id}>
-                    <Card>
+                    <Card
+                      onClick={() => {
+                        // console.log(project.id);
+                        handleClick(project.id)
+                      }}
+                    >
                       <CardHeader>
                         <CardTitle>
                           <div className="flex justify-between items-stretch">

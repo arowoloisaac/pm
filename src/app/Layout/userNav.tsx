@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useEffect, useState } from "react";
-import { IProfile } from "../Project/utils";
+import { IProfile } from "../Project/utils/utils";
 import { viewProfile } from "../Profile/profileDetails/profile";
 import { Token } from "@/components/Storage/Storage";
 
@@ -62,7 +62,7 @@ const DashboardUserNav = () => {
             <DropdownMenuItem>Settings</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Log out</DropdownMenuItem>
+          <DropdownMenuItem className="text-red-600">Log out</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

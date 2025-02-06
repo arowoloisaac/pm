@@ -1,4 +1,4 @@
-import { IProfile } from "@/app/Project/utils";
+import { IProfile } from "@/app/Project/utils/utils";
 import { Token } from "@/components/Storage/Storage";
 import Axios from "axios";
 
@@ -14,4 +14,4 @@ const viewProfile = async (): Promise<IProfile | null> => {
   }
 };
 
-export {viewProfile}
+export { viewProfile };

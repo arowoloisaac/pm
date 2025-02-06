@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
-import { IProfile } from "../Project/utils";
+import { IProfile } from "../Project/utils/utils";
 import { viewProfile } from "./profileDetails/profile";
 
 const Profile = () => {
@@ -20,7 +20,7 @@ const Profile = () => {
     fetchProfile();
   }, [Token]);
 
-  console.log(getProfile)
+  console.log(getProfile);
   return (
     <>
       <div className="pt-16 px-2 pb-8">

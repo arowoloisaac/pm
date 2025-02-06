@@ -16,7 +16,9 @@ import Theme from "@/components/Theme";
 import DashboardUserNav from "../Layout/userNav";
 import Profile from "../Profile/Profile";
 import CreateProject from "../Project/Layouts/CreateProject";
-
+import ProjectOverview from "../Project/Common/ProjectOverview";
+import CheckMd from "../Markdown/Markown";
+import SubIssue from "../Issue/Layout/SubIssue";
 
 export default function Dashboard() {
   return (
@@ -46,7 +48,16 @@ export default function Dashboard() {
               <Route path="/project/:page" element={<Project />} />
               <Route path="/project" element={<Project />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/project/create" element={<CreateProject />} />
+              <Route path="/md" element={<CheckMd />} />
+              <Route path="/sub" element={<SubIssue/>} />
+
+              <Route path="/project">
+                <Route path="/project/create" element={<CreateProject />} />
+                <Route
+                  path="/project/overview/:id"
+                  element={<ProjectOverview />}
+                />
+              </Route>
             </Routes>
           </Router>
         </div>

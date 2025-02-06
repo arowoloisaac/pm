@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 
 import { useEffect, useState } from "react";
-import { IPaginate, IProject } from "./utils";
+import { IPaginate, IProject } from "./utils/utils";
 import ProjectLayout from "./Layouts/project-layout";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
@@ -24,7 +24,7 @@ const Project = () => {
   const { page } = useParams<{ page: string }>();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
   const [progressFilter, setProgressFilter] = useState<string>("");
   const [complexityFilter, setComplexityFilter] = useState<string>("");
@@ -43,7 +43,7 @@ const Project = () => {
 
   const [projects, setProjects] = useState<IProject[]>([]);
   const [getPaginations, setPaginations] = useState<IPaginate>();
-  console.log(projects)
+  console.log(projects);
 
   const getProject = async (page = 1) => {
     try {
@@ -51,7 +51,7 @@ const Project = () => {
         headers: { Authorization: `Bearer ${Token}` },
       });
       if (res.status === 200) {
-        setIsLoading(false)
+        setIsLoading(false);
         setProjects(res.data.projects);
         setPaginations(res.data.pagination);
       }
@@ -153,7 +153,7 @@ const Project = () => {
 
           {/* for displaying the project container */}
           <div className="container mx-auto border-2 px-4 py-4">
-            <ProjectLayout items={projects} isLoading={isLoading}/>
+            <ProjectLayout items={projects} isLoading={isLoading} />
           </div>
           <div className="p-0.5"></div>
           {/* pagination */}
@@ -167,7 +167,7 @@ const Project = () => {
                 </div>
                 <PaginationComp
                   item={getPaginations}
-                  fetchProjects={getProject}
+                  fetchItem={getProject}
                   handlePageChange={handlePageChange}
                 />{" "}
               </div>

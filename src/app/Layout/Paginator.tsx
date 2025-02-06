@@ -6,16 +6,16 @@ import {
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { IPaginate } from "../Project/utils";
+import { IPaginate } from "../Project/utils/utils";
 import { useState } from "react";
 
 const PaginationComp = ({
   item,
-  fetchProjects,
+  fetchItem,
   handlePageChange,
 }: {
   item?: IPaginate;
-  fetchProjects: (page: number) => void;
+  fetchItem: (page: number) => void;
   handlePageChange: (page: number) => void;
 }) => {
   const [getNumber, setNumber] = useState<number>(item?.current ?? 1);
@@ -24,7 +24,7 @@ const PaginationComp = ({
     if (getNumber < (item?.count || 1)) {
       const nextPage = getNumber + 1;
       setNumber(nextPage);
-      fetchProjects(nextPage);
+      fetchItem(nextPage);
       handlePageChange(nextPage);
     }
   };
@@ -33,7 +33,7 @@ const PaginationComp = ({
     if (getNumber > 1) {
       const prevPage = getNumber - 1;
       setNumber(prevPage);
-      fetchProjects(prevPage);
+      fetchItem(prevPage);
       handlePageChange(prevPage);
     }
   };
