@@ -19,6 +19,8 @@ import CreateProject from "../Project/Layouts/CreateProject";
 import ProjectOverview from "../Project/Common/ProjectOverview";
 import CheckMd from "../Markdown/Markown";
 import SubIssue from "../Issue/Layout/SubIssue";
+import DetailedIssue from "../Issue/Layout/DetailedIssue";
+import CreateIssue from "../Issue/Layout/Create-Child";
 
 export default function Dashboard() {
   return (
@@ -49,14 +51,17 @@ export default function Dashboard() {
               <Route path="/project" element={<Project />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/md" element={<CheckMd />} />
-              <Route path="/sub" element={<SubIssue/>} />
+              <Route path="/sub" element={<SubIssue />} />
+              <Route path="/det" element={<DetailedIssue />} />
 
+              {/* <Route path="/project=:id" element={<ProjectOverview />} /> */}
               <Route path="/project">
                 <Route path="/project/create" element={<CreateProject />} />
                 <Route
                   path="/project/overview/:id"
                   element={<ProjectOverview />}
                 />
+                <Route path="/project/issue/create-issue" element={<CreateIssue />} />
               </Route>
             </Routes>
           </Router>

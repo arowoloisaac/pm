@@ -5,7 +5,7 @@ import { IIssue } from "../utils/utils";
 const subIssueList = async (
   projectId: string,
   issueId: string
-): Promise<IIssue[] | any> => {
+): Promise<IIssue[]> => {
   try {
     const response = await Axios.get(
       `${ApiUrl}/parentId=${issueId}?projectId=${projectId}`,
@@ -16,8 +16,13 @@ const subIssueList = async (
     return response.data;
   } catch (err: any) {
     console.error("Error fetching profile:", err.message || err);
-    return null;
+    // return null;
+    return err;
   }
 };
 
-export { subIssueList };
+const relatedIssueList = () => {
+    
+}
+
+export { subIssueList, relatedIssueList };
