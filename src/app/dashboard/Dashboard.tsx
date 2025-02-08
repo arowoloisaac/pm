@@ -20,7 +20,7 @@ import ProjectOverview from "../Project/Common/ProjectOverview";
 import CheckMd from "../Markdown/Markown";
 import SubIssue from "../Issue/Layout/SubIssue";
 import DetailedIssue from "../Issue/Layout/DetailedIssue";
-import CreateIssue from "../Issue/Layout/Create-Child";
+import CreateIssue from "../Issue/Layout/Create-Issue";
 
 export default function Dashboard() {
   return (
