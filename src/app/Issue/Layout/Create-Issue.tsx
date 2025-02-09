@@ -5,8 +5,10 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { createIssue } from "../api-function/issue-api";
+import { useParams } from "react-router-dom";
 
 const CreateIssue = () => {
+  const { projectId } = useParams();
   const { quill, quillRef } = useQuill();
   // console.log(quill);
   const [formData, setFormData] = useState({
@@ -69,8 +71,7 @@ const CreateIssue = () => {
   };
 
   const createIss = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const projectId = "881a3f46-050d-4449-94a2-1a8eccc4e715";
-    const issue = await createIssue(e, { data, projectId });
+    const issue = await createIssue(e, { data, projectId});
     console.log("Issue Created:", issue);
   };
 

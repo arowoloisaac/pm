@@ -4,9 +4,13 @@ import { Datepicker } from "flowbite-react";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-import { createIssue } from "../api-function/issue-api";
+import { createSubIssue } from "../api-function/issue-api";
+import { useParams } from "react-router-dom";
 
 const CreateChildIssue = () => {
+  const { projectId, issueId } = useParams();
+  
+  console.log(projectId)
   const { quill, quillRef } = useQuill();
   // console.log(quill);
   const [formData, setFormData] = useState({
@@ -40,8 +44,6 @@ const CreateChildIssue = () => {
     issueType: formData.issueType,
   };
 
-  // console.log(data);
-
   const [dateError, setDateError] = useState<string>("");
 
   const validateDates = (startDate: string, endDate: string) => {
@@ -70,7 +72,8 @@ const CreateChildIssue = () => {
 
   const createIss = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const projectId = "881a3f46-050d-4449-94a2-1a8eccc4e715";
-    const issue = await createIssue(e, { data, projectId });
+    const issueId = "5170B393-0754-4B5B-8516-1E3A4041444E";
+    const issue = await createSubIssue(e, { data, projectId, issueId });
     console.log("Issue Created:", issue);
   };
 
@@ -249,7 +252,7 @@ const CreateChildIssue = () => {
               onClick={createIss}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Submit
+              Create Issue
             </button>
           </div>
         </form>
