@@ -10,6 +10,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/toaster";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Project from "../Project/Project";
 import Theme from "@/components/Theme";
@@ -72,6 +73,7 @@ export default function Dashboard() {
           </Router>
         </div>
       </SidebarInset>
+      <Toaster />
     </SidebarProvider>
   );
 }

@@ -13,7 +13,7 @@ import {
 
 import { useEffect, useState } from "react";
 import { IPaginate, IProject } from "./utils/utils";
-import ProjectLayout from "./Layouts/project-layout";
+import ProjectLayout from "./Layouts/ProjectLayout";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
 import PaginationComp from "../Layout/Paginator";

@@ -1,4 +1,4 @@
-import { ApiUrl, Token } from "@/components/Storage/Storage";
+// import { ApiUrl, Token } from "@/components/Storage/Storage";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,12 +18,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import Axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import Axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { editProject, projectDetail } from "../api-functions/project-api";
+import { IProject } from "../utils/utils";
+import { Token } from "@/components/Storage/Storage";
 
 const EditProject = () => {
-  const navigate = useNavigate();
+ const [getDetails, setDetails] = useState<IProject | any>({});
+
+ const fetchDetails = async (): Promise<any> => {
+   const data = await projectDetail(projectId);
+   data ? setDetails(data) : null;
+ };
+
+ useEffect(() => {
+   fetchDetails();
+ }, [Token]);
+
+// console.log(getDetails)
+
+
+  const { projectId } = useParams();
+  // const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     overview: "",
@@ -40,37 +58,39 @@ const EditProject = () => {
     complexity: getComplexity,
   };
 
-   const handleChange = (field: string, value: string) => {
-     setFormData((prev) => ({ ...prev, [field]: value }));
-   };
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
-   const handleCreateProject = (event: any) => {
-     event.preventDefault();
-     Axios.post(`${ApiUrl}/project/create`, data, {
-       headers: {
-         Authorization: `Bearer ${Token}`,
-       },
-     })
-       .then((res) => {
-         if (res.status === 200) {
-           navigate("/");
-           window.location.reload();
-         }
-       })
-       .catch((ex) => {
-         console.log(ex);
-       });
-   };
+  console.log(data)
+  const handleEdit = async (e: any) => {
+     await editProject(e, { data, projectId });
+  };
 
+  // const handleEditProject = (event: any) => {
+  //   event.preventDefault();
+  //   Axios.post(`${ApiUrl}/project/update/${projectId}`, data, {
+  //     headers: {
+  //       Authorization: `Bearer ${Token}`,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         navigate("/");
+  //         window.location.reload();
+  //       }
+  //     })
+  //     .catch((ex) => {
+  //       console.log(ex);
+  //     });
+  // };
 
   return (
     <div>
       <Card className="max-w-full">
         <CardHeader>
           <CardTitle>Edit Project Details</CardTitle>
-          <CardDescription>
-            Edit project details in one-click.
-          </CardDescription>
+          <CardDescription>Edit project details in one-click.</CardDescription>
         </CardHeader>
         <CardContent>
           <form>
@@ -83,6 +103,7 @@ const EditProject = () => {
                   }}
                   id="name"
                   placeholder="Name of your project"
+                  defaultValue={getDetails.name}
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -91,6 +112,7 @@ const EditProject = () => {
                   id="overview"
                   placeholder="A little overview of the project"
                   onChange={(e) => handleChange("overview", e.target.value)}
+                  defaultValue={getDetails.overview}
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -99,13 +121,14 @@ const EditProject = () => {
                   rows={3}
                   placeholder="Write the description of the project here"
                   onChange={(e) => handleChange("description", e.target.value)}
+                  defaultValue={getDetails.description}
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="framework">Choose Complexity</Label>
                 <Select onValueChange={setComplexity}>
                   <SelectTrigger id="framework">
-                    <SelectValue placeholder="Select" />
+                    <SelectValue placeholder="Select Complexity" />
                   </SelectTrigger>
                   <SelectContent position="popper">
                     <SelectItem value="Easy">Easy</SelectItem>
@@ -117,12 +140,9 @@ const EditProject = () => {
             </div>
           </form>
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <a href="/">
-            <Button variant="destructive">Cancel</Button>
-          </a>
+        <CardFooter className="flex justify-end pr-6">
 
-          <Button onClick={handleCreateProject}>Create Project</Button>
+          <Button onClick={handleEdit}>Update Project</Button>
         </CardFooter>
       </Card>
     </div>

@@ -4,7 +4,6 @@ const visibility = () => {
     const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
     const handleResize = () => {
-      // Check if the screen width is less than 800px
       if (window.innerWidth > 800) {
         setIsVisible(true); // Ensure it remains visible
       } else {

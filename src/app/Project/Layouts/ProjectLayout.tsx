@@ -38,7 +38,6 @@ const ProjectLayout = ({
   const navigate = useNavigate();
   const handleClick = (id: string) => {
     navigate(`/project/${id}/overview`);
-    // navigate(`/project=${id}`);
   };
   return (
     <>

@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import IssueList from "@/app/Issue/Issue";
 import CreateIssue from "@/app/Issue/Layout/Create-Issue";
+import Setting from "../Layouts/Setting";
 
 const ProjectOverview = () => {
   const { projectId } = useParams();
@@ -33,7 +34,7 @@ const ProjectOverview = () => {
             <MenubarTrigger>Wiki</MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu>
-            <MenubarTrigger>Settings</MenubarTrigger>
+            <MenubarTrigger onClick={() => navigate(`/project/${projectId}/overview/settings`)}>Settings</MenubarTrigger>
           </MenubarMenu>
         </Menubar>
       </div>
@@ -53,8 +54,8 @@ const ProjectOverview = () => {
               {/* <Route path="activities" element={<ActivitiesPage />} />
               <Route path="gantt" element={<GanttPage />} />
               <Route path="calendar" element={<CalendarPage />} />
-              <Route path="wiki" element={<WikiPage />} />
-              <Route path="settings" element={<SettingsPage />} /> */}
+              <Route path="wiki" element={<WikiPage />} />*/}
+              <Route path="settings/*" element={<Setting />} /> 
             </Routes>
           </div>
         </div>
