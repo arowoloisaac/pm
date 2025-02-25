@@ -5,12 +5,16 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { createIssue } from "../api-function/issue-api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const CreateIssue = () => {
   const { projectId } = useParams();
   const { quill, quillRef } = useQuill();
-  // console.log(quill);
+  const { toast } = useToast();
+
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -35,27 +39,38 @@ const CreateIssue = () => {
   const data = {
     name: formData.title,
     description: formData.description,
-    startDate: formData.startDate,
-    endDate: formData.endDate,
+    startDate: formData.startDate ? formData.startDate : null,
+    endDate: formData.endDate ? formData.endDate : null,
     estimatedTimeInMinutes: formData.estimatedTimeInMinutes,
     complexity: formData.complexity,
     issueType: formData.issueType,
   };
 
-  // console.log(data);
-
   const [dateError, setDateError] = useState<string>("");
+  const [startDateError, setStartDateError] = useState<string>("");
+  const [endDateError, setEndDateError] = useState<string>("");
 
   const validateDates = (startDate: string, endDate: string) => {
+    if (!startDate || !endDate) {
+      setStartDateError("Start date is required.");
+      setEndDateError("End date is required.");
+      return;
+    }
     const start = dayjs(startDate);
     const end = dayjs(endDate);
 
-    if (!start.isValid() || !end.isValid()) return;
+    if (!start.isValid() || !end.isValid()) {
+      setStartDateError("Invalid start date.");
+      setEndDateError("Invalid end date.");
+      return;
+    }
 
     if (end.isBefore(start, "day")) {
       setDateError("End date must be the same as or after the start date.");
     } else {
       setDateError("");
+      setStartDateError("");
+      setEndDateError("");
     }
   };
 
@@ -71,8 +86,32 @@ const CreateIssue = () => {
   };
 
   const createIss = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const issue = await createIssue(e, { data, projectId});
-    console.log("Issue Created:", issue);
+    const response = await createIssue(e, { data, projectId });
+    
+    if (response.status === 200) {
+      toast({
+        title: "Issue created ",
+        description: response.data,
+      });
+      navigate(`/project/${projectId}/overview`);
+    }
+    else {
+      toast({
+        title: "Error creating issue ",
+        description: response.data,
+        variant: "destructive"
+      });
+    }
+  };
+
+  const isFormValid = () => {
+    return (
+      formData.startDate &&
+      formData.endDate &&
+      !dateError &&
+      !startDateError &&
+      !endDateError
+    );
   };
 
   useEffect(() => {
@@ -184,7 +223,9 @@ const CreateIssue = () => {
                 }}
                 autoHide={true}
               />
-              {/* {dateError && <p className="text-red-600 text-sm">{dateError}</p>} */}
+              {startDateError && (
+                <div style={{ color: "red" }}>{startDateError}</div>
+              )}
             </div>
             <div>
               <label
@@ -204,8 +245,11 @@ const CreateIssue = () => {
                   }
                 }}
                 autoHide={true}
-              />
-              {dateError && <p className="text-red-600 text-sm">{dateError}</p>}
+              />{" "}
+              {endDateError && (
+                <div style={{ color: "red" }}>{endDateError}</div>
+              )}
+              {dateError && <div style={{ color: "red" }}>{dateError}</div>}
             </div>
           </div>
           <div className="mb-2">
@@ -226,6 +270,8 @@ const CreateIssue = () => {
           <div className="flex pt-2 ">
             <button
               onClick={createIss}
+
+              disabled={!isFormValid()}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Create Issue

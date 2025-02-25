@@ -14,6 +14,13 @@ const ProjectDetail = () => {
     data ? setDetails(data) : null;
   };
 
+  const dateCreated = new Date(getDetails.dateCreated);
+  const formattedDate = dateCreated.toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
   useEffect(() => {
     fetchDetails()
   }, [Token])
@@ -43,7 +50,7 @@ const ProjectDetail = () => {
               </dt>
               {/* here there haas to be a button for  */}
               <dd className="">
-                <RichTextViewer content={getDetails.description}/>
+                <RichTextViewer content={getDetails.description} />
               </dd>
             </div>
             <div className="flex flex-col py-3">
@@ -52,13 +59,17 @@ const ProjectDetail = () => {
                   <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
                     Complexity
                   </dt>
-                  <dd className="text-lg font-semibold">{getDetails.complexity}</dd>
+                  <dd className="text-lg font-semibold">
+                    {getDetails.complexity}
+                  </dd>
                 </div>
                 <div className="flex-auto">
                   <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
                     Progress
                   </dt>
-                  <dd className="text-lg font-semibold">{getDetails.progress}</dd>
+                  <dd className="text-lg font-semibold">
+                    {getDetails.progress}
+                  </dd>
                 </div>
               </div>
             </div>
@@ -66,7 +77,7 @@ const ProjectDetail = () => {
               <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
                 Date Created
               </dt>
-              <dd className="text-lg font-semibold">{getDetails.dateCreated}</dd>
+              <dd className="text-lg font-semibold">{formattedDate}</dd>
             </div>
           </dl>
         </div>

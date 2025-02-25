@@ -1,8 +1,7 @@
-import { Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import EditProject from "./EditProject";
 import { Separator } from "@/components/ui/separator";
 import ProjectDetail from "./ProjectDetail";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogTrigger,
@@ -12,7 +11,6 @@ const Setting = () => {
   const navigate = useNavigate();
   const { projectId } = useParams();
 
-  // console.log(projectId)
   return (
     <>
       <div>Setting</div>
@@ -31,7 +29,7 @@ const Setting = () => {
                         );
                       }}
                     >
-                      <h5 className="italic font-serif">Details</h5>
+                      <h5 className="italic font-serif">detail</h5>
                     </div>
                     <Separator orientation="horizontal" />
                     <div
@@ -41,17 +39,13 @@ const Setting = () => {
                         );
                       }}
                     >
-                      <h5 className="italic font-serif">Edit Project</h5>
+                      <h5 className="italic font-serif">edit</h5>
                     </div>
                     <Separator orientation="horizontal" />
                     <div>
                       <Dialog>
                         <DialogTrigger asChild>
-                          <h5
-                            className="italic font-serif"
-                          >
-                            Delete Project
-                          </h5>
+                          <h5 className="italic font-serif">delete</h5>
                         </DialogTrigger>
                         <DeleteProject />
                       </Dialog>
@@ -61,12 +55,20 @@ const Setting = () => {
                 <div className="col-start-2 col-end-7 border p-3 h-fit">
                   <div>
                     <Routes>
+                      <Route
+                        index
+                        element={
+                          <Navigate
+                            to={`/project/${projectId}/overview/settings/details`}
+                            replace
+                          />
+                        }
+                      />
                       <Route path="details" element={<ProjectDetail />} />
                       <Route path="edit" element={<EditProject />} />
                     </Routes>
                   </div>
                 </div>
-                {/* another route in here */}
               </div>
             </div>
           </div>

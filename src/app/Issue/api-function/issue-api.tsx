@@ -34,7 +34,7 @@ const issueDetail = async (projectId:string, issueId: string) => {
   }
 }
 
-const createIssue = async ( e: React.MouseEvent<HTMLButtonElement>,{data, projectId} : {data:any, projectId: string|any}) => {
+const createIssue = async ( e: React.MouseEvent<HTMLButtonElement>,{data, projectId} : {data:any, projectId: string|any}) : Promise<any> => {
 e.preventDefault()
   try {
     const response = await Axios.post(`${ApiUrl}/project=${projectId}/create-issue`, data, {
@@ -42,9 +42,10 @@ e.preventDefault()
         Authorization: `Bearer ${Token}`
       }
     })
-    return response.status
+    return response
   } catch (error:any) {
     console.error("Error creating issue:", error.message || error)
+    return error.response
   }
 }
 

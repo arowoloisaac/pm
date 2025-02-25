@@ -18,12 +18,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-// import Axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { editProject, projectDetail } from "../api-functions/project-api";
 import { IProject } from "../utils/utils";
 import { Token } from "@/components/Storage/Storage";
+import { toast } from "@/hooks/use-toast";
+
+
 
 const EditProject = () => {
  const [getDetails, setDetails] = useState<IProject | any>({});
@@ -33,15 +35,18 @@ const EditProject = () => {
    data ? setDetails(data) : null;
  };
 
+ enum ComplexityEnum {
+   Easy = "Easy",
+   Medium = "Medium",
+   Complex = "Complex",
+ }
+
  useEffect(() => {
    fetchDetails();
  }, [Token]);
 
-// console.log(getDetails)
-
-
   const { projectId } = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     overview: "",
@@ -49,7 +54,7 @@ const EditProject = () => {
     complexity: "",
   });
 
-  const [getComplexity, setComplexity] = useState<string>("");
+  const [getComplexity, setComplexity] = useState<ComplexityEnum | null>(null);
 
   const data = {
     name: formData.name,
@@ -62,28 +67,22 @@ const EditProject = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  console.log(data)
   const handleEdit = async (e: any) => {
-     await editProject(e, { data, projectId });
-  };
+     var response = await editProject(e, { data, projectId });
 
-  // const handleEditProject = (event: any) => {
-  //   event.preventDefault();
-  //   Axios.post(`${ApiUrl}/project/update/${projectId}`, data, {
-  //     headers: {
-  //       Authorization: `Bearer ${Token}`,
-  //     },
-  //   })
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //         navigate("/");
-  //         window.location.reload();
-  //       }
-  //     })
-  //     .catch((ex) => {
-  //       console.log(ex);
-  //     });
-  // };
+     if (response.status === 200) {
+      toast({
+        title: "Project edited ",
+        description: response.data,
+      });
+      navigate(`/project/${projectId}/overview/settings`);
+     } else {
+      toast({
+        title: "Error ",
+        description: response.data,
+      });
+     }
+  };
 
   return (
     <div>
@@ -126,14 +125,22 @@ const EditProject = () => {
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="framework">Choose Complexity</Label>
-                <Select onValueChange={setComplexity}>
+                <Select
+                  onValueChange={(value) =>
+                    setComplexity(value as ComplexityEnum)
+                  }
+                >
                   <SelectTrigger id="framework">
                     <SelectValue placeholder="Select Complexity" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    <SelectItem value="Easy">Easy</SelectItem>
-                    <SelectItem value="Medium">Medium</SelectItem>
-                    <SelectItem value="Complex">Complex</SelectItem>
+                    <SelectItem value={ComplexityEnum.Easy}>Easy</SelectItem>
+                    <SelectItem value={ComplexityEnum.Medium}>
+                      Medium
+                    </SelectItem>
+                    <SelectItem value={ComplexityEnum.Complex}>
+                      Complex
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -141,7 +148,6 @@ const EditProject = () => {
           </form>
         </CardContent>
         <CardFooter className="flex justify-end pr-6">
-
           <Button onClick={handleEdit}>Update Project</Button>
         </CardFooter>
       </Card>

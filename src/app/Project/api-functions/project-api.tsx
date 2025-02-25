@@ -2,17 +2,15 @@ import React from "react";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
 import { IProject } from "../utils/utils";
-import { useNavigate } from "react-router-dom";
 
 const editProject = async (
   e: React.MouseEvent<HTMLButtonElement>,
   { data, projectId }: { data: any; projectId: string | any }
-) => {
-  const navigate = useNavigate();
+) : Promise<any>=> {
   e.preventDefault();
   try {
     const response = await Axios.put(
-      `${ApiUrl}/project/update/${projectId}`,
+      `${ApiUrl}/project/edit/${projectId}`,
       data,
       {
         headers: {
@@ -21,12 +19,8 @@ const editProject = async (
       }
     );
 
-    if (response.status === 200) {
-      navigate("/");
-      window.location.reload();
-    }
+    return response
   } catch (err) {
-    console.error("Error with:", err);
     return err;
   }
 };
