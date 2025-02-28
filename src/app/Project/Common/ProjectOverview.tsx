@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import IssueList from "@/app/Issue/Issue";
 import CreateIssue from "@/app/Issue/Layout/Create-Issue";
 import Setting from "../Layouts/Setting";
+import Timeline from "../Layouts/Timeline";
+import CalendarLayout from "../Calendar/CalendarLayout";
 
 const ProjectOverview = () => {
   const { projectId } = useParams();
@@ -22,19 +24,37 @@ const ProjectOverview = () => {
             </MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu>
-            <MenubarTrigger>Activites</MenubarTrigger>
+            <MenubarTrigger
+              onClick={() =>
+                navigate(`/project/${projectId}/overview/timeline`)
+              }
+            >
+              Activites
+            </MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu>
             <MenubarTrigger>Gannt</MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu>
-            <MenubarTrigger>Calendar</MenubarTrigger>
+            <MenubarTrigger
+              onClick={() =>
+                navigate(`/project/${projectId}/overview/calendar`)
+              }
+            >
+              Calendar
+            </MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu>
             <MenubarTrigger>Wiki</MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu>
-            <MenubarTrigger onClick={() => navigate(`/project/${projectId}/overview/settings`)}>Settings</MenubarTrigger>
+            <MenubarTrigger
+              onClick={() =>
+                navigate(`/project/${projectId}/overview/settings`)
+              }
+            >
+              Settings
+            </MenubarTrigger>
           </MenubarMenu>
         </Menubar>
       </div>
@@ -46,16 +66,21 @@ const ProjectOverview = () => {
               <Route
                 index
                 element={
-                  <Navigate to={`/project/${projectId}/overview/issues`} replace />
+                  <Navigate
+                    to={`/project/${projectId}/overview/issues`}
+                    replace
+                  />
                 }
               />
               <Route path="issues" element={<IssueList />} />
               <Route path="create" element={<CreateIssue />} />
+              <Route path="/timeline" element={<Timeline />} />
+              <Route path="/calendar" element={<CalendarLayout />} />
               {/* <Route path="activities" element={<ActivitiesPage />} />
               <Route path="gantt" element={<GanttPage />} />
               <Route path="calendar" element={<CalendarPage />} />
               <Route path="wiki" element={<WikiPage />} />*/}
-              <Route path="settings/*" element={<Setting />} /> 
+              <Route path="settings/*" element={<Setting />} />
             </Routes>
           </div>
         </div>

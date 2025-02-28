@@ -28,6 +28,9 @@ const relatedIssueList = () => {
 const issueDetail = async (projectId:string, issueId: string) => {
   try {
     const response = await Axios.get(`${ApiUrl}/`)
+    projectId
+    issueId
+    console.log(response)
   } catch (error:any) {
     console.error("Error fetching issue", error.message ||error)
     return error

@@ -18,10 +18,11 @@ import DashboardUserNav from "../Layout/userNav";
 import Profile from "../Profile/Profile";
 import CreateProject from "../Project/Layouts/CreateProject";
 import ProjectOverview from "../Project/Common/ProjectOverview";
-import CheckMd from "../Markdown/Markown";
 import SubIssue from "../Issue/Layout/SubIssue";
 import DetailedIssue from "../Issue/Layout/DetailedIssue";
 import Setting from "../Project/Layouts/Setting";
+import Tiptap from "../Markdown/tiptap";
+import Basic from "../Markdown/remirror";
 
 export default function Dashboard() {
   return (
@@ -51,8 +52,9 @@ export default function Dashboard() {
               <Route path="/project/:page" element={<Project />} />
               <Route path="/project" element={<Project />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/md" element={<CheckMd />} />
               <Route path="/sub" element={<SubIssue />} />
+              <Route path="/md" element={<Tiptap />} />
+              <Route path="/basic" element={<Basic />} />
               <Route path="/det" element={<DetailedIssue />} />
               <Route
                 path="/project/:projectId/overview/*"

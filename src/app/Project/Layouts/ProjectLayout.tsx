@@ -42,7 +42,7 @@ const ProjectLayout = ({
   return (
     <>
       {isLoading ? (
-        <div className="h-96 content-center">
+        <div className="h-[32rem] content-center">
           <div className=" flex flex-row justify-center">
             <div className="flex items-center space-x-4">
               <Skeleton className="h-12 w-12 rounded-full" />

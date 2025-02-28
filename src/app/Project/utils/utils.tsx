@@ -20,6 +20,15 @@ export interface IPaginate {
   count: number | any;
 }
 
+export interface ITimeline {
+  id: string;
+  issueName: string;
+  comment: string;
+  note: string;
+  createdDate: string;
+  updatedDate: string;
+}
+
 
 export interface IProfile {
   firstName: string;

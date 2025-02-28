@@ -1,12 +1,13 @@
 import React from "react";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
-import { IProject } from "../utils/utils";
+import { IProject, ITimeline } from "../utils/utils";
+import { IIssue } from "@/app/Issue/utils/utils";
 
 const editProject = async (
   e: React.MouseEvent<HTMLButtonElement>,
   { data, projectId }: { data: any; projectId: string | any }
-) : Promise<any>=> {
+): Promise<any> => {
   e.preventDefault();
   try {
     const response = await Axios.put(
@@ -19,8 +20,26 @@ const editProject = async (
       }
     );
 
-    return response
+    return response;
   } catch (err) {
+    return err;
+  }
+};
+
+const projectTimeline = async (
+  projectId: string | any
+): Promise<ITimeline[]> => {
+  try {
+    const response = await Axios.get(
+      `${ApiUrl}/project=${projectId}/timeline`,
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (err: any) {
     return err;
   }
 };
@@ -60,4 +79,26 @@ const deleteProject = async (
   }
 };
 
-export { editProject, projectDetail, deleteProject };
+// function: aids in displaying calendar data
+const projectIssues = async (projectId: any): Promise<IIssue[]> => {
+  try {
+    const response = await Axios.get(`${ApiUrl}/project=${projectId}/default`, {
+      headers: {
+        Authorization: `Bearer ${Token}`,
+      },
+    });
+
+    return response.data;
+  } catch (err: any) {
+    return err;
+  }
+};
+
+
+export {
+  editProject,
+  projectDetail,
+  deleteProject,
+  projectTimeline,
+  projectIssues,
+};

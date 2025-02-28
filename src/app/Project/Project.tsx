@@ -93,7 +93,7 @@ const Project = () => {
                 <div className="flex flex-wrap md:flex-nowrap items-center gap-4 p-2">
                   <div className="flex flex-auto flex-wrap md:flex-nowrap gap-4 ">
                     <Select onValueChange={setProgressFilter}>
-                      <SelectTrigger className="w-full md:w-44 p-2 border border-gray-400 rounded">
+                      <SelectTrigger className="w-full md:w-44 p-2 rounded">
                         <SelectValue placeholder="Filter by progress" />
                       </SelectTrigger>
                       <SelectContent>
@@ -108,7 +108,7 @@ const Project = () => {
                     </Select>
 
                     <Select onValueChange={setComplexityFilter}>
-                      <SelectTrigger className="w-full md:w-44 p-2 border border-gray-400 rounded">
+                      <SelectTrigger className="w-full md:w-44 p-2 rounded">
                         <SelectValue placeholder="filter by Complexity" />
                       </SelectTrigger>
                       <SelectContent>
@@ -123,7 +123,7 @@ const Project = () => {
 
                     {/* item filter */}
                     <Select onValueChange={setItemPerPageFilter}>
-                      <SelectTrigger className="w-full md:w-20 p-2 border border-gray-400 rounded">
+                      <SelectTrigger className="w-full md:w-20 p-2 rounded">
                         <SelectValue placeholder="Items" />
                       </SelectTrigger>
                       <SelectContent>

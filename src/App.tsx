@@ -31,14 +31,6 @@ function App() {
           <Dashboard />
         )}
       </ThemeProvider>
-      {/* <LandingPage /> */}
-      {/* {Token === null ? <LandingPage /> : <Dashboard />}
-
-      <Router>
-        <Routes>
-          <Route path="/:page" element={<Project />} />
-        </Routes>
-      </Router> */}
     </>
   );
 }
