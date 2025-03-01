@@ -4,13 +4,13 @@ import { Datepicker } from "flowbite-react";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-import { createSubIssue } from "../api-function/issue-api";
+import { createSubIssue } from "../api/issue-api";
 import { useParams } from "react-router-dom";
 
 const CreateChildIssue = () => {
   const { projectId, issueId } = useParams();
-  
-  console.log(projectId)
+
+  console.log(projectId);
   const { quill, quillRef } = useQuill();
   // console.log(quill);
   const [formData, setFormData] = useState({

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteProject } from "../api-functions/project-api";
+import { deleteProject } from "../api/project-api";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -54,22 +54,22 @@ const DeleteProject = () => {
               onClick={async (e: any) => {
                 const statusCode = await deleteProject(e, projectId);
 
-                 if (statusCode === 200) {
-                   toast({
-                     title: "Action Status ",
-                     description: "Project successfully deleted",
-                   });
+                if (statusCode === 200) {
+                  toast({
+                    title: "Action Status ",
+                    description: "Project successfully deleted",
+                  });
 
-                   navigate(`/project`);
-                 } else {
-                   toast({
-                     variant: "destructive",
-                     title: "Action Status",
-                     description:
-                       "Unable to Delete Project, due to system error ",
-                   });
-                   window.location.reload();
-                 }
+                  navigate(`/project`);
+                } else {
+                  toast({
+                    variant: "destructive",
+                    title: "Action Status",
+                    description:
+                      "Unable to Delete Project, due to system error ",
+                  });
+                  window.location.reload();
+                }
               }}
             >
               Delete Project

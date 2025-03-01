@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IIssue } from "../utils/utils";
-import { subIssueList } from "../api-function/issue-api";
+import { subIssueList } from "../api/issue-api";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { MoreHorizontal } from "lucide-react";

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { IIssue } from "@/app/Issue/utils/utils";
 import { useParams } from "react-router-dom";
 import { Token } from "@/components/Storage/Storage";
-import { projectIssues } from "../api-functions/project-api";
+import { projectIssues } from "../api/project-api";
 
 const CalendarLayout = () => {
   const { projectId } = useParams();
@@ -14,15 +14,14 @@ const CalendarLayout = () => {
     try {
       const data = await projectIssues(projectId);
       data ? setData(data) : null;
-    } catch (error:any) {
-      alert(error.response.data)
+    } catch (error: any) {
+      alert(error.response.data);
     }
   };
 
   useEffect(() => {
-    retrieveIssue()
+    retrieveIssue();
   }, [Token]);
-
 
   const seperateEvents = issues.flatMap((item) => [
     {
@@ -44,7 +43,7 @@ const CalendarLayout = () => {
   ]);
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  selectedDate
+  selectedDate;
 
   const handleDateClick = (info: any) => {
     setSelectedDate(info.dateStr);

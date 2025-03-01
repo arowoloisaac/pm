@@ -4,7 +4,7 @@ import { Datepicker } from "flowbite-react";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-import { createIssue } from "../api-function/issue-api";
+import { createIssue } from "../api/issue-api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
@@ -13,7 +13,7 @@ const CreateIssue = () => {
   const { quill, quillRef } = useQuill();
   const { toast } = useToast();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -87,19 +87,18 @@ const CreateIssue = () => {
 
   const createIss = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const response = await createIssue(e, { data, projectId });
-    
+
     if (response.status === 200) {
       toast({
         title: "Issue created ",
         description: response.data,
       });
       navigate(`/project/${projectId}/overview`);
-    }
-    else {
+    } else {
       toast({
         title: "Error creating issue ",
         description: response.data,
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   };
@@ -270,7 +269,6 @@ const CreateIssue = () => {
           <div className="flex pt-2 ">
             <button
               onClick={createIss}
-
               disabled={!isFormValid()}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >

@@ -23,6 +23,7 @@ import DetailedIssue from "../Issue/Layout/DetailedIssue";
 import Setting from "../Project/Layouts/Setting";
 import Tiptap from "../Markdown/tiptap";
 import Basic from "../Markdown/remirror";
+import Organization from "../Organization/Organization";
 
 export default function Dashboard() {
   return (
@@ -56,6 +57,8 @@ export default function Dashboard() {
               <Route path="/md" element={<Tiptap />} />
               <Route path="/basic" element={<Basic />} />
               <Route path="/det" element={<DetailedIssue />} />
+              <Route path="/organization" element={<Organization />} />
+              <Route path="/organization/page/:page" element={<Organization />} />
               <Route
                 path="/project/:projectId/overview/*"
                 element={<ProjectOverview />}

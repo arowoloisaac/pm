@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { projectTimeline } from "../api-functions/project-api";
+import { projectTimeline } from "../api/project-api";
 import { ITimeline } from "../utils/utils";
 import { Token } from "@/components/Storage/Storage";
 import MarkdownIt from "markdown-it";

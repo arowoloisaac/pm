@@ -128,7 +128,6 @@ const Project = () => {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>Complexity</SelectLabel>
                           <SelectItem value="5">5</SelectItem>
                           <SelectItem value="8">8</SelectItem>
                           <SelectItem value="12">12</SelectItem>

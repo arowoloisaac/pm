@@ -20,30 +20,28 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { editProject, projectDetail } from "../api-functions/project-api";
+import { editProject, projectDetail } from "../api/project-api";
 import { IProject } from "../utils/utils";
 import { Token } from "@/components/Storage/Storage";
 import { toast } from "@/hooks/use-toast";
 
-
-
 const EditProject = () => {
- const [getDetails, setDetails] = useState<IProject | any>({});
+  const [getDetails, setDetails] = useState<IProject | any>({});
 
- const fetchDetails = async (): Promise<any> => {
-   const data = await projectDetail(projectId);
-   data ? setDetails(data) : null;
- };
+  const fetchDetails = async (): Promise<any> => {
+    const data = await projectDetail(projectId);
+    data ? setDetails(data) : null;
+  };
 
- enum ComplexityEnum {
-   Easy = "Easy",
-   Medium = "Medium",
-   Complex = "Complex",
- }
+  enum ComplexityEnum {
+    Easy = "Easy",
+    Medium = "Medium",
+    Complex = "Complex",
+  }
 
- useEffect(() => {
-   fetchDetails();
- }, [Token]);
+  useEffect(() => {
+    fetchDetails();
+  }, [Token]);
 
   const { projectId } = useParams();
   const navigate = useNavigate();
@@ -68,20 +66,20 @@ const EditProject = () => {
   };
 
   const handleEdit = async (e: any) => {
-     var response = await editProject(e, { data, projectId });
+    var response = await editProject(e, { data, projectId });
 
-     if (response.status === 200) {
+    if (response.status === 200) {
       toast({
         title: "Project edited ",
         description: response.data,
       });
       navigate(`/project/${projectId}/overview/settings`);
-     } else {
+    } else {
       toast({
         title: "Error ",
         description: response.data,
       });
-     }
+    }
   };
 
   return (

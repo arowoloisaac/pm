@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IProject } from "../utils/utils";
-import { projectDetail } from "../api-functions/project-api";
+import { projectDetail } from "../api/project-api";
 import { Token } from "@/components/Storage/Storage";
 import RichTextViewer from "../utils/display";
 
 const ProjectDetail = () => {
-  const [getDetails, setDetails] = useState<IProject|any>({});
+  const [getDetails, setDetails] = useState<IProject | any>({});
   const { projectId } = useParams<string>();
 
-  const fetchDetails = async () : Promise<any> => {
+  const fetchDetails = async (): Promise<any> => {
     const data = await projectDetail(projectId);
     data ? setDetails(data) : null;
   };
@@ -22,8 +22,8 @@ const ProjectDetail = () => {
   });
 
   useEffect(() => {
-    fetchDetails()
-  }, [Token])
+    fetchDetails();
+  }, [Token]);
 
   return (
     <div>
