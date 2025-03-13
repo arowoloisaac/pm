@@ -2,9 +2,9 @@ import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import IssueList from "@/app/Issue/Issue";
-import CreateIssue from "@/app/Issue/Layout/Create-Issue";
-import Setting from "../Layouts/Setting";
-import Timeline from "../Layouts/Timeline";
+import CreateIssue from "@/app/Issue/layout/Create-Issue";
+import Setting from "../layout/Setting";
+import Timeline from "../layout/Timeline";
 import CalendarLayout from "../Calendar/CalendarLayout";
 
 const ProjectOverview = () => {

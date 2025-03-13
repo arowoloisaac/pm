@@ -33,7 +33,7 @@ const items = [
   },
   {
     title: "Project",
-    url: "/project",
+    url: "/projects",
     icon: FolderOpenDot,
   },
   {
@@ -43,7 +43,7 @@ const items = [
   },
   {
     title: "Organization",
-    url: "#",
+    url: "/organizations",
     icon: Building2,
   },
   {

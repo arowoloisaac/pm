@@ -16,14 +16,15 @@ import Project from "../Project/Project";
 import Theme from "@/components/Theme";
 import DashboardUserNav from "../Layout/userNav";
 import Profile from "../Profile/Profile";
-import CreateProject from "../Project/Layouts/CreateProject";
+import CreateProject from "../Project/layout/CreateProject";
 import ProjectOverview from "../Project/Common/ProjectOverview";
-import SubIssue from "../Issue/Layout/SubIssue";
-import DetailedIssue from "../Issue/Layout/DetailedIssue";
-import Setting from "../Project/Layouts/Setting";
+import SubIssue from "../Issue/layout/SubIssue";
+import DetailedIssue from "../Issue/layout/DetailedIssue";
+// import Setting from "../project/Layouts/Setting";
 import Tiptap from "../Markdown/tiptap";
 import Basic from "../Markdown/remirror";
 import Organization from "../Organization/Organization";
+import OrganizationOverview from "../Organization/common/OrganizationOverview";
 
 export default function Dashboard() {
   return (
@@ -50,15 +51,23 @@ export default function Dashboard() {
           <Router>
             <Routes>
               <Route path="/" element={<Project />} />
-              <Route path="/project/:page" element={<Project />} />
-              <Route path="/project" element={<Project />} />
+              <Route path="/projects/*" element={<Project />} />
+              <Route path="/projects" element={<Project />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/sub" element={<SubIssue />} />
               <Route path="/md" element={<Tiptap />} />
               <Route path="/basic" element={<Basic />} />
               <Route path="/det" element={<DetailedIssue />} />
-              <Route path="/organization" element={<Organization />} />
-              <Route path="/organization/page/:page" element={<Organization />} />
+
+              <Route path="/organizations" element={<Organization />} />
+              <Route path="/organizations/*" element={<Organization />} />
+              <Route
+                path="/organization/:organizationId/*"
+                element={<OrganizationOverview />}
+              />
+             
+
+              <Route path="/organization/*" element={<Organization />} />
               <Route
                 path="/project/:projectId/overview/*"
                 element={<ProjectOverview />}
@@ -73,7 +82,7 @@ export default function Dashboard() {
                 />
                 <Route path="/project/issue/create-issue" element={<CreateIssue />} />
               </Route> */}
-              <Route path="setting" element={<Setting />} />
+              {/* <Route path="setting" element={<Setting />} /> */}
             </Routes>
           </Router>
         </div>

@@ -43,7 +43,7 @@ const Login = () => {
 
   return (
     <div className="flex h-screen w-full items-center justify-center px-4">
-      <Card className="mx-auto max-w-sm">
+      <Card className="mx-auto max-w-md">
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight ">

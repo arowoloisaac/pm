@@ -10,44 +10,83 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { useEffect, useState } from "react";
-import { IPaginate, IProject } from "./utils/utils";
-import ProjectLayout from "./Layouts/ProjectLayout";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
 import PaginationComp from "../Layout/Paginator";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import ProjectLayout from "./layout/ProjectLayout";
 
 const Project = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const { page } = useParams<{ page: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
+  const pathSegments = location.pathname.split("/").filter(Boolean);
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [progressFilter, setProgressFilter] = useState<string>("");
-  const [complexityFilter, setComplexityFilter] = useState<string>("");
-  const [itemPerPageFilter, setItemPerPageFilter] = useState<string>("");
+  const params = pathSegments.slice(1);
 
-  const generateUrl = (page = 1) => {
+  let progressFilter: string | null = null;
+  let complexityFilter: string | null = null;
+  let currentPage = 1;
+  let itemPerPageFilter: string | null = null;
+
+  if (params.length === 0) {
+  } else if (params.length === 1) {
+    if (!isNaN(Number(params[0]))) {
+      currentPage = Number(params[0]);
+    } else {
+      progressFilter = params[0];
+    }
+  } else if (params.length === 2) {
+    if (!isNaN(Number(params[0]))) {
+      currentPage = Number(params[0]);
+      itemPerPageFilter = params[1];
+    } else {
+      progressFilter = params[0];
+      if (!isNaN(Number(params[1]))) {
+        currentPage = Number(params[1]);
+      } else {
+        complexityFilter = params[1];
+      }
+    }
+  } else if (params.length === 3) {
+    if (!isNaN(Number(params[1]))) {
+      progressFilter = params[0];
+      currentPage = Number(params[1]);
+      itemPerPageFilter = params[2];
+    } else {
+      progressFilter = params[0];
+      complexityFilter = params[1];
+      if (!isNaN(Number(params[2]))) {
+        currentPage = Number(params[2]);
+      }
+    }
+  } else if (params.length >= 4) {
+    progressFilter = params[0];
+    complexityFilter = params[1];
+    if (!isNaN(Number(params[2]))) {
+      currentPage = Number(params[2]);
+    }
+    itemPerPageFilter = params[3];
+  }
+
+  const [projects, setProjects] = useState<any[]>([]);
+  const [getPaginations, setPaginations] = useState<any>();
+
+  const generateUrl = () => {
     const params = new URLSearchParams();
-    params.append("page", page.toString());
-    // params.append("itemPerPage", "4");
+    params.append("page", currentPage.toString());
     if (progressFilter) params.append("progress", progressFilter);
     if (complexityFilter) params.append("complexity", complexityFilter);
     if (itemPerPageFilter) params.append("itemPerPage", itemPerPageFilter);
-
     return `${ApiUrl}/project/get?${params.toString()}`;
   };
 
-  const [projects, setProjects] = useState<IProject[]>([]);
-  const [getPaginations, setPaginations] = useState<IPaginate>();
-  console.log(projects);
-
-  const getProject = async (page = 1) => {
+  const getProject = async () => {
     try {
-      const res = await Axios.get(generateUrl(page), {
+      const res = await Axios.get(generateUrl(), {
         headers: { Authorization: `Bearer ${Token}` },
       });
       if (res.status === 200) {
@@ -61,13 +100,39 @@ const Project = () => {
   };
 
   const handlePageChange = (newPage: number) => {
-    navigate(`/project/${newPage}`); // Navigate to the new page
+    const segments = ["projects"];
+    if (progressFilter) segments.push(progressFilter);
+    if (complexityFilter) segments.push(complexityFilter);
+    segments.push(newPage.toString());
+    if (itemPerPageFilter) segments.push(itemPerPageFilter);
+    navigate(`/${segments.join("/")}`);
   };
 
+  const handleFilterChange = (
+    filterType: "progress" | "complexity" | "itemPerPage",
+    value: string
+  ) => {
+    const newProgress = filterType === "progress" ? value : progressFilter;
+    const newComplexity =
+      filterType === "complexity" ? value : complexityFilter;
+    const newItemPerPage =
+      filterType === "itemPerPage" ? value : itemPerPageFilter;
+
+    const segments = ["projects"];
+    if (newProgress) segments.push(newProgress);
+    if (newComplexity) segments.push(newComplexity);
+    segments.push(currentPage.toString());
+    if (newItemPerPage) segments.push(newItemPerPage);
+
+    console.log(`/${segments.join("/")}`);
+    navigate(`/${segments.join("/")}`);
+  };
+
+  console.log(projects);
+
   useEffect(() => {
-    const currentPage = page ? parseInt(page) : 1;
-    getProject(currentPage);
-  }, [Token, progressFilter, complexityFilter, itemPerPageFilter, page]);
+    getProject();
+  }, [location.pathname]);
 
   return (
     <>
@@ -92,7 +157,11 @@ const Project = () => {
               >
                 <div className="flex flex-wrap md:flex-nowrap items-center gap-4 p-2">
                   <div className="flex flex-auto flex-wrap md:flex-nowrap gap-4 ">
-                    <Select onValueChange={setProgressFilter}>
+                    <Select
+                      onValueChange={(value) => {
+                        handleFilterChange("progress", value);
+                      }}
+                    >
                       <SelectTrigger className="w-full md:w-44 p-2 rounded">
                         <SelectValue placeholder="Filter by progress" />
                       </SelectTrigger>
@@ -107,7 +176,11 @@ const Project = () => {
                       </SelectContent>
                     </Select>
 
-                    <Select onValueChange={setComplexityFilter}>
+                    <Select
+                      onValueChange={(value) =>
+                        handleFilterChange("complexity", value)
+                      }
+                    >
                       <SelectTrigger className="w-full md:w-44 p-2 rounded">
                         <SelectValue placeholder="filter by Complexity" />
                       </SelectTrigger>
@@ -122,15 +195,19 @@ const Project = () => {
                     </Select>
 
                     {/* item filter */}
-                    <Select onValueChange={setItemPerPageFilter}>
+                    <Select
+                      onValueChange={(value) =>
+                        handleFilterChange("itemPerPage", value)
+                      }
+                    >
                       <SelectTrigger className="w-full md:w-20 p-2 rounded">
                         <SelectValue placeholder="Items" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="5">5</SelectItem>
                           <SelectItem value="8">8</SelectItem>
-                          <SelectItem value="12">12</SelectItem>
+                          <SelectItem value="14">14</SelectItem>
+                          <SelectItem value="24">12</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -156,7 +233,7 @@ const Project = () => {
           </div>
           <div className="p-0.5"></div>
           {/* pagination */}
-          {Number(getPaginations?.totalItems) < 1 ? (
+          {Number(getPaginations?.totalItems) < 1 || 8 ? (
             <span></span>
           ) : (
             <div className="container mx-auto  border-2 px-4 py-4">

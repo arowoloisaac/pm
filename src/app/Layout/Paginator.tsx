@@ -20,8 +20,11 @@ const PaginationComp = ({
 }) => {
   const [getNumber, setNumber] = useState<number>(item?.current ?? 1);
 
+  const totalPages = item?.count ?? 1;
+
   const handleForward = async () => {
-    if (getNumber < (item?.count || 1)) {
+    // (item?.count || 1)
+    if (getNumber < totalPages) {
       const nextPage = getNumber + 1;
       setNumber(nextPage);
       fetchItem(nextPage);

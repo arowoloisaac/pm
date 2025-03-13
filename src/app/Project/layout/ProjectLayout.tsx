@@ -24,9 +24,9 @@ import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { Separator } from "@/components/ui/separator";
-import { IProject } from "../utils/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
+import { IProject } from "../utils/utils";
 
 const ProjectLayout = ({
   items,

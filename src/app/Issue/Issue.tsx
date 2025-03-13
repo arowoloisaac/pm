@@ -16,10 +16,10 @@ import { IIssue } from "./utils/utils";
 // import { IPaginate } from "@/app/Project/utils/utils";
 import Axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import IssueList from "./Layout/IssueList";
+import IssueList from "./layout/IssueList";
 
 const Issue = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { projectId } = useParams();
   const { page } = useParams<{ page: string }>();
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -125,7 +125,11 @@ const Issue = () => {
               {/* Search Button */}
               <div className="flex justify-end gap-3">
                 <a href="">
-                  <Button onClick={() => {navigate(`/project/${projectId}/overview/create`);}}>
+                  <Button
+                    onClick={() => {
+                      navigate(`/project/${projectId}/overview/create`);
+                    }}
+                  >
                     <Plus />
                     Add Issue
                   </Button>

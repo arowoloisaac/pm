@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { IProject } from "../utils/utils";
 import { projectDetail } from "../api/project-api";
 import { Token } from "@/components/Storage/Storage";
 import RichTextViewer from "../utils/display";
+import { IProject } from "../utils/utils";
 
 const ProjectDetail = () => {
   const [getDetails, setDetails] = useState<IProject | any>({});

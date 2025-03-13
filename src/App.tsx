@@ -3,10 +3,10 @@ import "./App.css";
 import Dashboard from "./app/dashboard/Dashboard";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import Login from "./app/Login/Login";
-import LandingPage from "./app/Static/Static";
+import LandingPage from "./app/static/Static";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Token } from "./components/Storage/Storage";
-import { Registration } from "./app/Register/Registration";
+import { Registration } from "./app/register/Registration";
 import Profile from "./app/Profile/Profile";
 import { useClearExpiredItems } from "./components/backgroundJob/backgroundJob";
 

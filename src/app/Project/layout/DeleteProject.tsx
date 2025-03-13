@@ -48,37 +48,33 @@ const DeleteProject = () => {
           </div>
         </div>
         <DialogFooter>
-          {isChecked ? (
-            <Button
-              variant="destructive"
-              onClick={async (e: any) => {
-                const statusCode = await deleteProject(e, projectId);
+          <Button
+            variant="destructive"
+            disabled={!isChecked}
+            onClick={async (e: any) => {
+              const statusCode = await deleteProject(e, projectId);
 
-                if (statusCode === 200) {
-                  toast({
-                    title: "Action Status ",
-                    description: "Project successfully deleted",
-                  });
+              if (statusCode === 200) {
+                toast({
+                  title: "Action Status ",
+                  description: "Project successfully deleted",
+                });
 
-                  navigate(`/project`);
-                } else {
-                  toast({
-                    variant: "destructive",
-                    title: "Action Status",
-                    description:
-                      "Unable to Delete Project, due to system error ",
-                  });
-                  window.location.reload();
-                }
-              }}
-            >
-              Delete Project
-            </Button>
-          ) : (
-            <Button variant="destructive" disabled>
-              Delete Project
-            </Button>
-          )}
+                navigate(`/projects`);
+                window.location.reload()
+              } else {
+                toast({
+                  variant: "destructive",
+                  title: "Action Status",
+                  description: "Unable to Delete Project, due to system error ",
+                });
+                window.location.reload();
+              }
+            }}
+          >
+            Delete Project
+          </Button>
+          
         </DialogFooter>
       </DialogContent>
     </div>

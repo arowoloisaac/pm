@@ -20,10 +20,11 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { editProject, projectDetail } from "../api/project-api";
-import { IProject } from "../utils/utils";
+
 import { Token } from "@/components/Storage/Storage";
 import { toast } from "@/hooks/use-toast";
+import { editProject, projectDetail } from "../api/project-api";
+import { IProject } from "../utils/utils";
 
 const EditProject = () => {
   const [getDetails, setDetails] = useState<IProject | any>({});

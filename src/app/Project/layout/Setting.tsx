@@ -1,11 +1,11 @@
 import { Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom";
-import EditProject from "./EditProject";
 import { Separator } from "@/components/ui/separator";
-import ProjectDetail from "./ProjectDetail";
 import {
   Dialog,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import EditProject from "./EditProject";
+import ProjectDetail from "./ProjectDetail";
 import DeleteProject from "./DeleteProject";
 const Setting = () => {
   const navigate = useNavigate();

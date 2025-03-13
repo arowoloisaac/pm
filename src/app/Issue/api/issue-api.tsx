@@ -1,6 +1,6 @@
 import { ApiUrl, Token } from "@/components/Storage/Storage";
 import Axios from "axios";
-import { IIssue } from "../utils/utils";
+import { IIssue, IIssues } from "../utils/utils";
 
 const subIssueList = async (
   projectId: string,
@@ -74,6 +74,42 @@ const createSubIssue = async (
   }
 };
 
+const getIssueAndChildren = async (projectId: any): Promise<IIssues[]> => {
+  try {
+    const response = await Axios.get(
+      `${ApiUrl}/projectId=${projectId}/issues`,
+      {
+        headers: { Authorization: `Bearer ${Token}` },
+      }
+    );
+    return response.data;
+  } catch (err: any) {
+    return err;
+  }
+};
+
+function mapTasks(apiResponse: any[]): IIssues[] | any {
+  return apiResponse.map((issue) => ({
+    id: issue.id, // Map API "id" to "TaskID"
+    name: issue.name, // Map API "name" to "TaskName"
+    startDate: issue.startDate, // Convert API field names
+    endDate: issue.endDate,
+    progress: issue.progress,
+    subIssues: issue.subtasks ? mapTasks(issue.subtasks) : undefined, // Recursively map subtasks
+  }));
+}
+
+
+// export interface IIssues {
+//   id: string;
+//   name: string;
+//   complexity: string;
+//   issueType: string;
+//   progress: string;
+//   startDate: string;
+//   endDate: string;
+//   subIssues?: IIssues[];
+// }
 
 export {
   subIssueList,
@@ -81,4 +117,5 @@ export {
   createIssue,
   issueDetail,
   createSubIssue,
+  getIssueAndChildren
 };
