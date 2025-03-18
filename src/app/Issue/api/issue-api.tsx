@@ -47,8 +47,8 @@ e.preventDefault()
     })
     return response
   } catch (error:any) {
-    console.error("Error creating issue:", error.message || error)
-    return error.response
+    console.error("Error creating issue:", error || error)
+    return error
   }
 }
 

@@ -3,15 +3,6 @@ import { useParams } from "react-router-dom";
 import { IOrganizationUser } from "../utils/utils";
 import { getOrganizationUsers } from "../api/api";
 import { useEffect, useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
 const OrgUserList = () => {
   const { organizationId } = useParams();
@@ -31,8 +22,7 @@ const OrgUserList = () => {
   useEffect(() => {
     fetchOrganizationUsers();
   }, [getUser]);
-
-  console.log(getUser);
+  
   return (
     <div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

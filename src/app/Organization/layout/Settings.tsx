@@ -11,7 +11,6 @@ import {
 import OrganizationDetails from "./OrganizationDetails";
 import DeleteOrganization from "./DeleteOrganization";
 import EditOrganization from "./EditOrganization";
-import { useState } from "react";
 
 const Settings = () => {
   const navigate = useNavigate();

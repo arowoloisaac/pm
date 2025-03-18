@@ -1,10 +1,12 @@
 import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Settings from "../layout/Settings";
 import OrgUserList from "../layout/OrgUserList";
 import OrganizationProjects from "../OrganizationProject/OrganizationProjects";
 import CreateOrganizationProject from "../OrganizationProject/CreateOrganizationProject";
+import GroupList from "@/app/group/layout/GroupList";
+import Request from "../layout/Request";
 
 const OrganizationOverview = () => {
   const { organizationId } = useParams();
@@ -29,7 +31,7 @@ const OrganizationOverview = () => {
           <MenubarMenu>
             <MenubarTrigger
               onClick={() =>
-                navigate(`/organization/${organizationId}/timeline`)
+                navigate(`/organization/${organizationId}/group`)
               }
             >
               Groups
@@ -39,7 +41,7 @@ const OrganizationOverview = () => {
           <MenubarMenu>
             <MenubarTrigger
               onClick={() =>
-                navigate(`/organization/${organizationId}/timeline`)
+                navigate(`/organization/${organizationId}/requests`)
               }
             >
               Requests
@@ -87,10 +89,12 @@ const OrganizationOverview = () => {
               {/* <Route path="activities" element={<ActivitiesPage />} />
               <Route path="gantt" element={<GanttPage />} />
               <Route path="calendar" element={<CalendarPage />} />*/}
+              <Route path="group" element={<GroupList />}/>
               <Route path="create-project" element={<CreateOrganizationProject />} />
               <Route path="projects" element={<OrganizationProjects />} />
               <Route path="projects/*" element={<OrganizationProjects />} />
               <Route path="users" element={<OrgUserList />} />
+              <Route path="requests" element={<Request />}/>
               <Route path="settings/*" element={<Settings />} />
             </Routes>
           </div>

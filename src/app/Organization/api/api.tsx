@@ -1,7 +1,12 @@
 import { ApiUrl, Token } from "@/components/Storage/Storage";
 import Axios from "axios";
 import React from "react";
-import { IOrganization, IOrganizationGroup, IOrganizationUser } from "../utils/utils";
+import {
+  IOrganization,
+  IOrganizationGroup,
+  IOrganizationUser,
+  IRequestUser,
+} from "../utils/utils";
 
 const getOrganization = async (id: string | any): Promise<IOrganization> => {
   try {
@@ -75,7 +80,7 @@ const deleteOrganization = async (
   }
 };
 
-const getOrganizations = async (id: string|any): Promise<IOrganization[]> => {
+const getOrganizations = async (id: string | any): Promise<IOrganization[]> => {
   try {
     const respone = await Axios.get(`${ApiUrl}/organization=${id}/users`, {
       headers: { Authorization: `Bearer ${Token}` },
@@ -101,7 +106,9 @@ const getOrganizationUsers = async (
   }
 };
 
-const getOrganizationGroup = async (id: string|any) : Promise<IOrganizationGroup[]> => {
+const getOrganizationGroup = async (
+  id: string | any
+): Promise<IOrganizationGroup[]> => {
   try {
     const response = await Axios.get(`${ApiUrl}/org=${id}/groups`, {
       headers: {
@@ -110,9 +117,60 @@ const getOrganizationGroup = async (id: string|any) : Promise<IOrganizationGroup
     });
     return response.data;
   } catch (error: any) {
-    return error.Message
+    return error.Message;
   }
-}
+};
+
+const sentRequests = async (id: string | any): Promise<IRequestUser[]> => {
+  try {
+    const response = await Axios.get(`${ApiUrl}/organization/${id}/request`, {
+      headers: { Authorization: `Bearer ${Token}` },
+    });
+    return response.data;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+const removeSentRequest = async (
+  event: any,
+  id: string | any,
+  requestEmail: string
+) => {
+  event.preventDefault();
+  try {
+    const encodedEmail = encodeURIComponent(requestEmail);
+    const response = await Axios.delete(
+      `${ApiUrl}/organization/${id}/invite=${encodedEmail}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+const sendRequest = async (event: any, id: string | any, email: string) => {
+  event.preventDefault();
+  try {
+    // const encodedEmail = encodeURIComponent(requestEmail);
+    const response = await Axios.post(
+      `${ApiUrl}/organization/${id}/invite=${email}`,{},
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error: any) {
+    return error;
+  }
+};
 
 export {
   getOrganization,
@@ -122,4 +180,7 @@ export {
   getOrganizations,
   getOrganizationUsers,
   getOrganizationGroup,
+  sentRequests,
+  removeSentRequest,
+  sendRequest
 };

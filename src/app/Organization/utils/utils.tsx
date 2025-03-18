@@ -32,3 +32,9 @@ export interface IOrganizationProject {
   complexity: Date;
   dateCreated: Date;
 }
+
+export interface IRequestUser {
+  id: string;
+  name: string;
+  email: string;
+}

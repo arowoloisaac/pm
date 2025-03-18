@@ -12,17 +12,15 @@ import {
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import Axios from "axios";
 import { IOrganizationProject } from "../utils/utils";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const OrganizationProjects = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const { organizationId } = useParams<{ organizationId: string }>(); // Get organization ID from URL params
+  const { organizationId } = useParams<{ organizationId: string }>();
 
   // Default filters
   let progressFilter: string | null = null;

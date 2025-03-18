@@ -94,10 +94,11 @@ const CreateIssue = () => {
         description: response.data,
       });
       navigate(`/project/${projectId}/overview`);
+      window.location.reload()
     } else {
       toast({
         title: "Error creating issue ",
-        description: response.data,
+        description: response.response.data,
         variant: "destructive",
       });
     }

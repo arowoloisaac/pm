@@ -67,7 +67,7 @@ export default function Dashboard() {
               />
              
 
-              <Route path="/organization/*" element={<Organization />} />
+              {/* <Route path="/organization/*" element={<Organization />} /> */}
               <Route
                 path="/project/:projectId/overview/*"
                 element={<ProjectOverview />}

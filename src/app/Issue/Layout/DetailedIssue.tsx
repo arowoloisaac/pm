@@ -1,5 +1,5 @@
 "use client";
-import SubIssue from "./SubIssue";
+// import SubIssue from "./SubIssue";
 import { Button } from "@/components/ui/button";
 
 import "../utils/styles.css";
@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import SubIssue from "./SubIssue";
 
 const DetailedIssue = () => {
   return (
