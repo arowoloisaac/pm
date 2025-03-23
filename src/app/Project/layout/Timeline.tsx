@@ -50,7 +50,7 @@ const Timeline = () => {
             <div>
               {getTimeline.length < 1 ? (
                 <div>
-                  <div className="container border">
+                  <div className="container">
                     <div className="max-2xl:min-h-[32rem] max-[2680px]:min-h-[50rem] content-center">
                       <div className=" flex flex-row justify-center">
                         <div>

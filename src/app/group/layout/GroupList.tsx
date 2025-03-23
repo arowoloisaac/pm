@@ -9,7 +9,7 @@ import CreateGroup from "./CreateGroup";
 import { retrieveGroup } from "../api/api";
 
 const GroupList = () => {
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,6 +30,12 @@ const GroupList = () => {
     }
     response ? setGroups(response.data) : null;
   };
+
+
+  const handleClick = (id: string) => {
+    navigate(`/organization/${organizationId}/group/${id}`)
+    console.log(id)
+  }
 
   useEffect(() => {
     fetchOrganizationGroups();
@@ -111,7 +117,9 @@ const GroupList = () => {
                   </thead>
                   <tbody>
                     {getGroups.map((group, index) => (
-                      <tr className="border-b" key={group.id}>
+                      <tr className="border-b" onClick={() => {
+                        handleClick(group.id)
+                      }} key={group.id} >
                         <td className="w-4 p-4">
                           <div className="flex items-center">{index + 1}</div>
                         </td>

@@ -38,3 +38,14 @@ export interface IProfile {
   birthdate: string;
   avatarUrl: string;
 }
+
+  export interface IGanttIssue {
+    start: Date;
+    end: Date;
+    name: string;
+    id: string;
+    type: "task";
+    progress: number | any;
+    subTasks: IGanttIssue[];
+    isDisabled?: boolean;
+  }

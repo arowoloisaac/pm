@@ -23,7 +23,7 @@ const SendRequest = () => {
   const handleSendRequestToUser = async (event: any) => {
     try {
       const response = await sendRequest(event, organizationId, encodedEmail);
-      console.log(response)
+      // console.log(response)
       if (response.status === 200) {
         toast({
           title: "request sent ",

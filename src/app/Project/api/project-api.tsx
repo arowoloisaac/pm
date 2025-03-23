@@ -2,7 +2,7 @@ import React from "react";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
 import { IProject, ITimeline } from "../utils/utils";
-import { IIssue } from "@/app/Issue/utils/utils";
+import { IIssue, IIssues } from "@/app/Issue/utils/utils";
 
 const editProject = async (
   e: React.MouseEvent<HTMLButtonElement>,
@@ -94,6 +94,19 @@ const projectIssues = async (projectId: any): Promise<IIssue[]> => {
   }
 };
 
+//function: aids in displaying the gannt data
+const projectGanntIssue = async (id: string): Promise<IIssues[]> => {
+  try {
+    const response = await Axios.get(`${ApiUrl}/project=${id}/issues`, {
+      headers: {
+        Authorization: `Bearer ${Token}`,
+      },
+    });
+    return response.data;
+  } catch (err: any) {
+    return err;
+  }
+};
 
 export {
   editProject,
@@ -101,4 +114,5 @@ export {
   deleteProject,
   projectTimeline,
   projectIssues,
+  projectGanntIssue,
 };

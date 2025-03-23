@@ -16,7 +16,8 @@ export interface IIssues {
   complexity: string;
   issueType: string;
   progress: string;
-  startDate: string;
-  endDate: string;
+  issueLevel: number|any,
+  startDate: Date;
+  endDate: Date;
   subIssues?: IIssues[] | any
 }

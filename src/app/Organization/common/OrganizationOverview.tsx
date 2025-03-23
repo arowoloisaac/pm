@@ -31,7 +31,7 @@ const OrganizationOverview = () => {
           <MenubarMenu>
             <MenubarTrigger
               onClick={() =>
-                navigate(`/organization/${organizationId}/group`)
+                navigate(`/organization/${organizationId}/groups`)
               }
             >
               Groups
@@ -89,7 +89,7 @@ const OrganizationOverview = () => {
               {/* <Route path="activities" element={<ActivitiesPage />} />
               <Route path="gantt" element={<GanttPage />} />
               <Route path="calendar" element={<CalendarPage />} />*/}
-              <Route path="group" element={<GroupList />}/>
+              <Route path="groups" element={<GroupList />}/>
               <Route path="create-project" element={<CreateOrganizationProject />} />
               <Route path="projects" element={<OrganizationProjects />} />
               <Route path="projects/*" element={<OrganizationProjects />} />

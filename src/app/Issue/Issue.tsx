@@ -101,7 +101,7 @@ const Issue = () => {
                       <SelectLabel>Complexity</SelectLabel>
                       <SelectItem value="Easy">Easy</SelectItem>
                       <SelectItem value="Medium">Medium</SelectItem>
-                      <SelectItem value="Hard">Hard</SelectItem>
+                      <SelectItem value="Complex">Hard</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>

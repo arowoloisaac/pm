@@ -25,6 +25,7 @@ import Tiptap from "../Markdown/tiptap";
 import Basic from "../Markdown/remirror";
 import Organization from "../Organization/Organization";
 import OrganizationOverview from "../Organization/common/OrganizationOverview";
+import GroupOverview from "../group/common/GroupOverview";
 
 export default function Dashboard() {
   return (
@@ -58,6 +59,14 @@ export default function Dashboard() {
               <Route path="/md" element={<Tiptap />} />
               <Route path="/basic" element={<Basic />} />
               <Route path="/det" element={<DetailedIssue />} />
+              {/* <Route
+                path="/organization/:organizationId/group/:groupId"
+                element={<GroupOverview />}
+              /> */}
+              <Route
+                path="/organization/:organizationId/group/:groupId/*"
+                element={<GroupOverview />}
+              />
 
               <Route path="/organizations" element={<Organization />} />
               <Route path="/organizations/*" element={<Organization />} />
@@ -65,7 +74,6 @@ export default function Dashboard() {
                 path="/organization/:organizationId/*"
                 element={<OrganizationOverview />}
               />
-             
 
               {/* <Route path="/organization/*" element={<Organization />} /> */}
               <Route

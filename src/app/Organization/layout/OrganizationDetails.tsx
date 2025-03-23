@@ -31,7 +31,6 @@ const OrganizationDetails = () => {
       day: "2-digit",
     });
 
-  console.log(getDetails)
   return (
     <div>
       <div>

@@ -30,14 +30,14 @@ const CreateGroup = () => {
 
     if (response.status === 200) {
       toast({
-        title: "Issue created ",
+        title: "Group Created ",
         description: response.data,
       });
-      navigate(`/organization/${organizationId}/group`);
+      navigate(`/organization/${organizationId}/groups`);
       window.location.reload()
     } else {
       toast({
-        title: "Error creating issue ",
+        title: "Error creating group ",
         description: response.response.data,
         variant: "destructive",
       });

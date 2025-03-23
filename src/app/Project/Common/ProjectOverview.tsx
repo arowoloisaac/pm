@@ -6,6 +6,7 @@ import CreateIssue from "@/app/Issue/layout/Create-Issue";
 import Setting from "../layout/Setting";
 import Timeline from "../layout/Timeline";
 import CalendarLayout from "../Calendar/CalendarLayout";
+import GanttOverview from "../Gannt/GanttLayout";
 
 const ProjectOverview = () => {
   const { projectId } = useParams();
@@ -32,8 +33,13 @@ const ProjectOverview = () => {
               Activites
             </MenubarTrigger>
           </MenubarMenu>
+
           <MenubarMenu>
-            <MenubarTrigger>Gannt</MenubarTrigger>
+            <MenubarTrigger
+              onClick={() => navigate(`/project/${projectId}/overview/gantt`)}
+            >
+              Gantt
+            </MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu>
             <MenubarTrigger
@@ -76,8 +82,9 @@ const ProjectOverview = () => {
               <Route path="create" element={<CreateIssue />} />
               <Route path="/timeline" element={<Timeline />} />
               <Route path="/calendar" element={<CalendarLayout />} />
+              <Route path="gantt" element={<GanttOverview />} />
               {/* <Route path="activities" element={<ActivitiesPage />} />
-              <Route path="gantt" element={<GanttPage />} />
+              
               <Route path="calendar" element={<CalendarPage />} />
               <Route path="wiki" element={<WikiPage />} />*/}
               <Route path="settings/*" element={<Setting />} />
