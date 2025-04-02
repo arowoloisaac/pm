@@ -1,12 +1,14 @@
 import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import IssueList from "@/app/Issue/Issue";
-import CreateIssue from "@/app/Issue/layout/Create-Issue";
+import IssueList from "@/app/Quest/Issue";
+import CreateIssue from "@/app/Quest/layout/Create-Issue";
 import Setting from "../layout/Setting";
 import Timeline from "../layout/Timeline";
 import CalendarLayout from "../Calendar/CalendarLayout";
 import GanttOverview from "../Gannt/GanttLayout";
+import DetailedIssue from "@/app/Quest/layout/DetailedIssue";
+import TaskLayout from "@/app/Quest/Common/TaskLayout";
 
 const ProjectOverview = () => {
   const { projectId } = useParams();
@@ -78,15 +80,13 @@ const ProjectOverview = () => {
                   />
                 }
               />
-              <Route path="issues" element={<IssueList />} />
+
+              <Route path="/issue/:issueId/*" element={<TaskLayout />} />
+              <Route path="/issues" element={<IssueList />} />
               <Route path="create" element={<CreateIssue />} />
               <Route path="/timeline" element={<Timeline />} />
               <Route path="/calendar" element={<CalendarLayout />} />
-              <Route path="gantt" element={<GanttOverview />} />
-              {/* <Route path="activities" element={<ActivitiesPage />} />
-              
-              <Route path="calendar" element={<CalendarPage />} />
-              <Route path="wiki" element={<WikiPage />} />*/}
+              <Route path="/gantt" element={<GanttOverview />} />
               <Route path="settings/*" element={<Setting />} />
             </Routes>
           </div>

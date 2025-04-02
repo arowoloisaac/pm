@@ -21,41 +21,57 @@ const subIssueList = async (
   }
 };
 
-const relatedIssueList = () => {
-    
-}
+const relatedIssueList = () => {};
 
-const issueDetail = async (projectId:string, issueId: string) => {
+const issueDetail = async (
+  projectId: string,
+  issueId: string
+): Promise<IIssue> => {
   try {
-    const response = await Axios.get(`${ApiUrl}/`)
-    projectId
-    issueId
-    console.log(response)
-  } catch (error:any) {
-    console.error("Error fetching issue", error.message ||error)
-    return error
-  }
-}
-
-const createIssue = async ( e: React.MouseEvent<HTMLButtonElement>,{data, projectId} : {data:any, projectId: string|any}) : Promise<any> => {
-e.preventDefault()
-  try {
-    const response = await Axios.post(`${ApiUrl}/project=${projectId}/create-issue`, data, {
-      headers: {
-        Authorization: `Bearer ${Token}`
+    const response = await Axios.get(
+      `${ApiUrl}/project=${projectId}/issue=${issueId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
       }
-    })
-    return response
-  } catch (error:any) {
-    console.error("Error creating issue:", error || error)
-    return error
-  }
-}
+    );
 
+    return response.data;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+const createIssue = async (
+  e: React.MouseEvent<HTMLButtonElement>,
+  { data, projectId }: { data: any; projectId: string | any }
+): Promise<any> => {
+  e.preventDefault();
+  try {
+    const response = await Axios.post(
+      `${ApiUrl}/project=${projectId}/create-issue`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error: any) {
+    console.error("Error creating issue:", error || error);
+    return error;
+  }
+};
 
 const createSubIssue = async (
   e: React.MouseEvent<HTMLButtonElement>,
-  { data, projectId, issueId }: { data: any; projectId: string; issueId: string }
+  {
+    data,
+    projectId,
+    issueId,
+  }: { data: any; projectId: string; issueId: string }
 ) => {
   e.preventDefault();
   try {
@@ -71,6 +87,28 @@ const createSubIssue = async (
     return response.status;
   } catch (error: any) {
     console.error("Error creating sub issue:", error.message || error);
+  }
+};
+
+const updateTaskProgress = async (
+  e: React.MouseEvent<HTMLButtonElement>,
+  projectId: any,
+  issueId: any,
+  data: {} | any
+): Promise<any> => {
+  e.preventDefault();
+  try {
+    const response = await Axios.put(
+      `${ApiUrl}/project=${projectId}/issue=${issueId}/update`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${Token}` },
+      }
+    );
+
+    return response;
+  } catch (error: any) {
+    return error;
   }
 };
 
@@ -99,7 +137,6 @@ function mapTasks(apiResponse: any[]): IIssues[] | any {
   }));
 }
 
-
 // export interface IIssues {
 //   id: string;
 //   name: string;
@@ -117,5 +154,6 @@ export {
   createIssue,
   issueDetail,
   createSubIssue,
-  getIssueAndChildren
+  getIssueAndChildren,
+  updateTaskProgress,
 };

@@ -142,7 +142,7 @@ const Issue = () => {
 
       {/* for displaying the project container */}
       <div className="container mx-auto border-2 px-4 py-4">
-        <IssueList items={getIssues} projectId={projectId} />
+        <IssueList items={getIssues} />
       </div>
       <div className="p-0.5"></div>
 

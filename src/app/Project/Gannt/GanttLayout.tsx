@@ -3,7 +3,7 @@ import "gantt-task-react/dist/index.css";
 import { projectGanntIssue } from "../api/project-api";
 import { useParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-import { IIssues } from "@/app/Issue/utils/utils";
+import { IIssues } from "@/app/Quest/utils/utils";
 import { Button } from "@/components/ui/button";
 import { IGanttIssue } from "../utils/utils";
 
@@ -23,7 +23,6 @@ const GanttOverview = () => {
   useEffect(() => {
     retrieveIssue();
   }, []);
-
 
   function mapToTask(issue: IIssues): IGanttIssue {
     const startDateObject = new Date(issue.startDate);
@@ -58,7 +57,6 @@ const GanttOverview = () => {
   }
 
   const [viewMode, setViewMode] = useState<DisplayOption["viewMode"]>("Day");
-
 
   return ganttData.length > 0 ? (
     <>

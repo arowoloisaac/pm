@@ -18,11 +18,11 @@ import DashboardUserNav from "../Layout/userNav";
 import Profile from "../Profile/Profile";
 import CreateProject from "../Project/layout/CreateProject";
 import ProjectOverview from "../Project/Common/ProjectOverview";
-import SubIssue from "../Issue/layout/SubIssue";
-import DetailedIssue from "../Issue/layout/DetailedIssue";
+import SubIssue from "../Quest/layout/SubIssueList";
+import DetailedIssue from "../Quest/layout/DetailedIssue";
 // import Setting from "../project/Layouts/Setting";
-import Tiptap from "../Markdown/tiptap";
-import Basic from "../Markdown/remirror";
+import Tiptap from "../../components/Markdown/tiptap";
+import Basic from "../../components/Markdown/remirror";
 import Organization from "../Organization/Organization";
 import OrganizationOverview from "../Organization/common/OrganizationOverview";
 import GroupOverview from "../group/common/GroupOverview";
@@ -58,11 +58,10 @@ export default function Dashboard() {
               <Route path="/sub" element={<SubIssue />} />
               <Route path="/md" element={<Tiptap />} />
               <Route path="/basic" element={<Basic />} />
-              <Route path="/det" element={<DetailedIssue />} />
-              {/* <Route
-                path="/organization/:organizationId/group/:groupId"
-                element={<GroupOverview />}
-              /> */}
+              <Route
+                path="/project/:projectId/issue/:issueId"
+                element={<DetailedIssue />}
+              />
               <Route
                 path="/organization/:organizationId/group/:groupId/*"
                 element={<GroupOverview />}
@@ -75,22 +74,11 @@ export default function Dashboard() {
                 element={<OrganizationOverview />}
               />
 
-              {/* <Route path="/organization/*" element={<Organization />} /> */}
               <Route
                 path="/project/:projectId/overview/*"
                 element={<ProjectOverview />}
               />
               <Route path="/project/create" element={<CreateProject />} />
-              {/* <Route path="/project=:id" element={<ProjectOverview />} /> */}
-              {/* <Route path="/project">
-                <Route path="/project/create" element={<CreateProject />} />
-                <Route
-                  path="/project/overview/:id"
-                  element={<ProjectOverview />}
-                />
-                <Route path="/project/issue/create-issue" element={<CreateIssue />} />
-              </Route> */}
-              {/* <Route path="setting" element={<Setting />} /> */}
             </Routes>
           </Router>
         </div>

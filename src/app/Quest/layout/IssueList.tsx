@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 
 import {
@@ -22,7 +21,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-
 import {
   ArrowDown,
   ArrowRight,
@@ -39,18 +37,22 @@ import {
   School,
   TestTubeDiagonal,
 } from "lucide-react";
-import { IIssue } from "@/app/Issue/utils/utils";
-import { visibility } from '@/components/function/visibility';
+import { IIssue } from "@/app/Quest/utils/utils";
+import { visibility } from "@/components/function/visibility";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-
-const IssueList = ({
-  items,
-  projectId,
-}: {
-  items: IIssue[];
-  projectId: any;
-}) => {
+const IssueList = ({ items }: { items: IIssue[] }) => {
+  const { projectId } = useParams<{
+    projectId: string | any;
+  }>();
+  const navigate = useNavigate();
   const isVisible = visibility();
+  const loc = useLocation()
+
+  const handleClick = (id: string) => {
+    console.log(loc)
+      navigate(`/project/${projectId}/overview/issue/${id}`);
+  };
   return (
     <div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -92,7 +94,14 @@ const IssueList = ({
               </TableHeader>
               <TableBody>
                 {items.map((issue, index) => (
-                  <TableRow className="h-14" key={issue.id}>
+                  <TableRow
+                    className="h-14"
+                    key={issue.id}
+                    onClick={() => {
+                      handleClick(issue.id)
+                      // console.log(issue.id);
+                    }}
+                  >
                     <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell className="font-medium">{issue.name}</TableCell>
                     <TableCell className="">
@@ -155,7 +164,6 @@ const IssueList = ({
                             align="end"
                             className="w-[150px]"
                           >
-                            {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
                             <DropdownMenuGroup>
                               <DropdownMenuItem>Assign to</DropdownMenuItem>
                               <DropdownMenuItem>Set due date</DropdownMenuItem>
@@ -178,7 +186,7 @@ const IssueList = ({
                   </TableRow>
                 ))}
               </TableBody>
-            </Table>
+            </Table> 
           </div>
         </div>
       </div>
@@ -186,4 +194,4 @@ const IssueList = ({
   );
 };
 
-export default IssueList
+export default IssueList;

@@ -5,10 +5,16 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { createSubIssue } from "../api/issue-api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const CreateChildIssue = () => {
-  const { projectId, issueId } = useParams();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { projectId, issueId } = useParams<{
+    projectId: string | any;
+    issueId: string | any;
+  }>();
 
   console.log(projectId);
   const { quill, quillRef } = useQuill();
@@ -70,20 +76,32 @@ const CreateChildIssue = () => {
     }
   };
 
-  const createIss = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const projectId = "881a3f46-050d-4449-94a2-1a8eccc4e715";
-    const issueId = "5170B393-0754-4B5B-8516-1E3A4041444E";
-    const issue = await createSubIssue(e, { data, projectId, issueId });
-    console.log("Issue Created:", issue);
+  const createChildTask = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const response: any = await createSubIssue(e, { data, projectId, issueId });
+
+    if (response.status === 200) {
+      toast({
+        title: "Issue created ",
+        description: response.data,
+      });
+      navigate(`/project/${projectId}/overview/issue/${issueId}`);
+      window.location.reload();
+    } else {
+      toast({
+        title: "Error creating issue ",
+        description: response.response.data,
+        variant: "destructive",
+      });
+    }
   };
 
   useEffect(() => {
     console.log(data);
-    createIss;
+    createChildTask;
   });
   return (
     <>
-      <div>Create New Issue</div>
+      <div>Create Child Issue</div>
       <div>
         <form>
           <div className="mb-6">
@@ -210,27 +228,6 @@ const CreateChildIssue = () => {
               />
               {dateError && <p className="text-red-600 text-sm">{dateError}</p>}
             </div>
-
-            <div>
-              <label
-                htmlFor="complexity"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Parent Issue
-              </label>
-              <select
-                onChange={(e) => handleChange("complexity", e.target.value)}
-                id="complexity"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
-                <option selected disabled>
-                  complexity
-                </option>
-                <option value="Easy">Easy</option>
-                <option value="Medium">Intermediate</option>
-                <option value="Complex">Complex</option>
-              </select>
-            </div>
           </div>
           <div className="mb-2">
             <label
@@ -249,7 +246,7 @@ const CreateChildIssue = () => {
 
           <div className="flex pt-2 ">
             <button
-              onClick={createIss}
+              onClick={createChildTask}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Create Issue

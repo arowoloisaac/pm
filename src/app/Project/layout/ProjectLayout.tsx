@@ -97,7 +97,6 @@ const ProjectLayout = ({
                                   align="end"
                                   className="w-[150px]"
                                 >
-                                  {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
                                   <DropdownMenuGroup>
                                     <DropdownMenuItem>
                                       Assign to
@@ -156,7 +155,6 @@ const ProjectLayout = ({
                             </div>
                             <div className="basis-1/2 max-[400px]::basis-10/12">
                               <CardDescription>
-                                {" "}
                                 {project.progress}
                               </CardDescription>
                             </div>

@@ -1,7 +1,7 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { useEffect, useState } from "react";
-import { IIssue } from "@/app/Issue/utils/utils";
+import { IIssue } from "@/app/Quest/utils/utils";
 import { useParams } from "react-router-dom";
 import { Token } from "@/components/Storage/Storage";
 import { projectIssues } from "../api/project-api";

@@ -2,7 +2,7 @@ import React from "react";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
 import { IProject, ITimeline } from "../utils/utils";
-import { IIssue, IIssues } from "@/app/Issue/utils/utils";
+import { IIssue, IIssues } from "@/app/Quest/utils/utils";
 
 const editProject = async (
   e: React.MouseEvent<HTMLButtonElement>,
