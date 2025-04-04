@@ -87,7 +87,7 @@ const addUserToGroup = async ({
   grpId: string;
   mail: string;
   role: string;
-}) => {
+}): Promise<any> => {
   event.preventDefault();
   try {
     const response = await Axios.post(
@@ -105,6 +105,7 @@ const addUserToGroup = async ({
     console.error(error);
   }
 };
+
 
 export {
   retrieveGroup,

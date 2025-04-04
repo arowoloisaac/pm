@@ -19,7 +19,7 @@ import Profile from "../Profile/Profile";
 import CreateProject from "../Project/layout/CreateProject";
 import ProjectOverview from "../Project/Common/ProjectOverview";
 import SubIssue from "../Quest/layout/SubIssueList";
-import DetailedIssue from "../Quest/layout/DetailedIssue";
+import DetailedIssue from "../Quest/layout/UpdateTask";
 // import Setting from "../project/Layouts/Setting";
 import Tiptap from "../../components/Markdown/tiptap";
 import Basic from "../../components/Markdown/remirror";
@@ -62,6 +62,8 @@ export default function Dashboard() {
                 path="/project/:projectId/issue/:issueId"
                 element={<DetailedIssue />}
               />
+
+              <Route path="/organization/:organizationId/group/:groupId/project/:projectId" element/>
               <Route
                 path="/organization/:organizationId/group/:groupId/*"
                 element={<GroupOverview />}

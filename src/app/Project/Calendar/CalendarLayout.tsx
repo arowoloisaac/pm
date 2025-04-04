@@ -26,18 +26,18 @@ const CalendarLayout = () => {
   const seperateEvents = issues.flatMap((item) => [
     {
       id: `${item.id}-start`,
-      title: `🟢 ${item.name}`,
+      title: `➡ ${item.name}`,
       start: item.startDate,
       allDay: true,
-      color: "green",
+      // color: "green",
       extendedProps: { item },
     },
     {
       id: `${item.id}-end`,
-      title: `🔴 ${item.name}`,
+      title: `⬅ ${item.name}`,
       start: item.endDate,
       allDay: true,
-      color: "red",
+      // color: "red",
       extendedProps: { item },
     },
   ]);

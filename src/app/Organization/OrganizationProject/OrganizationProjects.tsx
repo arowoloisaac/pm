@@ -9,12 +9,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus } from "lucide-react";
+import { MoreHorizontal, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Axios from "axios";
 import { IOrganizationProject } from "../utils/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import {
+  Dialog,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import Assign from "./AssignAspect/Assign";
+import Unassign from "./AssignAspect/Unassign";
 
 const OrganizationProjects = () => {
   const navigate = useNavigate();
@@ -49,8 +64,8 @@ const OrganizationProjects = () => {
     try {
       const res = await Axios.get(generateUrl(), {
         headers: {
-          Authorization: `Bearer ${Token}`
-        }
+          Authorization: `Bearer ${Token}`,
+        },
       });
       if (res.status === 200) {
         setProjects(res.data);
@@ -87,7 +102,6 @@ const OrganizationProjects = () => {
 
     navigate(`/organization/${organizationId}/projects?${params.toString()}`);
   };
-  console.log(projects)
 
   useEffect(() => {
     getProjects();
@@ -173,12 +187,16 @@ const OrganizationProjects = () => {
                 {/* Search Button */}
                 <div className="flex justify-end gap-3">
                   {/* <a href=`/organization/${organizationId}/home`> */}
-                    <Button onClick={() => {
-                      navigate(`/organization/${organizationId}/create-project`)
-                    }}>
-                      <Plus />
-                      Add Project
-                    </Button>
+                  <Button
+                    onClick={() => {
+                      navigate(
+                        `/organization/${organizationId}/create-project`
+                      );
+                    }}
+                  >
+                    <Plus />
+                    Add Project
+                  </Button>
                   {/* </a> */}
                 </div>
               </div>
@@ -221,8 +239,7 @@ const OrganizationProjects = () => {
                       <th scope="col" className="px-6 py-3">
                         Status
                       </th>
-                      <th scope="col" className="px-1 py-1">
-                      </th>
+                      <th scope="col" className="px-1 py-1"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -248,12 +265,53 @@ const OrganizationProjects = () => {
                         </td>
                         <td className="px-6 py-4">{project.progress}</td>
                         <td className="px-6 py-4">
-                          <a
-                            href="#"
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >
-                            Edit 
-                          </a>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" className="size-px">
+                                <MoreHorizontal />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                              align="end"
+                              className="w-[150px]"
+                            >
+                              <DropdownMenuGroup>
+                                {project.assignedTo !== null ? (
+                                  <DropdownMenuItem>
+                                    <Dialog>
+                                      <DialogTrigger asChild>
+                                        <DropdownMenuItem
+                                          onSelect={(e) => e.preventDefault()}
+                                        >
+                                          Unassign
+                                        </DropdownMenuItem>
+                                      </DialogTrigger>
+                                      <Unassign
+                                        groupProjectId={project.id}
+                                        assignedId={project.assignedGroupId}
+                                        assignedGroupName={project.assignedTo}
+                                      />
+                                    </Dialog>
+                                  </DropdownMenuItem>
+                                ) : (
+                                  <Dialog>
+                                    <DialogTrigger asChild>
+                                      <DropdownMenuItem
+                                        onSelect={(e) => e.preventDefault()}
+                                      >
+                                        Assign To
+                                      </DropdownMenuItem>
+                                    </DialogTrigger>
+                                    <Assign projectName={project.name} />
+                                  </Dialog>
+                                )}
+
+                                <DropdownMenuItem className="text-red-600">
+                                  Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuGroup>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </td>
                       </tr>
                     ))}

@@ -1,29 +1,5 @@
 "use client";
-// import SubIssue from "./SubIssue";
-import { Button } from "@/components/ui/button";
-
 import "../utils/styles.css";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import SubIssue from "./SubIssueList";
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { issueDetail } from "../api/issue-api";
@@ -35,7 +11,7 @@ import dayjs from "dayjs";
 import { format } from "date-fns";
 import { createIssue } from "../api/issue-api";
 import { useToast } from "@/hooks/use-toast";
-import RelatedIssue from "./AddRelatedIssue";
+import { Button } from "@/components/ui/button";
 
 const DetailedIssue = () => {
   const { projectId, issueId } = useParams<{
@@ -43,7 +19,7 @@ const DetailedIssue = () => {
     issueId: string | any;
   }>();
 
-  const [questData, setQuestData] = useState<IIssue>();
+  const [questData, setQuestData] = useState<IIssue | null>(null);
 
   const getQuest = async () => {
     const data = await issueDetail(projectId, issueId);
@@ -52,6 +28,7 @@ const DetailedIssue = () => {
 
   useEffect(() => {
     getQuest();
+    console.log(questData);
   }, []);
 
   const { toast } = useToast();
@@ -72,7 +49,7 @@ const DetailedIssue = () => {
 
   useEffect(() => {
     if (quill) {
-      quill.root.innerHTML = questData?.description
+      quill.root.innerHTML = questData?.description;
       quill.on("text-change", () => {
         setFormData((prev) => ({
           ...prev,
@@ -80,7 +57,7 @@ const DetailedIssue = () => {
         }));
       });
     }
-  }, [quill]);
+  }, [quill, questData]);
 
   const data = {
     name: formData.title,
@@ -131,19 +108,21 @@ const DetailedIssue = () => {
     }
   };
 
-  const createIss = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const updateIssueFunction = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
     const response = await createIssue(e, { data, projectId });
 
     if (response.status === 200) {
       toast({
-        title: "Issue created ",
+        title: "task created ",
         description: response.data,
       });
       navigate(`/project/${projectId}/overview`);
       window.location.reload();
     } else {
       toast({
-        title: "Error creating issue ",
+        title: "Error updating task ",
         description: response.response.data,
         variant: "destructive",
       });
@@ -160,8 +139,7 @@ const DetailedIssue = () => {
     );
   };
 
-  const [getUpdateButton, setUpdateButton] = useState<boolean>(false);
-
+  console.log(questData);
   return (
     <>
       <div>
@@ -192,7 +170,7 @@ const DetailedIssue = () => {
                     />
                   </div>
 
-                  <div className="grid gap-6 mb-6 grid-cols-3">
+                  <div className="grid gap-6 mb-6 xl:grid-cols-3 md:grid-cols-2">
                     <div className="">
                       <label
                         htmlFor="estTime"
@@ -269,13 +247,6 @@ const DetailedIssue = () => {
                         Start Date
                       </label>
                       <Datepicker
-                        // defaultValue={}
-
-                        value={
-                          formData.startDate
-                            ? new Date(formData.startDate)
-                            : new Date(questData?.startDate)
-                        }
                         onChange={(e) => {
                           if (e) {
                             const formattedDate = format(e, "yyyy-MM-dd");
@@ -296,11 +267,6 @@ const DetailedIssue = () => {
                         End Date
                       </label>
                       <Datepicker
-                        value={
-                          formData.endDate
-                            ? new Date(formData.endDate)
-                            : new Date(questData?.endDate)
-                        }
                         onChange={(e) => {
                           if (e) {
                             const formattedDate = format(e, "yyyy-MM-dd");
@@ -333,13 +299,12 @@ const DetailedIssue = () => {
                   </div>
 
                   <div className="flex pt-2 ">
-                    <button
-                      onClick={createIss}
+                    <Button
+                      onClick={updateIssueFunction}
                       disabled={!isFormValid()}
-                      className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
-                      Create Issue
-                    </button>
+                      Update Changes
+                    </Button>
                   </div>
                 </form>
               </div>

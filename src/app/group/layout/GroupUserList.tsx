@@ -199,7 +199,7 @@ const GroupUserList = () => {
               </tr>
             </thead>
             <tbody>
-              {getAdminGroupUser.map((user, index) => (
+              {getGroupUser.map((user, index) => (
                 <tr className=" border-b" key={user.id}>
                   <td className="w-4 p-4">
                     <div className="flex items-center">{index + 1}</div>

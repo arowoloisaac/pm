@@ -42,7 +42,6 @@ const GanttOverview = () => {
         mapToTask(subIssue)
       ),
     };
-
     return task;
   }
 

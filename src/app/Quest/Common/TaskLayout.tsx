@@ -11,7 +11,8 @@ import {
 import SubIssue from "../layout/SubIssueList";
 import CreateChildIssue from "../layout/Create-Child";
 import RelatedTaskList from "../layout/RelatedTaskList";
-import UpdateQuest from "../layout/UpdateQuest";
+import UpdateQuest from "../layout/UpdateProgress";
+import DetailedIssue from "../layout/UpdateTask";
 
 const TaskLayout = () => {
   const { projectId, issueId } = useParams();
@@ -29,7 +30,7 @@ const TaskLayout = () => {
                     <div
                       onClick={() => {
                         navigate(
-                          `/project/${projectId}/overview/settings/details`
+                          `/project/${projectId}/overview/issue/${issueId}/details`
                         );
                       }}
                     >
@@ -90,12 +91,12 @@ const TaskLayout = () => {
                         index
                         element={
                           <Navigate
-                            to={`/project/${projectId}/overview/issue/${issueId}/edit`}
+                            to={`/project/${projectId}/overview/issue/${issueId}/details`}
                             replace
                           />
                         }
                       />
-                      <Route path="details" element />
+                      <Route path="details" element={<DetailedIssue />} />
                       <Route path="edit" element={<UpdateQuest />} />
                       <Route
                         path="related-task"

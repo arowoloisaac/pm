@@ -172,7 +172,22 @@ const sendRequest = async (event: any, id: string | any, email: string) => {
   }
 };
 
+
+// const retrieveGroup = async (id: string | any) => {
+//   try {
+//     const response = await Axios.get(`${ApiUrl}/org=${id}/groups`, {
+//       headers: {
+//         Authorization: `Bearer ${Token}`,
+//       },
+//     });
+//     return response;
+//   } catch (error: any) {
+//     return error.Message;
+//   }
+// };
+
 export {
+  // retrieveGroup,
   getOrganization,
   createOrganization,
   editOrganization,

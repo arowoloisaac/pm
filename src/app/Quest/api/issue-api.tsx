@@ -112,6 +112,28 @@ const updateTaskProgress = async (
   }
 };
 
+const updateTask = async (
+  e: React.MouseEvent<HTMLButtonElement>,
+  projectId: any,
+  issueId: any,
+  data: {} | any
+): Promise<any> => {
+  e.preventDefault();
+  try {
+    const response = await Axios.put(
+      `${ApiUrl}/project=${projectId}/issue=${issueId}/update`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${Token}` },
+      }
+    );
+
+    return response;
+  } catch (error: any) {
+    return error;
+  }
+};
+
 const getIssueAndChildren = async (projectId: any): Promise<IIssues[]> => {
   try {
     const response = await Axios.get(
@@ -156,4 +178,5 @@ export {
   createSubIssue,
   getIssueAndChildren,
   updateTaskProgress,
+  updateTask,
 };

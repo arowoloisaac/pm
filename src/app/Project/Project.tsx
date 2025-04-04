@@ -84,6 +84,8 @@ const Project = () => {
     return `${ApiUrl}/project/get?${params.toString()}`;
   };
 
+  console.log(generateUrl());
+
   const getProject = async () => {
     try {
       const res = await Axios.get(generateUrl(), {
@@ -189,7 +191,7 @@ const Project = () => {
                           <SelectLabel>Complexity</SelectLabel>
                           <SelectItem value="Easy">Easy</SelectItem>
                           <SelectItem value="Medium">Medium</SelectItem>
-                          <SelectItem value="Hard">Hard</SelectItem>
+                          <SelectItem value="Complex">Hard</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>

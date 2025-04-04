@@ -4,8 +4,8 @@ export interface IIssue {
   complexity: string;
   issueType: string;
   progress: string;
-  startDate: Date | any;
-  endDate: Date | any;
+  startDate: Date|any;
+  endDate: Date|any;
   estimatedTimeInMinute: number;
   timeSpent: number;
   issueLevel: number;

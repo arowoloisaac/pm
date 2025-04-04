@@ -31,6 +31,7 @@ export interface IOrganizationProject {
   progress: string;
   complexity: Date;
   dateCreated: Date;
+  assignedGroupId: string
 }
 
 export interface IRequestUser {

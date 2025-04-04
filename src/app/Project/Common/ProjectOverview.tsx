@@ -7,7 +7,6 @@ import Setting from "../layout/Setting";
 import Timeline from "../layout/Timeline";
 import CalendarLayout from "../Calendar/CalendarLayout";
 import GanttOverview from "../Gannt/GanttLayout";
-import DetailedIssue from "@/app/Quest/layout/DetailedIssue";
 import TaskLayout from "@/app/Quest/Common/TaskLayout";
 
 const ProjectOverview = () => {

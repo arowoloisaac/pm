@@ -1,6 +1,13 @@
 import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
-import { Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import GroupUserList from "../layout/GroupUserList";
+import Project from "@/app/groupProject/Project";
 
 const GroupOverview = () => {
   const navigate = useNavigate();
@@ -21,14 +28,22 @@ const GroupOverview = () => {
           </MenubarMenu>
           <MenubarMenu>
             <MenubarTrigger
-              onClick={() => navigate(`/organization/${organizationId}/groups`)}
+              onClick={() =>
+                navigate(
+                  `/organization/${organizationId}/group/${groupId}/projects`
+                )
+              }
             >
               Projects
             </MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu>
             <MenubarTrigger
-              onClick={() => navigate(`/organization/${organizationId}/group/${groupId}/users`)}
+              onClick={() =>
+                navigate(
+                  `/organization/${organizationId}/group/${groupId}/users`
+                )
+              }
             >
               Users
             </MenubarTrigger>
@@ -39,7 +54,9 @@ const GroupOverview = () => {
           <MenubarMenu>
             <MenubarTrigger
               onClick={() =>
-                navigate(`/organization/${organizationId}/group/${groupId}/settings`)
+                navigate(
+                  `/organization/${organizationId}/group/${groupId}/settings`
+                )
               }
             >
               Settings
@@ -49,11 +66,13 @@ const GroupOverview = () => {
       </div>
 
       <div>
-              <div className="w-full ">
-                <div className="container mx-auto  px-4  pb-4">
-                  <Routes>
-                    <Route path="users" element={<GroupUserList />}/>
-                    {/* <Route
+        <div className="w-full ">
+          <div className="container mx-auto  px-4  pb-4">
+            <Routes>
+              <Route path="users" element={<GroupUserList />} />
+              <Route path="projects" element={<Project />} />
+              <Route path="projects/*" element={<Project />} />
+              {/* <Route
                       index
                       element={
                         <Navigate
@@ -62,18 +81,18 @@ const GroupOverview = () => {
                         />
                       }
                     /> */}
-                    {/* <Route path="issues" element={<IssueList />} />
+              {/* <Route path="issues" element={<IssueList />} />
                     <Route path="create" element={<CreateIssue />} />
                     <Route path="/timeline" element={<Timeline />} />
                     <Route path="/calendar" element={<CalendarLayout />} /> */}
-                    {/* <Route path="activities" element={<ActivitiesPage />} />
+              {/* <Route path="activities" element={<ActivitiesPage />} />
                     <Route path="gantt" element={<GanttPage />} />
                     <Route path="calendar" element={<CalendarPage />} />
                     <Route path="wiki" element={<WikiPage />} />*/}
-                  </Routes>
-                </div>
-              </div>
-            </div>
+            </Routes>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
