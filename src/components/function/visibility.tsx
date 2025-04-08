@@ -5,19 +5,16 @@ const visibility = () => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 800) {
-        setIsVisible(true); // Ensure it remains visible
+        setIsVisible(true); 
       } else {
-        setIsVisible(false); // Optionally hide it for larger screens
+        setIsVisible(false);
       }
     };
 
-    // Add event listener on mount
     window.addEventListener("resize", handleResize);
 
-    // Initial check
     handleResize();
 
-    // Cleanup on unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };

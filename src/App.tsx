@@ -1,13 +1,13 @@
 "use client";
 import "./App.css";
-import Dashboard from "./app/dashboard/Dashboard";
+import Dashboard from "./components/dashboard/Dashboard";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import Login from "./app/Login/Login";
-import LandingPage from "./app/static/Static";
+import Login from "./components/auth/Login/Login";
+import LandingPage from "./components/static/Static";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Token } from "./components/Storage/Storage";
-import { Registration } from "./app/register/Registration";
-import Profile from "./app/Profile/Profile";
+import { Registration } from "./components/auth/register/Registration";
+import Profile from "./components/auth/Profile/Profile";
 import { useClearExpiredItems } from "./components/backgroundJob/backgroundJob";
 
 function App() {
