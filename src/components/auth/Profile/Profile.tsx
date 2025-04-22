@@ -40,7 +40,8 @@ const Profile = () => {
                   <div className="flex-auto justify-start items-center pt-20 pb-2">
                     <img
                       className="inline-flex object-cover border-2 rounded-full h-16 w-16 !h-32 !w-32"
-                      src={getProfile.avatarUrl}
+                      // src={getProfile.avatarUrl}
+                      src="https://github.com/shadcn.png"
                       alt="profile-picture"
                     />
                   </div>

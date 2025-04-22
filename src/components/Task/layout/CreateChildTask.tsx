@@ -41,12 +41,17 @@ const CreateChildIssue = () => {
   const data = {
     name: formData.title,
     description: formData.description,
-    startDate: formData.startDate,
-    endDate: formData.endDate,
+    startDate: formData.startDate
+      ? formData.startDate
+      : new Date().toISOString().split("T")[0],
+    endDate: formData.endDate
+      ? formData.endDate
+      : new Date().toISOString().split("T")[0],
     estimatedTimeInMinutes: formData.estimatedTimeInMinutes,
     complexity: formData.complexity,
     issueType: formData.issueType,
   };
+  console.log(data)
 
   const [dateError, setDateError] = useState<string>("");
 

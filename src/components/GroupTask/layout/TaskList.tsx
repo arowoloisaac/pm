@@ -26,31 +26,62 @@ import {
   ArrowRight,
   ArrowUp,
   BookOpen,
-  BookX,
   Brush,
   Bug,
-  Check,
   Code,
   LayoutList,
-  ListTodo,
   MoreHorizontal,
-  School,
   TestTubeDiagonal,
 } from "lucide-react";
-import { IIssue } from "@/components/Task/utils/utils";
 import { visibility } from "@/components/function/visibility";
 import { useNavigate, useParams } from "react-router-dom";
+import { IIssue } from "../utils/utils";
+import { Progress } from "@/components/ui/progress";
+import Axios from "axios";
+import { ApiUrl, Token } from "@/components/Storage/Storage";
+import { useToast } from "@/hooks/use-toast";
 
 const TaskList = ({ items }: { items: IIssue[] }) => {
-  const { projectId } = useParams<{
+  const { projectId, organizationId, groupId } = useParams<{
     projectId: string | any;
+    organizationId: string | any;
+    groupId: string | any;
   }>();
   const navigate = useNavigate();
   const isVisible = visibility();
+  const { toast } = useToast();
 
   const handleClick = (id: string) => {
-    navigate(`/project/${projectId}/overview/issue/${id}`);
+    navigate(
+      `/organization/${organizationId}/group/${groupId}/project/${projectId}/issue/${id}`
+    );
   };
+
+  const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>, issueId: string) => {
+    event.preventDefault();
+    try {
+      const response = await Axios.delete(
+        `${ApiUrl}/organization/${organizationId}/group/${groupId}/project/${projectId}/issue/${issueId}/delete`,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        }
+      );
+      response.status === 200
+        ? toast({
+            title: "Deleted successfully",
+            variant: "default",
+          })
+        : toast({
+            title: "An error occur while deleting",
+            variant: "destructive",
+          });
+    } catch (error: any) {
+      alert("Unable to delete task");
+    }
+  };
+
   return (
     <div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -70,10 +101,10 @@ const TaskList = ({ items }: { items: IIssue[] }) => {
               <TableHeader className="">
                 <TableRow className="items-center">
                   <TableHead className="">#</TableHead>
-                  <TableHead className="lg:w-[600px] 2xl:w-[1000px]">
+                  <TableHead className="lg:w-[400px] 2xl:w-[600px]">
                     Title
                   </TableHead>
-
+                  <TableHead className="text-center">Assigned</TableHead>
                   <TableHead className="text-center">Type</TableHead>
                   {isVisible ? (
                     <>
@@ -101,27 +132,33 @@ const TaskList = ({ items }: { items: IIssue[] }) => {
                   >
                     <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell className="font-medium">{issue.name}</TableCell>
-                    <TableCell className="">
+                    <TableCell className="font-medium">
                       <div className="flex gap-1 justify-center">
-                        {
-                          {
-                            Task: <LayoutList size={18} />,
-                            Design: <Brush size={18} />,
-                            Test: <TestTubeDiagonal size={18} />,
-                            Documentation: <BookOpen size={18} />,
-                            Bug: <Bug />,
-                            Code: <Code />,
-                          }[issue.issueType]
-                        }{" "}
-                        {issue.issueType}
+                        {issue.assignedTo}
                       </div>
                     </TableCell>
 
                     {isVisible ? (
                       <>
-                        <TableCell>
+                        <TableCell className="">
                           <div className="flex gap-1 justify-center">
                             {
+                              {
+                                Task: <LayoutList size={18} />,
+                                Design: <Brush size={18} />,
+                                Test: <TestTubeDiagonal size={18} />,
+                                Documentation: <BookOpen size={18} />,
+                                Bug: <Bug />,
+                                Code: <Code />,
+                              }[issue.issueType]
+                            }{" "}
+                            {issue.issueType}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex gap-1 justify-center">
+                            <Progress value={issue.issueLevel} />
+                            {/* {
                               {
                                 Todo: <ListTodo size={18} />,
                                 InProcess: <School size={18} />,
@@ -129,7 +166,7 @@ const TaskList = ({ items }: { items: IIssue[] }) => {
                                 Cancelled: <BookX size={18} />,
                               }[issue.progress]
                             }
-                            {issue.progress}
+                            {issue.progress} */}
                           </div>
                         </TableCell>
                         <TableCell>
@@ -165,14 +202,11 @@ const TaskList = ({ items }: { items: IIssue[] }) => {
                               <DropdownMenuItem>Assign to</DropdownMenuItem>
                               <DropdownMenuItem>Set due date</DropdownMenuItem>
                               <DropdownMenuSeparator />
-                              <DropdownMenuSub>
-                                <DropdownMenuSubTrigger>
-                                  Apply label
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuSubContent className="p-0"></DropdownMenuSubContent>
-                              </DropdownMenuSub>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-red-600">
+
+                              <DropdownMenuItem
+                                onClick={(event: any) => {}}
+                                className="text-red-600"
+                              >
                                 Delete
                               </DropdownMenuItem>
                             </DropdownMenuGroup>

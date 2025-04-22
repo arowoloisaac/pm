@@ -45,8 +45,8 @@ const CreateOrganization = () => {
       navigate(`/organization/${id}`);
     } else {
       toast({
-        title: "Error creating issue ",
-        description: response.data,
+        title: "Error creating organization ",
+        // description: response.data,
         variant: "destructive",
       });
     }

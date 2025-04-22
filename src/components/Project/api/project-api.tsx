@@ -31,7 +31,7 @@ const projectTimeline = async (
 ): Promise<ITimeline[]> => {
   try {
     const response = await Axios.get(
-      `${ApiUrl}/project=${projectId}/timeline`,
+      `${ApiUrl}/project/${projectId}/timeline`,
       {
         headers: {
           Authorization: `Bearer ${Token}`,
@@ -59,10 +59,10 @@ const projectDetail = async (projectId: string | any): Promise<IProject> => {
 };
 
 const deleteProject = async (
-  e: React.MouseEvent<HTMLButtonElement>,
+  e: React.MouseEvent,
   projectId: any
 ) => {
-  e.preventDefault();
+  e.stopPropagation();
   try {
     const response = await Axios.delete(
       `${ApiUrl}/project/delete/${projectId}`,
@@ -108,6 +108,20 @@ const projectGanntIssue = async (id: string): Promise<IIssues[]> => {
   }
 };
 
+const createWiki = async (e: React.MouseEvent, id: string, data:{}) => {
+  e.preventDefault()
+  try {
+    const response = await Axios.post(`${ApiUrl}/project/${id}/wiki/create`, data, {
+      headers: {
+        Authorization: `Bearer ${Token}`,
+      },
+    });
+    return response;
+  } catch (error:any) {
+    return error
+  }
+}
+
 export {
   editProject,
   projectDetail,
@@ -115,4 +129,5 @@ export {
   projectTimeline,
   projectIssues,
   projectGanntIssue,
+  createWiki,
 };

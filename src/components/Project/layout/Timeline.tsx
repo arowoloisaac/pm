@@ -4,7 +4,7 @@ import { projectTimeline } from "../api/project-api";
 import { ITimeline } from "../utils/utils";
 import { Token } from "@/components/Storage/Storage";
 import MarkdownIt from "markdown-it";
-import { Skeleton } from "@/components/ui/skeleton";
+import Loader from "@/components/loader";
 
 const Timeline = () => {
   const { projectId } = useParams<string>();
@@ -25,6 +25,7 @@ const Timeline = () => {
     }
   };
 
+  console.log(getTimeline);
   useEffect(() => {
     fetchTimeline();
   }, [Token]);
@@ -35,17 +36,7 @@ const Timeline = () => {
       <div className="container flex">
         <div className="p-4">
           {isLoading ? (
-            <div className="h-[32rem] ">
-              <div className=" flex flex-row ">
-                <div className="flex items-center space-x-4">
-                  <Skeleton className="h-4 w-4 rounded-full" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[70px]" />
-                    <Skeleton className="h-4 w-[100px]" />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Loader />
           ) : (
             <div>
               {getTimeline.length < 1 ? (
@@ -100,13 +91,21 @@ const Timeline = () => {
                           <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
                             {formattedDate} - {formattedTime}
                           </time>
-                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                            {item.issueName}
+                          <h3 className="text-md font-semibold text-gray-900 dark:text-white">
+                           Task: {item.issueName}
                           </h3>
-                          <p className="text-base font-normal text-gray-500 dark:text-gray-400">
-                            {item.comment}
+                          <p className="">
+                            {item.comment ? (
+                              <span className="font-bold">Comment: </span>
+                            ) : (
+                              <></>
+                            )}
+                            <span className="text-base font-normal text-gray-500 dark:text-gray-400">
+                              {item.comment}
+                            </span>
                           </p>
                           <p>
+                            {" "}
                             <div
                               dangerouslySetInnerHTML={{
                                 __html: md.render(item.note),

@@ -68,7 +68,7 @@ const DeleteProject = () => {
                   title: "Action Status",
                   description: "Unable to Delete Project, due to system error ",
                 });
-                window.location.reload();
+                // window.location.reload();
               }
             }}
           >

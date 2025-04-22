@@ -59,7 +59,7 @@ const projectGanttIssue = async (
 ): Promise<IIssues[]> => {
   try {
     const response = await Axios.get(
-      `${ApiUrl}/organization=${organizationId}/group=${groupId}/project=${projectId}/issues`,
+      `${ApiUrl}/organization/${organizationId}/group/${groupId}/project/${projectId}/issues`,
       {
         headers: {
           Authorization: `Bearer ${Token}`,
@@ -81,7 +81,7 @@ const retrieveProjectCalendar = async (
 ): Promise<IIssue[]> => {
   try {
     const response = await Axios.get(
-      `${ApiUrl}/organization=${organizationId}/group=${groupId}/project=${projectId}/default`,
+      `${ApiUrl}/organization/${organizationId}/group/${groupId}/project/${projectId}/default`,
       {
         headers: {
           Authorization: `Bearer ${Token}`,

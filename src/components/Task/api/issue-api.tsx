@@ -58,6 +58,7 @@ const createIssue = async (
         },
       }
     );
+    console.log(response);
     return response;
   } catch (error: any) {
     console.error("Error creating issue:", error || error);
@@ -148,27 +149,38 @@ const getIssueAndChildren = async (projectId: any): Promise<IIssues[]> => {
   }
 };
 
+const deleteTask = async (
+  event: any,
+  projectId: string,
+  issueId: string,
+  isChildren: string
+) => {
+  event.preventDefault();
+  try {
+    const response = await Axios.delete(
+      `${ApiUrl}/project=${projectId}/issue=${issueId}/delete?isDeleteChildren=${isChildren}`,
+      {
+        headers: { Authorization: `Bearer ${Token}` },
+      }
+    );
+    console.log(response);
+    return response;
+  } catch (error: any) {
+    console.log(error);
+    return error;
+  }
+};
+
 function mapTasks(apiResponse: any[]): IIssues[] | any {
   return apiResponse.map((issue) => ({
-    id: issue.id, // Map API "id" to "TaskID"
-    name: issue.name, // Map API "name" to "TaskName"
-    startDate: issue.startDate, // Convert API field names
+    id: issue.id,
+    name: issue.name,
+    startDate: issue.startDate,
     endDate: issue.endDate,
     progress: issue.progress,
     subIssues: issue.subtasks ? mapTasks(issue.subtasks) : undefined, // Recursively map subtasks
   }));
 }
-
-// export interface IIssues {
-//   id: string;
-//   name: string;
-//   complexity: string;
-//   issueType: string;
-//   progress: string;
-//   startDate: string;
-//   endDate: string;
-//   subIssues?: IIssues[];
-// }
 
 export {
   subIssueList,
@@ -179,4 +191,5 @@ export {
   getIssueAndChildren,
   updateTaskProgress,
   updateTask,
+  deleteTask,
 };

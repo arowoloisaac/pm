@@ -5,10 +5,6 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -26,37 +22,39 @@ import {
   ArrowRight,
   ArrowUp,
   BookOpen,
-  BookX,
   Brush,
   Bug,
-  Check,
   Code,
   LayoutList,
-  ListTodo,
   MoreHorizontal,
-  School,
   TestTubeDiagonal,
 } from "lucide-react";
 import { IIssue } from "@/components/Task/utils/utils";
 import { visibility } from "@/components/function/visibility";
 import { useNavigate, useParams } from "react-router-dom";
+import { Progress } from "@/components/ui/progress";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import DeleteTask from "./DeleteTask";
 
 const IssueList = ({ items }: { items: IIssue[] }) => {
   const { projectId } = useParams<{
     projectId: string | any;
   }>();
+
   const navigate = useNavigate();
   const isVisible = visibility();
 
   const handleClick = (id: string) => {
     navigate(`/project/${projectId}/overview/issue/${id}`);
   };
+
+
   return (
     <div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right">
           <caption className="p-5 text-lg font-semibold text-left rtl:text-right">
-            Project: {projectId}
+            Your Tasks
             <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
               Browse the list of your project based on the issue type,
               complexity and progress.
@@ -64,13 +62,13 @@ const IssueList = ({ items }: { items: IIssue[] }) => {
           </caption>
         </table>
 
-        <div className="container mx-auto border-2 px-4 py-4">
+        <div className="container mx-auto border-x-2 px-4 py-4">
           <div className=" relative overflow-x-auto shadow-md sm:rounded-lg">
             <Table className="border-collapse border">
               <TableHeader className="">
                 <TableRow className="items-center">
                   <TableHead className="">#</TableHead>
-                  <TableHead className="lg:w-[600px] 2xl:w-[1000px]">
+                  <TableHead className="lg:w-[400px] 2xl:w-[800px]">
                     Title
                   </TableHead>
 
@@ -79,7 +77,7 @@ const IssueList = ({ items }: { items: IIssue[] }) => {
                     <>
                       {" "}
                       <TableHead className="text-center">Status</TableHead>
-                      <TableHead className="text-center">Priority</TableHead>
+                      <TableHead className="text-center w-[150px]">Priority</TableHead>
                     </>
                   ) : (
                     <></>
@@ -92,15 +90,16 @@ const IssueList = ({ items }: { items: IIssue[] }) => {
               </TableHeader>
               <TableBody>
                 {items.map((issue, index) => (
-                  <TableRow
-                    className="h-14"
-                    key={issue.id}
-                    onClick={() => {
-                      handleClick(issue.id);
-                    }}
-                  >
+                  <TableRow className="h-14" key={issue.id}>
                     <TableCell className="font-medium">{index + 1}</TableCell>
-                    <TableCell className="font-medium">{issue.name}</TableCell>
+                    <TableCell
+                      className="font-medium"
+                      onClick={() => {
+                        handleClick(issue.id);
+                      }}
+                    >
+                      {issue.name}
+                    </TableCell>
                     <TableCell className="">
                       <div className="flex gap-1 justify-center">
                         {
@@ -121,7 +120,8 @@ const IssueList = ({ items }: { items: IIssue[] }) => {
                       <>
                         <TableCell>
                           <div className="flex gap-1 justify-center">
-                            {
+                            <Progress value={issue.issueLevel} />
+                            {/* {
                               {
                                 Todo: <ListTodo size={18} />,
                                 InProcess: <School size={18} />,
@@ -129,7 +129,7 @@ const IssueList = ({ items }: { items: IIssue[] }) => {
                                 Cancelled: <BookX size={18} />,
                               }[issue.progress]
                             }
-                            {issue.progress}
+                            {issue.progress} */}
                           </div>
                         </TableCell>
                         <TableCell>
@@ -162,19 +162,25 @@ const IssueList = ({ items }: { items: IIssue[] }) => {
                             className="w-[150px]"
                           >
                             <DropdownMenuGroup>
-                              <DropdownMenuItem>Assign to</DropdownMenuItem>
-                              <DropdownMenuItem>Set due date</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuSub>
-                                <DropdownMenuSubTrigger>
-                                  Apply label
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuSubContent className="p-0"></DropdownMenuSubContent>
-                              </DropdownMenuSub>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-red-600">
-                                Delete
-                              </DropdownMenuItem>
+                              <Dialog>
+                                <DialogTrigger asChild>
+                                  <DropdownMenuItem
+                                    className="text-red-600"
+                                    onSelect={(e) => {
+                                      e.preventDefault();
+                                    }}
+                                  >
+                                    Delete
+                                  </DropdownMenuItem>
+                                </DialogTrigger>
+                                <DeleteTask issueId={issue.id} />
+                                {/* <Unassign
+                                  groupProjectId={project.id}
+                                  assignedId={project.assignedGroupId}
+                                  assignedGroupName={project.assignedTo}
+                                /> */}
+                              </Dialog>
+                            
                             </DropdownMenuGroup>
                           </DropdownMenuContent>
                         </DropdownMenu>

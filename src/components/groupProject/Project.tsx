@@ -98,7 +98,8 @@ const Project = () => {
         setPaginations(res.data.pagination);
       }
     } catch (error) {
-      alert(`Error fetching projects: ${error}`);
+      console.log(error)
+      // alert(`Error fetching projects: ${error}`);
     }
   };
 

@@ -39,11 +39,15 @@ const CreateIssue = () => {
   const data = {
     name: formData.title,
     description: formData.description,
-    startDate: formData.startDate ? formData.startDate : null,
-    endDate: formData.endDate ? formData.endDate : null,
+    startDate: formData.startDate
+      ? formData.startDate
+      : new Date().toISOString().split("T")[0],
+    endDate: formData.endDate
+      ? formData.endDate
+      : new Date().toISOString().split("T")[0],
     estimatedTimeInMinutes: formData.estimatedTimeInMinutes,
-    complexity: formData.complexity,
-    issueType: formData.issueType,
+    complexity: formData.complexity ? formData.complexity : "Easy",
+    issueType: formData.issueType ? formData.issueType : "Task",
   };
 
   const [dateError, setDateError] = useState<string>("");
@@ -87,18 +91,16 @@ const CreateIssue = () => {
 
   const createIss = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const response = await createIssue(e, { data, projectId });
-
     if (response.status === 200) {
       toast({
-        title: "Issue created ",
+        title: "Task created ",
         description: response.data,
       });
       navigate(`/project/${projectId}/overview`);
-      window.location.reload()
     } else {
       toast({
-        title: "Error creating issue ",
-        description: response.response.data,
+        title: "Error creating task ",
+        description: JSON.stringify(response.response.data),
         variant: "destructive",
       });
     }
@@ -106,8 +108,6 @@ const CreateIssue = () => {
 
   const isFormValid = () => {
     return (
-      formData.startDate &&
-      formData.endDate &&
       !dateError &&
       !startDateError &&
       !endDateError

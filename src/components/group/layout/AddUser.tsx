@@ -37,7 +37,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { IOrganizationUser } from "@/components/Organization/utils/utils";
 import { getOrganizationUsers } from "@/components/Organization/api/api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { addUserToGroup } from "../api/api";
 import { useToast } from "@/hooks/use-toast";
 
@@ -54,8 +54,6 @@ const Role = [
 
 const AddUser = () => {
   const { toast } = useToast();
-  const navigate = useNavigate();
-
   const [open, setOpen] = React.useState(false);
 
   const { organizationId, groupId } = useParams<{
@@ -99,7 +97,6 @@ const AddUser = () => {
           title: "Group Created ",
           description: response.data,
         });
-        // navigate(`/organization/${organizationId}/group/${groupId}/users`);
         window.location.reload();
       } else {
         toast({

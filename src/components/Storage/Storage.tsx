@@ -6,4 +6,4 @@ export interface ApiResponse {
 
 export const Token = getWithExpiry("token");
 
-export const ApiUrl = "https://localhost:7120/api";
+export const ApiUrl = "https://localhost:7074/api";

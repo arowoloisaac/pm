@@ -109,7 +109,6 @@ const Assign = ({
           onClick={(event) => {
             handleAssignGroup(event);
           }}
-          variant="secondary"
         >
           Assign
         </Button>

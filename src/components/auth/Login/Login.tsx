@@ -5,9 +5,11 @@ import Axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { setWithExpiry } from "../../backgroundJob/backgroundJob";
+import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
   const useNavigator = useNavigate();
+  const { toast } = useToast();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -19,21 +21,33 @@ const Login = () => {
     password: formData.password,
   };
 
-
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const login = (e: any) => {
+  const login = async (e: any) => {
     e.preventDefault();
-    Axios.post<ApiResponse>(`${ApiUrl}/login`, data).then((res) => {
-      if (res.status === 200) {
-        setWithExpiry("token", res.data.token, 3);
-        // localStorage.setItem("token", res.data.token);
+    try {
+      const response = (await Axios.post)<ApiResponse>(`${ApiUrl}/login`, data);
+
+      if ((await response).status === 200) {
+        setWithExpiry("token", (await response).data.token, 7);
+        toast({
+          title: "Login Successful",
+        });
         useNavigator("/");
-        window.location.reload();
+        location.reload()
+      } else {
+        toast({
+          title: "Login unsuccessful",
+          variant: "destructive",
+        });
       }
-    });
+      // window.location.reload();
+    } catch (error:any) {
+       alert(error.response.data)
+    }
+    
   };
 
   useEffect(() => {
@@ -72,7 +86,6 @@ const Login = () => {
                   <label htmlFor="password">Password</label>
                   <div className="text-sm">
                     <a
-                      href="#"
                       className="font-semibold text-indigo-600 hover:text-indigo-500"
                     >
                       Forgot password?

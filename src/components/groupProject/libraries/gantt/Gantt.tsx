@@ -80,7 +80,7 @@ const GanttLayout = () => {
       <div className=" flex flex-row justify-center">
         <div>
           <span>
-            <h2 className="font-serif">No assigned projects yet</h2>
+            <h2 className="font-serif">No created issues yet</h2>
           </span>
         </div>
       </div>

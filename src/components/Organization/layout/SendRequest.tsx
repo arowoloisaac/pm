@@ -23,24 +23,24 @@ const SendRequest = () => {
   const handleSendRequestToUser = async (event: any) => {
     try {
       const response = await sendRequest(event, organizationId, encodedEmail);
+
       if (response.status === 200) {
         toast({
           title: "request sent ",
           description: response.data,
         });
-        const id = response.data;
 
         navigate(`/organization/${organizationId}/requests`);
-        window.location.reload()
-      } else {
+      }
+       else {
         toast({
           title: "Error sending request ",
-          description: response.data,
+          description: response.response.data,
           variant: "destructive",
         });
       }
     } catch (error: any) {
-      console.log(error);
+      console.log(error.data);
     }
   };
 

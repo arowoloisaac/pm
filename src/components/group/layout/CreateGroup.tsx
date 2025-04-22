@@ -32,7 +32,7 @@ const CreateGroup = () => {
         title: "Group Created ",
         description: response.data,
       });
-      navigate(`/organization/${organizationId}/groups`);
+      // navigate(`/organization/${organizationId}/groups`);
       window.location.reload()
     } else {
       toast({
@@ -43,9 +43,9 @@ const CreateGroup = () => {
     }
   };
 
-  useEffect(() => {
-    createGrp
-  })
+  // useEffect(() => {
+  //   createGrp
+  // })
 
   return (
     <DialogContent className="sm:max-w-[425px]">

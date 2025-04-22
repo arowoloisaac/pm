@@ -35,8 +35,8 @@ const DashboardUserNav = () => {
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
               <AvatarImage
-                // src="https://github.com/shadcn.png"
-                src={getProfile.avatarUrl}
+                src="https://github.com/shadcn.png"
+                // src={getProfile.avatarUrl}
                 alt="@shadcn"
               />
               <AvatarFallback>SC</AvatarFallback>
@@ -57,9 +57,7 @@ const DashboardUserNav = () => {
             <a href="/profile">
               <DropdownMenuItem>Profile</DropdownMenuItem>
             </a>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Edit Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="text-red-600">Log out</DropdownMenuItem>

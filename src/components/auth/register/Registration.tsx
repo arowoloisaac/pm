@@ -24,7 +24,9 @@ export function Registration() {
     firstName: formData.firstName,
     lastName: formData.lastName,
     email: formData.email,
-    birthDate: formData.birthDate,
+    birthDate: formData.birthDate
+      ? formData.birthDate
+      : new Date().toISOString().split("T")[0],
     phoneNumber: formData.phoneNumber,
     password: formData.password,
   };
@@ -94,6 +96,7 @@ export function Registration() {
       });
   };
 
+  console.log(data)
   useEffect(() => {
     register;
   }, []);
@@ -143,13 +146,13 @@ export function Registration() {
                   htmlFor="company"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Company
+                  Birth Date
                 </label>
                 <Datepicker
                   value={
                     formData.birthDate
                       ? new Date(formData.birthDate)
-                      : undefined
+                      : new Date()
                   }
                   onChange={(e) => {
                     if (e) {

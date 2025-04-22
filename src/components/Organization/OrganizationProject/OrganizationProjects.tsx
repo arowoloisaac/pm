@@ -29,6 +29,7 @@ import Assign from "./ActionAspect/Assign";
 import Unassign from "./ActionAspect/Unassign";
 import { visibility } from "@/components/function/visibility";
 import DeleteProject from "./ActionAspect/DeleteProject";
+import Loader from "@/components/loader";
 
 const OrganizationProjects = () => {
   const navigate = useNavigate();
@@ -109,115 +110,129 @@ const OrganizationProjects = () => {
   return (
     <>
       <div>
-        <div className="py-1">
-          <div className="border-2">
-            <div className="flex justify-between items-center p-4 md:hidden">
-              <h2 className="text-lg font-medium">Search</h2>
-              <button
-                onClick={() => setIsCollapsed(!isCollapsed)}
-                className="text-gray-600 hover:text-gray-800 focus:outline-none"
-              >
-                {isCollapsed ? "Expand" : "Collapse"}
-              </button>
-            </div>
-
-            <div
-              className={`overflow-hidden transition-[max-height] duration-300 ${
-                isCollapsed ? "max-h-0" : "max-h-[500px]"
-              } md:max-h-full`}
-            >
-              <div className="flex flex-wrap md:flex-nowrap items-center gap-4 p-2">
-                <div className="flex flex-auto flex-wrap md:flex-nowrap gap-2 ">
-                  <Select
-                    onValueChange={(value) => {
-                      handleFilterChange("progress", value);
-                    }}
-                  >
-                    <SelectTrigger className="w-full md:w-36 p-2 rounded">
-                      <SelectValue placeholder="Filter by progress" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Status</SelectLabel>
-                        <SelectItem value="Todo">Todo</SelectItem>
-                        <SelectItem value="InProcess">In Progress</SelectItem>
-                        <SelectItem value="Done">Done</SelectItem>
-                        <SelectItem value="Canceled">Canceled</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-
-                  <Select
-                    onValueChange={(value) =>
-                      handleFilterChange("complexity", value)
-                    }
-                  >
-                    <SelectTrigger className="w-full md:w-40 p-2 rounded">
-                      <SelectValue placeholder="filter by Complexity" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Complexity</SelectLabel>
-                        <SelectItem value="Easy">Easy</SelectItem>
-                        <SelectItem value="Medium">Medium</SelectItem>
-                        <SelectItem value="Hard">Hard</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-
-                  {/* item filter */}
-                  <Select
-                    onValueChange={(value) =>
-                      handleFilterChange("isAssigned", value)
-                    }
-                  >
-                    <SelectTrigger className="w-full md:w-24 p-2 rounded">
-                      <SelectValue placeholder="Assigned" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="true">Yes</SelectItem>
-                        <SelectItem value="false">No</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Search Button */}
-                <div className="flex justify-end gap-3">
-                  {/* <a href=`/organization/${organizationId}/home`> */}
-                  <Button
-                    onClick={() => {
-                      navigate(
-                        `/organization/${organizationId}/create-project`
-                      );
-                    }}
-                  >
-                    <Plus />
-                    Add Project
-                  </Button>
-                  {/* </a> */}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div>
           {isLoading ? (
-            <div className="h-[32rem] content-center">
-              <div className=" flex flex-row justify-center">
-                <div className="flex items-center space-x-4">
-                  <Skeleton className="h-12 w-12 rounded-full" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px]" />
-                    <Skeleton className="h-4 w-[200px]" />
+            <Loader />
+          ) : projects.length < 1 ? (
+            <div className="h-[200px] content-center">
+              <div className="flex flex-row justify-center">
+                <div>
+                  <span>
+                    <h2 className="font-serif">
+                     There are no projects in the organization!!
+                    </h2>
+                  </span>
+                  <div className="flex justify-center">
+                    {" "}
+                    click here -{" "}
+                    <Button
+                      variant="link"
+                      className="h-6 font-serif pl-2 underline text-md"
+                      onClick={() => {
+                        navigate(
+                          `/organization/${organizationId}/create-project`
+                        );
+                      }}
+                    >Create Project</Button>
                   </div>
                 </div>
               </div>
             </div>
           ) : (
-            <div>
+            <div className="pt-3">
+              <div className="border-2">
+                <div className="flex justify-between items-center p-4 md:hidden">
+                  <h2 className="text-lg font-medium">Search</h2>
+                  <button
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    className="text-gray-600 hover:text-gray-800 focus:outline-none"
+                  >
+                    {isCollapsed ? "Expand" : "Collapse"}
+                  </button>
+                </div>
+
+                <div
+                  className={`overflow-hidden transition-[max-height] duration-300 ${
+                    isCollapsed ? "max-h-0" : "max-h-[500px]"
+                  } md:max-h-full`}
+                >
+                  <div className="flex flex-wrap md:flex-nowrap items-center gap-4 p-2">
+                    <div className="flex flex-auto flex-wrap md:flex-nowrap gap-2 ">
+                      <Select
+                        onValueChange={(value) => {
+                          handleFilterChange("progress", value);
+                        }}
+                      >
+                        <SelectTrigger className="w-full md:w-36 p-2 rounded">
+                          <SelectValue placeholder="Filter by progress" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Status</SelectLabel>
+                            <SelectItem value="Todo">Todo</SelectItem>
+                            <SelectItem value="InProcess">
+                              In Progress
+                            </SelectItem>
+                            <SelectItem value="Done">Done</SelectItem>
+                            <SelectItem value="Canceled">Canceled</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+
+                      <Select
+                        onValueChange={(value) =>
+                          handleFilterChange("complexity", value)
+                        }
+                      >
+                        <SelectTrigger className="w-full md:w-40 p-2 rounded">
+                          <SelectValue placeholder="filter by Complexity" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Complexity</SelectLabel>
+                            <SelectItem value="Easy">Easy</SelectItem>
+                            <SelectItem value="Medium">Medium</SelectItem>
+                            <SelectItem value="Hard">Hard</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+
+                      {/* item filter */}
+                      <Select
+                        onValueChange={(value) =>
+                          handleFilterChange("isAssigned", value)
+                        }
+                      >
+                        <SelectTrigger className="w-full md:w-24 p-2 rounded">
+                          <SelectValue placeholder="Assigned" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectItem value="true">Yes</SelectItem>
+                            <SelectItem value="false">No</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Search Button */}
+                    <div className="flex justify-end gap-3">
+                      {/* <a href=`/organization/${organizationId}/home`> */}
+                      <Button
+                        onClick={() => {
+                          navigate(
+                            `/organization/${organizationId}/create-project`
+                          );
+                        }}
+                      >
+                        <Plus />
+                        Add Project
+                      </Button>
+                      {/* </a> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <div className="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4"></div>
                 <table className="w-full text-sm text-left rtl:text-right">

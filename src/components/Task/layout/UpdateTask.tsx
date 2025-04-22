@@ -1,7 +1,7 @@
 "use client";
 import "../utils/styles.css";
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { issueDetail, updateTask } from "../api/issue-api";
 import { IIssue } from "../utils/utils";
 import { useQuill } from "react-quilljs";
@@ -13,6 +13,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 
 const DetailedIssue = () => {
+  const { toast } = useToast();
+  const { quill, quillRef } = useQuill();
+
   const { projectId, issueId } = useParams<{
     projectId: string | any;
     issueId: string | any;
@@ -29,21 +32,17 @@ const DetailedIssue = () => {
     getQuest();
   }, []);
 
-  const { toast } = useToast();
-
-  const navigate = useNavigate();
-
-  const { quill, quillRef } = useQuill();
-
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    // startDate: "",
-    // endDate: "",
+    startDate: "",
+    endDate: "",
     estimatedTimeInMinutes: 0,
     complexity: "",
     issueType: "",
   });
+
+  console.log(formData);
 
   useEffect(() => {
     if (quill) {
@@ -60,8 +59,8 @@ const DetailedIssue = () => {
   const data = {
     name: formData.title,
     description: formData.description,
-    // startDate: formData.startDate ? formData.startDate : questData?.startDate,
-    // endDate: formData.endDate ? formData.endDate : questData?.endDate,
+    startDate: formData.startDate ? formData.startDate : questData?.startDate,
+    endDate: formData.endDate ? formData.endDate : questData?.endDate,
     estimatedTimeInMinute: formData.estimatedTimeInMinutes
       ? formData.estimatedTimeInMinutes
       : questData?.estimatedTimeInMinute,
@@ -71,7 +70,7 @@ const DetailedIssue = () => {
     // issueType: formData.issueType,
   };
 
-  /* const [dateError, setDateError] = useState<string>("");
+  const [dateError, setDateError] = useState<string>("");
   const [startDateError, setStartDateError] = useState<string>("");
   const [endDateError, setEndDateError] = useState<string>("");
 
@@ -97,17 +96,17 @@ const DetailedIssue = () => {
       setStartDateError("");
       setEndDateError("");
     }
-  };*/
+  };
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
 
-    // if (field === "endDate" && formData.startDate) {
-    //   validateDates(formData.startDate, value);
-    // }
-    // if (field === "startDate" && formData.endDate) {
-    //   validateDates(value, formData.endDate);
-    // }
+    if (field === "endDate" && formData.startDate) {
+      validateDates(formData.startDate, value);
+    }
+    if (field === "startDate" && formData.endDate) {
+      validateDates(value, formData.endDate);
+    }
   };
 
   const handleUpdateTask = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -132,166 +131,146 @@ const DetailedIssue = () => {
   return (
     <>
       <div>
-        <div>
-          <div>
+        <form>
+          <div className="mb-6">
+            <label
+              htmlFor="title"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              defaultValue={questData?.name}
+              onChange={(e) => {
+                handleChange("title", e.target.value);
+              }}
+            />
+          </div>
+
+          <div className="grid gap-6 mb-6 xl:grid-cols-3 md:grid-cols-2">
+            <div className="">
+              <label
+                htmlFor="estTime"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Est Time (mins)
+              </label>
+              <input
+                type="number"
+                id="estTime"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                defaultValue={questData?.estimatedTimeInMinute}
+                onChange={(e) => {
+                  handleChange("estimatedTimeInMinutes", e.target.value);
+                }}
+              />
+            </div>
             <div>
-              <div>Update Task</div>
-              <div>
-                <form>
-                  <div className="mb-6">
-                    <label
-                      htmlFor="title"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Title
-                    </label>
-                    <input
-                      type="text"
-                      id="title"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Implement this ....."
-                      defaultValue={questData?.name}
-                      // value={formData.title}
-                      onChange={(e) => {
-                        handleChange("title", e.target.value);
-                      }}
-                    />
-                  </div>
-
-                  <div className="grid gap-6 mb-6 xl:grid-cols-3 md:grid-cols-2">
-                    <div className="">
-                      <label
-                        htmlFor="estTime"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Est Time (mins)
-                      </label>
-                      <input
-                        type="number"
-                        id="estTime"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        defaultValue={questData?.estimatedTimeInMinute}
-                        onChange={(e) => {
-                          handleChange(
-                            "estimatedTimeInMinutes",
-                            e.target.value
-                          );
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="type"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Type
-                      </label>
-                      <select
-                        onChange={(e) =>
-                          handleChange("issueType", e.target.value)
-                        }
-                        id="type"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      >
-                        <option selected disabled>
-                          Type
-                        </option>
-                        <option value="Task">Task</option>
-                        <option value="Documentation">Documentation</option>
-                        <option value="Research">Research</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="complexity"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Complexity
-                      </label>
-                      <select
-                        onChange={(e) =>
-                          handleChange("complexity", e.target.value)
-                        }
-                        id="complexity"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      >
-                        <option selected disabled>
-                          complexity
-                        </option>
-                        <option value="Easy">Easy</option>
-                        <option value="Medium">Intermediate</option>
-                        <option value="Complex">Complex</option>
-                      </select>
-                    </div>
-                  </div>
-                  {/* <div className="grid gap-6 mb-6 grid-cols-2">
-                    <div>
-                      <label
-                        htmlFor="startDt"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Start Date
-                      </label>
-                      <Datepicker
-                        onChange={(e) => {
-                          if (e) {
-                            const formattedDate = format(e, "yyyy-MM-dd");
-                            handleChange("startDate", formattedDate);
-                          }
-                        }}
-                        autoHide={true}
-                      />
-                      {startDateError && (
-                        <div style={{ color: "red" }}>{startDateError}</div>
-                      )}
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="endDt"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        End Date
-                      </label>
-                      <Datepicker
-                        onChange={(e) => {
-                          if (e) {
-                            const formattedDate = format(e, "yyyy-MM-dd");
-                            handleChange("endDate", formattedDate);
-                          }
-                        }}
-                        autoHide={true}
-                      />{" "}
-                      {endDateError && (
-                        <div style={{ color: "red" }}>{endDateError}</div>
-                      )}
-                      {dateError && (
-                        <div style={{ color: "red" }}>{dateError}</div>
-                      )}
-                    </div>
-                  </div> */}
-                  <div className="mb-2">
-                    <label
-                      htmlFor="startDate"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Description
-                    </label>
-                  </div>
-
-                  <div className="">
-                    <div className="">
-                      <div style={{ height: "250px" }} ref={quillRef} />
-                    </div>
-                  </div>
-
-                  <div className="flex pt-2 ">
-                    <Button onClick={handleUpdateTask}>Update Changes</Button>
-                  </div>
-                </form>
-              </div>
+              <label
+                htmlFor="type"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Type
+              </label>
+              <select
+                onChange={(e) => handleChange("issueType", e.target.value)}
+                id="type"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option selected disabled>
+                  Type
+                </option>
+                <option value="Task">Task</option>
+                <option value="Documentation">Documentation</option>
+                <option value="Research">Research</option>
+              </select>
+            </div>
+            <div>
+              <label
+                htmlFor="complexity"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Complexity
+              </label>
+              <select
+                onChange={(e) => handleChange("complexity", e.target.value)}
+                id="complexity"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option selected disabled>
+                  complexity
+                </option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Intermediate</option>
+                <option value="Complex">Complex</option>
+              </select>
             </div>
           </div>
-        </div>
+          <div className="grid gap-6 mb-6 grid-cols-2">
+            <div>
+              <label
+                htmlFor="startDt"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Start Date
+              </label>
+              <Datepicker
+                onChange={(e) => {
+                  if (e) {
+                    const formattedDate = format(e, "yyyy-MM-dd");
+                    handleChange("startDate", formattedDate);
+                  }
+                }}
+                autoHide={true}
+              />
+              {startDateError && (
+                <div style={{ color: "red" }}>{startDateError}</div>
+              )}
+            </div>
+            <div>
+              <label
+                htmlFor="endDt"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                End Date
+              </label>
+              <Datepicker
+                onChange={(e) => {
+                  if (e) {
+                    const formattedDate = format(e, "yyyy-MM-dd");
+                    handleChange("endDate", formattedDate);
+                  }
+                }}
+                autoHide={true}
+              />{" "}
+              {endDateError && (
+                <div style={{ color: "red" }}>{endDateError}</div>
+              )}
+              {dateError && <div style={{ color: "red" }}>{dateError}</div>}
+            </div>
+          </div>
+          <div className="mb-2">
+            <label
+              htmlFor="desc"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Description
+            </label>
+          </div>
+
+          <div className="">
+            <div className="">
+              <div style={{ height: "250px" }} ref={quillRef} />
+            </div>
+          </div>
+
+          <div className="flex pt-2 ">
+            <Button onClick={handleUpdateTask}>Update Changes</Button>
+          </div>
+        </form>
       </div>
     </>
   );

@@ -52,6 +52,7 @@ const DeleteOrganization = () => {
             variant="destructive"
             disabled={!isChecked} //check this if any issue later on
             onClick={async (e: any) => {
+                e.preventDefault();
               const statusCode = await deleteOrganization(e, organizationId);
 
               if (statusCode === 200) {

@@ -13,20 +13,17 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import { MoreHorizontal } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-
 import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import { IProject } from "../utils/utils";
+import Loader from "@/components/loader";
+import { deleteProject } from "../api/project-api";
+import { useToast } from "@/hooks/use-toast";
 
 const ProjectLayout = ({
   items,
@@ -36,38 +33,49 @@ const ProjectLayout = ({
   isLoading: boolean;
 }) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+
   const handleClick = (id: string) => {
     navigate(`/project/${id}/overview`);
   };
+
+  const handleDelete = async (e: any, id: string) => {
+    const statusCode = await deleteProject(e, id);
+    if (statusCode === 200) {
+      toast({
+        title: "Action Status ",
+        description: "Project successfully deleted",
+      });
+
+      window.location.reload();
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Action Status",
+        description: "Unable to Delete Project, due to system error ",
+      });
+      // window.location.reload();
+    }
+  };
+
   return (
     <>
       {isLoading ? (
-        <div className="h-[32rem] content-center">
-          <div className=" flex flex-row justify-center">
-            <div className="flex items-center space-x-4">
-              <Skeleton className="h-12 w-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-          </div>
-        </div>
+        <Loader />
       ) : (
         <div>
           {items.length === 0 ? (
-            <div className="h-96 content-center">
+            <div className="lg:mx-[100px] h-[500px] border-2 content-center">
               <div className=" flex flex-row justify-center">
                 <div>
                   <span>
-                    <h2 className="font-serif">No created projects yet</h2>
+                    <h2 className="font-serif text-pretty font-bold">
+                      No project :{" "}
+                      <a className="italic underline" href="/project/create">
+                        Create Project
+                      </a>
+                    </h2>
                   </span>
-                  <div className="flex justify-center">
-                    {" "}
-                    <a className="italic underline" href="/project/create">
-                      Create Project
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -78,13 +86,16 @@ const ProjectLayout = ({
                   <div id={project.id}>
                     <Card
                       onClick={() => {
-                        handleClick(project.id)
+                        handleClick(project.id);
                       }}
                     >
                       <CardHeader>
                         <CardTitle>
                           <div className="flex justify-between items-stretch">
-                            <div>{project.name}</div>
+                            <div>
+                              {project.name.slice(0, 25)}
+                              {project.name.length > 25 ? <>...</> : <></>}
+                            </div>
                             <div className="self-start">
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -104,14 +115,13 @@ const ProjectLayout = ({
                                       Set due date
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuSub>
-                                      <DropdownMenuSubTrigger>
-                                        Apply label
-                                      </DropdownMenuSubTrigger>
-                                      <DropdownMenuSubContent className="p-0"></DropdownMenuSubContent>
-                                    </DropdownMenuSub>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem className="text-red-600">
+
+                                    <DropdownMenuItem
+                                      onClick={(event: any) => {
+                                        handleDelete(event, project.id);
+                                      }}
+                                      className="text-red-600"
+                                    >
                                       Delete
                                     </DropdownMenuItem>
                                   </DropdownMenuGroup>

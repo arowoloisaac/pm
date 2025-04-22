@@ -14,7 +14,6 @@ const Setting = () => {
   return (
     <>
       <div>Setting</div>
-
       <div>
         <div>
           <div>

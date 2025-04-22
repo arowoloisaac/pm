@@ -47,7 +47,9 @@ const UpdateQuest = () => {
     comment: formData.comment,
     note: formData.note,
     timeSpent: formData.timeSpent,
-    workdone: formData.workdone,
+    workdone: formData.workdone ? formData.workdone : TaskComponent.Development,
+    startDate: questData?.startDate,
+    endDate: questData?.endDate,
   };
 
   const handleChange = (field: string, value: string) => {

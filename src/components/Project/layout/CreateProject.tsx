@@ -31,7 +31,7 @@ const CreateProject = () => {
     complexity: "",
   });
 
-  const [getComplexity, setComplexity] = useState<string>("");
+  const [getComplexity, setComplexity] = useState<string>("Easy");
 
   const data = {
     name: formData.name,
@@ -54,7 +54,6 @@ const CreateProject = () => {
       .then((res) => {
         if (res.status === 200) {
           navigate("/")
-          window.location.reload()
         }
       })
       .catch((ex) => {
@@ -63,7 +62,7 @@ const CreateProject = () => {
   };
   
   return (
-    <Card className="max-w-full">
+    <Card className="mx-[100px]">
       <CardHeader>
         <CardTitle>Create project</CardTitle>
         <CardDescription>Deploy your new project in one-click.</CardDescription>

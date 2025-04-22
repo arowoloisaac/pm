@@ -54,13 +54,10 @@ const SubIssue = () => {
                     );
                   }}
                   variant="link"
-                  className="h-6 font-serif pl-2 underline"
+                  className="h-6 font-serif pl-2 text-md"
                 >
                   create child
                 </Button>
-                {/* <a className="italic underline" href=`/project/${projectId}/create`>
-                  Create Child
-                </a> */}
               </div>
             </div>
           </div>

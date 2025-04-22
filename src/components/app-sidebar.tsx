@@ -1,8 +1,6 @@
 import * as React from "react";
 import {
-  Calendar,
   Home,
-  Settings,
   FolderOpenDot,
   Building2,
   CircleDashed,
@@ -27,19 +25,9 @@ const items = [
     icon: Home,
   },
   {
-    title: "Issues",
-    url: "",
-    icon: CircleDashed,
-  },
-  {
     title: "Project",
     url: "/projects",
     icon: FolderOpenDot,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
   },
   {
     title: "Organization",
@@ -47,9 +35,9 @@ const items = [
     icon: Building2,
   },
   {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    title: "Requests",
+    url: "/requests",
+    icon: CircleDashed,
   },
 ];
 

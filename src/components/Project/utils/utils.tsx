@@ -1,7 +1,7 @@
 export interface IProject {
   id: string;
   name: string;
-  overview: string,
+  overview: string;
   description: string;
   progress: string;
   complexity: string;
@@ -29,7 +29,6 @@ export interface ITimeline {
   updatedDate: string;
 }
 
-
 export interface IProfile {
   firstName: string;
   lastName: string;
@@ -39,13 +38,26 @@ export interface IProfile {
   avatarUrl: string;
 }
 
-  export interface IGanttIssue {
-    start: Date;
-    end: Date;
-    name: string;
-    id: string;
-    type: "task";
-    progress: number | any;
-    subTasks: IGanttIssue[];
-    isDisabled?: boolean;
-  }
+export interface IGanttIssue {
+  start: Date;
+  end: Date;
+  name: string;
+  id: string;
+  type: "task";
+  progress: number | any;
+  subTasks: IGanttIssue[];
+  isDisabled?: boolean;
+}
+
+export interface IWiki {
+  id: string;
+  title: string;
+  content: string;
+  wiki: IWiki[] | [];
+}
+
+export interface IWikiTree {
+  key: string;
+  title: string;
+  children: IWikiTree[];
+}

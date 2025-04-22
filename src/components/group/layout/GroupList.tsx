@@ -1,15 +1,25 @@
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { MoreHorizontal, Plus } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { Skeleton } from "@/components/ui/skeleton";
 import { IGroup } from "../utils/utils";
 import CreateGroup from "./CreateGroup";
-import { retrieveGroup } from "../api/api";
+import { deleteGroup, retrieveGroup } from "../api/api";
+import Loader from "@/components/loader";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 const GroupList = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,76 +35,86 @@ const GroupList = () => {
       setGroups(response.data);
       setIsLoading(false);
     } else {
-      alert(`Error fetching projects: ${response}`);
+      alert(`Error fetching projects:`);
       setIsLoading(false);
     }
-    response ? setGroups(response.data) : null;
   };
 
-
   const handleClick = (id: string) => {
-    navigate(`/organization/${organizationId}/group/${id}`)
-  }
+    navigate(`/organization/${organizationId}/group/${id}`);
+  };
+
+  const handleDeleteGroup = async (
+    event: React.MouseEvent,
+    groupId: string
+  ) => {
+    const response = await deleteGroup(event, organizationId, groupId);
+
+    if (response.status === 200) {
+      toast({
+        description: response.data,
+      });
+       setGroups((prevGroups) => prevGroups.filter((g) => g.id !== groupId));
+    }
+    else {
+      toast({
+        description: response.response.data
+      })
+    }
+  };
 
   useEffect(() => {
     fetchOrganizationGroups();
-  }, [location.pathname]);
+  }, []);
+
+  console.log(getGroups);
 
   return (
     <>
       <div>
-        <div className="py-1">
-          <div className="border-2">
-            <div className="flex justify-end p-4 md:hidden">
-              {/* <h2 className="text-lg font-medium">Search</h2> */}
-              <button
-                onClick={() => setIsCollapsed(!isCollapsed)}
-                className="text-gray-600 hover:text-gray-800 focus:outline-none"
-              >
-                {isCollapsed ? "Expand" : "Collapse"}
-              </button>
-            </div>
-
-            <div
-              className={`overflow-hidden transition-[max-height] duration-300 ${
-                isCollapsed ? "max-h-0" : "max-h-[500px]"
-              } md:max-h-full`}
-            >
-              <div className="flex flex-wrap md:flex-nowrap items-center gap-4 p-2">
-                <div className="flex flex-auto flex-wrap md:flex-nowrap gap-2 "></div>
-                {/* Search Button */}
-                <div className="flex justify-end gap-3">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="outline">
-                        {" "}
-                        <Plus />
-                        Add Group
-                      </Button>
-                    </DialogTrigger>
-                    <CreateGroup />
-                  </Dialog>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div>
           {isLoading ? (
-            <div className="h-[32rem] content-center">
-              <div className=" flex flex-row justify-center">
-                <div className="flex items-center space-x-4">
-                  <Skeleton className="h-12 w-12 rounded-full" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px]" />
-                    <Skeleton className="h-4 w-[200px]" />
+            <Loader />
+          ) : getGroups.length < 1 ? (
+            <>
+              {" "}
+              <div className="h-[200px] content-center">
+                <div className="flex flex-row justify-center">
+                  <div>
+                    <span>
+                      <h2 className="font-serif">
+                        Their are no groups in your organization!!
+                      </h2>
+                    </span>
+                    <div className="flex justify-center">
+                      {" "}
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="link" className="text-md">
+                            - Add Group
+                          </Button>
+                        </DialogTrigger>
+                        <CreateGroup />
+                      </Dialog>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </>
           ) : (
             <div>
+              <div className="flex justify-end gap-3">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline">
+                      {" "}
+                      <Plus />
+                      Add Group
+                    </Button>
+                  </DialogTrigger>
+                  <CreateGroup />
+                </Dialog>
+              </div>
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <div className="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4"></div>
                 <table className="w-full text-sm text-left rtl:text-right">
@@ -103,7 +123,7 @@ const GroupList = () => {
                       <th scope="col" className="p-4">
                         <div className="flex items-center"></div>
                       </th>
-                      <th scope="col" className="px-6 py-3 w-[1100px]">
+                      <th scope="col" className="px-6 py-3 w-[700px]">
                         Name
                       </th>
                       <th scope="col" className="px-6 py-3">
@@ -130,14 +150,37 @@ const GroupList = () => {
                             {group.projectCount}
                           </div>
                         </td>
-                        
+
                         <td className="px-6 py-4 text-right">
-                          <a
-                            href="#"
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >
-                            Edit
-                          </a>
+                          <div className="self-start">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="size-[1px]">
+                                  <MoreHorizontal />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent
+                                align="end"
+                                className="w-[150px]"
+                              >
+                                <DropdownMenuGroup>
+                                  <DropdownMenuItem>
+                                    Edit Group
+                                  </DropdownMenuItem>
+                                  <DropdownMenuSeparator />
+
+                                  <DropdownMenuItem
+                                    onClick={(event: any) => {
+                                      handleDeleteGroup(event, group.id);
+                                    }}
+                                    className="text-red-600"
+                                  >
+                                    Delete
+                                  </DropdownMenuItem>
+                                </DropdownMenuGroup>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </div>
                         </td>
                       </tr>
                     ))}

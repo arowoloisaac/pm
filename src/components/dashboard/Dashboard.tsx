@@ -27,6 +27,8 @@ import OrganizationOverview from "../Organization/common/OrganizationOverview";
 import GroupOverview from "../group/common/GroupOverview";
 import Overview from "../groupProject/common/Overview";
 import Profile from "../auth/Profile/Profile";
+import RequestList from "../RequestList";
+import App from "../Markdown/mdxedit";
 
 export default function Dashboard() {
   return (
@@ -38,8 +40,9 @@ export default function Dashboard() {
           <Separator orientation="vertical" className="mr-2 h-4" />
           <Breadcrumb>
             <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="#">
-                {/* to be changed later on depending on the page  */} Home
+              <BreadcrumbLink>
+                {/* href={location.pathname.split("/")[1]} */}
+                {location.pathname.split("/")[1]}
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
@@ -58,7 +61,9 @@ export default function Dashboard() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/sub" element={<SubIssue />} />
               <Route path="/md" element={<Tiptap />} />
+              <Route path="/mdx" element={<App />} />
               <Route path="/basic" element={<Basic />} />
+              <Route path="/requests" element={<RequestList />} />
               <Route
                 path="/project/:projectId/issue/:issueId"
                 element={<DetailedIssue />}

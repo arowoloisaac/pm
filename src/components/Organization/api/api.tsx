@@ -67,7 +67,7 @@ const deleteOrganization = async (
   event: any,
   id: string | any
 ): Promise<any> => {
-  event.preventDefault();
+  // event.preventDefault();
 
   try {
     const response = await Axios.delete(`${ApiUrl}/organization/${id}/delete`, {

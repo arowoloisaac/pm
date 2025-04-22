@@ -1,6 +1,6 @@
 import { Skeleton } from './ui/skeleton';
 
-const loader = () => {
+const Loader = () => {
   return (
     <div className="h-[32rem] content-center">
       <div className=" flex flex-row justify-center">
@@ -16,4 +16,4 @@ const loader = () => {
   );
 }
 
-export default loader
+export default Loader

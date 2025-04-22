@@ -8,6 +8,7 @@ import Timeline from "../layout/Timeline";
 import CalendarLayout from "../Calendar/CalendarLayout";
 import GanttOverview from "../Gannt/GanttLayout";
 import TaskLayout from "@/components/Task/Common/TaskLayout";
+import Documentation from "../Documentation/Documentation";
 
 const ProjectOverview = () => {
   const { projectId } = useParams();
@@ -17,7 +18,7 @@ const ProjectOverview = () => {
     <>
       <div>
         {" "}
-        <Menubar className="w-[435px]">
+        <Menubar className="w-[510px]">
           <MenubarMenu>
             <MenubarTrigger
               onClick={() => navigate(`/project/${projectId}/overview/issues`)}
@@ -52,7 +53,11 @@ const ProjectOverview = () => {
             </MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu>
-            <MenubarTrigger>Wiki</MenubarTrigger>
+            <MenubarTrigger
+              onClick={() => navigate(`/project/${projectId}/overview/doc`)}
+            >
+              Documentation
+            </MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu>
             <MenubarTrigger
@@ -81,11 +86,12 @@ const ProjectOverview = () => {
               />
 
               <Route path="/issue/:issueId/*" element={<TaskLayout />} />
-              <Route path="/issues" element={<IssueList />} />
+              <Route path="/issues/*" element={<IssueList />} />
               <Route path="create" element={<CreateIssue />} />
               <Route path="/timeline" element={<Timeline />} />
               <Route path="/calendar" element={<CalendarLayout />} />
               <Route path="/gantt" element={<GanttOverview />} />
+              <Route path="/doc/*" element={<Documentation />} />
               <Route path="settings/*" element={<Setting />} />
             </Routes>
           </div>

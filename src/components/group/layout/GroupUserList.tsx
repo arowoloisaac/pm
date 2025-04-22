@@ -18,7 +18,7 @@ const GroupUserList = () => {
     groupId: string | any;
   }>();
 
-   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [getAdminGroupUser, setAdminGroupUser] = useState<IGroupUser[]>([]);
   const [getGroupUser, setGroupUser] = useState<IGroupUser[]>([]);
 
@@ -85,7 +85,9 @@ const GroupUserList = () => {
                 } md:max-h-full`}
               >
                 <div className="flex flex-wrap md:flex-nowrap items-center gap-4 p-2">
-                  <div className="flex flex-auto flex-wrap md:flex-nowrap gap-2 "><h3 className="font-bold">Users</h3></div>
+                  <div className="flex flex-auto flex-wrap md:flex-nowrap gap-2 ">
+                    <h3 className="font-bold">Users</h3>
+                  </div>
                   {/* Search Button */}
                   <div className="flex justify-end gap-3">
                     <Dialog>

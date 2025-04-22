@@ -4,8 +4,8 @@ export default {
   darkMode: ["class"],
   content: [
     "./index.html",
-    "./src/**/*.{ts,tsx,js,jsx}",
-    flowbite.content()
+    "./src/**/*.{ts,tsx,js,jsx, mdx}",
+    flowbite.content(),
   ],
   theme: {
     extend: {
@@ -68,7 +68,11 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), flowbite.plugin()],
+  plugins: [
+    require("tailwindcss-animate"),
+    flowbite.plugin(),
+    require("@tailwindcss/typography"),
+  ],
 };
 
 

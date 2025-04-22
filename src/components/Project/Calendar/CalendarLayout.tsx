@@ -1,5 +1,7 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import { useEffect, useState } from "react";
 import { IIssue } from "@/components/Task/utils/utils";
 import { useParams } from "react-router-dom";
@@ -9,6 +11,8 @@ import { projectIssues } from "../api/project-api";
 const CalendarLayout = () => {
   const { projectId } = useParams();
   const [issues, setData] = useState<IIssue[]>([]);
+
+  const [getInitialView, setInitialView] = useState("dayGridMonth");
 
   const retrieveIssue = async () => {
     try {
@@ -49,13 +53,22 @@ const CalendarLayout = () => {
     setSelectedDate(info.dateStr);
   };
 
+  useEffect(() => {
+    if (window.innerWidth < 800) {
+      setInitialView("timeGridDay"); 
+    }
+  }, []);
+
   return (
     <div>
       <FullCalendar
-        plugins={[dayGridPlugin]}
-        initialView="dayGridMonth"
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView={getInitialView}
         events={seperateEvents}
         eventClick={handleDateClick}
+        height="750px"
+        // contentHeight="auto"
+        aspectRatio={1.45}
       />
     </div>
   );

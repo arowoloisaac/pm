@@ -16,7 +16,7 @@ const GanttOverview = () => {
       const data = await projectGanntIssue(projectId);
       data ? setGanntIssue(data) : null;
     } catch (error: any) {
-      alert(error.response.data);
+      // alert(error.response.data);
     }
   };
 
@@ -38,6 +38,7 @@ const GanttOverview = () => {
       type: "task",
       progress: issue.issueLevel,
       isDisabled: false,
+      // styles: { progressColor: "#ffbb54", progressSelectedColor: "#ff9e0d" },
       subTasks: issue.subIssues?.map((subIssue: IIssues) =>
         mapToTask(subIssue)
       ),
@@ -59,20 +60,23 @@ const GanttOverview = () => {
 
   return ganttData.length > 0 ? (
     <>
-      <div className="flex flex-row gap-1">
+      <div className="inline-flex rounded-md shadow-xs pb-2" role="group">
         {["Hour", "Day", "Week", "Month", "Year"].map((mode) => (
-          <div>
-            <Button key={mode} onClick={() => setViewMode(mode)}>
-              {mode}
-            </Button>
-          </div>
+          <Button
+            key={mode}
+            onClick={() => setViewMode(mode)}
+            className="px-4 py-2 text-sm font-medium"
+            variant="outline"
+          >
+            {mode}
+          </Button>
         ))}
       </div>
 
       <Gantt tasks={ganttData} viewMode={viewMode} />
     </>
   ) : (
-    <div>Loading...</div>
+    <div>No items to display</div>
   );
 };
 

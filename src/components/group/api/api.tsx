@@ -1,6 +1,7 @@
 import Axios from "axios";
 import { IGroup, IGroupUser } from "../utils/utils";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
+import React from "react";
 
 const createGroup = async (
   e: React.MouseEvent<HTMLButtonElement>,
@@ -70,6 +71,7 @@ const retrieveGroupUsers = async (
     );
     return response.data;
   } catch (error: any) {
+    console.log(error);
     return error;
   }
 };
@@ -100,10 +102,26 @@ const addUserToGroup = async ({
     );
 
     return response;
-  } catch (error: any) {
-  }
+  } catch (error: any) {}
 };
 
+const deleteGroup = async (event: React.MouseEvent, organizationId: string|any, groupId: string) => {
+  event.stopPropagation();
+  try {
+    const request = await Axios.delete(
+      `${ApiUrl}/org=${organizationId}/delete/${groupId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
+
+    return request
+  } catch (error: any) {
+    return error;
+  }
+};
 
 export {
   retrieveGroup,
@@ -111,4 +129,5 @@ export {
   retrieveAdminGroupUsers,
   retrieveGroupUsers,
   addUserToGroup,
+  deleteGroup,
 };
