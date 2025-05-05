@@ -41,7 +41,7 @@ const CalendarLayout = () => {
       title: `⬅ ${item.name}`,
       start: item.endDate,
       allDay: true,
-      // color: "red",
+      color: "red",
       extendedProps: { item },
     },
   ]);

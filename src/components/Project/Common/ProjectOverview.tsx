@@ -23,7 +23,7 @@ const ProjectOverview = () => {
             <MenubarTrigger
               onClick={() => navigate(`/project/${projectId}/overview/issues`)}
             >
-              Issues
+              Tasks
             </MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu>

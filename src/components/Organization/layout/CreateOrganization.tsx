@@ -37,8 +37,7 @@ const CreateOrganization = () => {
 
     if (response.status === 200) {
       toast({
-        title: "Organization created ",
-        description: response.data,
+        title: "Organization has been created ",
       });
       const id = response.data
 
@@ -46,7 +45,7 @@ const CreateOrganization = () => {
     } else {
       toast({
         title: "Error creating organization ",
-        // description: response.data,
+        description: response.response.data,
         variant: "destructive",
       });
     }

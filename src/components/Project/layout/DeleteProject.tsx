@@ -61,7 +61,6 @@ const DeleteProject = () => {
                 });
 
                 navigate(`/projects`);
-                window.location.reload()
               } else {
                 toast({
                   variant: "destructive",

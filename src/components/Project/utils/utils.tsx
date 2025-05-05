@@ -47,6 +47,7 @@ export interface IGanttIssue {
   progress: number | any;
   subTasks: IGanttIssue[];
   isDisabled?: boolean;
+  // parent: string|null;
 }
 
 export interface IWiki {
@@ -60,4 +61,12 @@ export interface IWikiTree {
   key: string;
   title: string;
   children: IWikiTree[];
+}
+
+export interface IGetWiki {
+  id: string;
+  title: string;
+  content: string;
+  updatedBy: string;
+  createdBy: string
 }

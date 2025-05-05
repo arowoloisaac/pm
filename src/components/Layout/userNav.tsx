@@ -46,7 +46,6 @@ const DashboardUserNav = () => {
         <DropdownMenuContent className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">shadcn</p>
               <p className="text-xs leading-none text-muted-foreground">
                 {getProfile.email}
               </p>
@@ -60,7 +59,14 @@ const DashboardUserNav = () => {
             <DropdownMenuItem>Edit Profile</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="text-red-600">Log out</DropdownMenuItem>
+          <DropdownMenuItem
+            className="text-red-600"
+            onClick={() => {
+              localStorage.removeItem("token");
+            }}
+          >
+            Log out
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

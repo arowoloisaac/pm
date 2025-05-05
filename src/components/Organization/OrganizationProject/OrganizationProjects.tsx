@@ -73,6 +73,7 @@ const OrganizationProjects = () => {
       }
     } catch (error) {
       setIsLoading(false);
+      console.log(error);
       alert("can't load data at the moment");
     }
   };
@@ -105,7 +106,7 @@ const OrganizationProjects = () => {
 
   useEffect(() => {
     getProjects();
-  }, [location.search]);
+  }, []);
 
   return (
     <>
@@ -241,13 +242,13 @@ const OrganizationProjects = () => {
                       <th scope="col" className="p-4">
                         <div className="flex items-center"></div>
                       </th>
-                      <th scope="col" className="px-6 py-3 w-[450px]">
+                      <th scope="col" className="px-6 py-3 2xl:w-[400px] lg:w-[250px] md:w-[400px]">
                         Title
                       </th>{" "}
                       {!isvisible ? (
                         <></>
                       ) : (
-                        <th scope="col" className="px-6 py-3 w-1/3">
+                        <th scope="col" className=" px-6 py-3 w-1/3">
                           Overview
                         </th>
                       )}
@@ -275,8 +276,8 @@ const OrganizationProjects = () => {
                           <></>
                         ) : (
                           <td className="px-6 py-4">
-                            {project.overview.length >= 15
-                              ? project.overview.substring(0, 12) + "..."
+                            {project.overview.length >= 30
+                              ? project.overview.substring(0, 27) + "..."
                               : project.overview.length < 1
                               ? "No content"
                               : project.overview}

@@ -137,7 +137,7 @@ const Project = () => {
     <>
       <div className="w-full ">
         <div className="container mx-auto  px-4  pb-4">
-          {projects.length < 1 ? (
+          {Number(getPaginations?.totalItems) < 1 ? (
             <></>
           ) : (
             <div className="py-1">
@@ -199,7 +199,7 @@ const Project = () => {
                       </Select>
 
                       {/* item filter */}
-                      {projects.length < 10 ? (
+                      {Number(getPaginations?.totalItems) < 10 ? (
                         <></>
                       ) : (
                         <Select
@@ -212,9 +212,14 @@ const Project = () => {
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
-                              <SelectItem value="8">8</SelectItem>
-                              <SelectItem value="14">14</SelectItem>
-                              <SelectItem value="24">12</SelectItem>
+                              <SelectItem value="10">10</SelectItem>
+                              <SelectItem
+                                value="16"
+                                disabled={Number(getPaginations?.totalItems) < 16}
+                              >
+                                16
+                              </SelectItem>
+                              <SelectItem value="24" disabled={Number(getPaginations?.totalItems) < 24}>24</SelectItem>
                             </SelectGroup>
                           </SelectContent>
                         </Select>
@@ -223,7 +228,7 @@ const Project = () => {
 
                     {/* Search Button */}
                     <div className="flex justify-end gap-3">
-                      <a href="project/create">
+                      <a href="/project/create">
                         <Button>
                           <Plus />
                           Add Project
@@ -242,7 +247,7 @@ const Project = () => {
           </div>
           <div className="p-0.5"></div>
           {/* pagination */}
-          {Number(getPaginations?.totalItems) < 1 || 10 ? (
+          {Number(getPaginations?.totalItems) < 10 ? (
             <span></span>
           ) : (
             <div className="container mx-auto  border-2 px-4 py-2">

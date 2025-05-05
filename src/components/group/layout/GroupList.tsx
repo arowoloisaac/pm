@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { IGroup } from "../utils/utils";
 import CreateGroup from "./CreateGroup";
@@ -20,8 +20,6 @@ import { useToast } from "@/hooks/use-toast";
 const GroupList = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const location = useLocation();
-  const [isCollapsed, setIsCollapsed] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
   const [getGroups, setGroups] = useState<IGroup[]>([]);
@@ -54,12 +52,11 @@ const GroupList = () => {
       toast({
         description: response.data,
       });
-       setGroups((prevGroups) => prevGroups.filter((g) => g.id !== groupId));
-    }
-    else {
+      setGroups((prevGroups) => prevGroups.filter((g) => g.id !== groupId));
+    } else {
       toast({
-        description: response.response.data
-      })
+        description: response.response.data,
+      });
     }
   };
 
@@ -94,7 +91,7 @@ const GroupList = () => {
                             - Add Group
                           </Button>
                         </DialogTrigger>
-                        <CreateGroup />
+                        <CreateGroup onGroupCreated={fetchOrganizationGroups} />
                       </Dialog>
                     </div>
                   </div>
@@ -112,7 +109,7 @@ const GroupList = () => {
                       Add Group
                     </Button>
                   </DialogTrigger>
-                  <CreateGroup />
+                  <CreateGroup onGroupCreated={fetchOrganizationGroups} />
                 </Dialog>
               </div>
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

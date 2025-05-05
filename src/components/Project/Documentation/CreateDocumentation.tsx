@@ -68,7 +68,7 @@ const CreateDocumentation = () => {
   const [getContent, setContent] = useState("");
   const data = { title: getTitle, content: getContent };
 
-  const handleCreateWiki = async (event: React.MouseEvent) => {
+  const handleCreateWiki = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const response = await createWiki(event, projectId, data);
 
     if (response.status === 200) {
@@ -153,7 +153,7 @@ const CreateDocumentation = () => {
           />
         </div>
         <div className="flex justify-end pt-2">
-          <Button variant="default" onClick={handleCreateWiki}>
+          <Button type="submit" variant="default" onClick={handleCreateWiki}>
             Create Wiki
           </Button>
         </div>

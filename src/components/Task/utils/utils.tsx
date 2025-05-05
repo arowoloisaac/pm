@@ -21,7 +21,8 @@ export interface IIssues {
   issueLevel: number | any;
   startDate: Date;
   endDate: Date;
-  subIssues?: IIssues[] | any;
+  parentId: string;
+  subIssue?: IIssues[] | any;
 }
 
 export enum TaskComponent {

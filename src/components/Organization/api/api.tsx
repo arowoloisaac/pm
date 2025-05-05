@@ -110,7 +110,7 @@ const getOrganizationGroup = async (
   id: string | any
 ): Promise<IOrganizationGroup[]> => {
   try {
-    const response = await Axios.get(`${ApiUrl}/org=${id}/groups`, {
+    const response = await Axios.get(`${ApiUrl}/organization/${id}/groups`, {
       headers: {
         Authorization: `Bearer ${Token}`,
       },

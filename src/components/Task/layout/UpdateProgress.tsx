@@ -86,7 +86,7 @@ const UpdateQuest = () => {
 
   return (
     <>
-      <div>Update Task Progress</div>
+      <div className="prose"><h3 className="font-bold">Update Task Progress</h3></div>
       <div>
         <form>
           <div className=" flex mb-6">
@@ -144,7 +144,7 @@ const UpdateQuest = () => {
                 htmlFor="lev"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Progress Level
+                Progress Level (%)
               </label>
               <input
                 type="number"

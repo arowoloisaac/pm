@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IRequestUser } from "../utils/utils";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import RemoveRequest from "./RemoveRequest";
 import SendRequest from "./SendRequest";
@@ -69,7 +68,7 @@ const Request = () => {
         ) : (
           <div>
             <div className="py-1">
-              <div className="border-2">
+              <div className="">
                 <div className="flex justify-between items-center p-4 md:hidden">
                   <h2 className="text-lg font-medium">Search</h2>
                   <button

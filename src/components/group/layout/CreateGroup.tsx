@@ -8,44 +8,44 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { createGroup } from "../api/api";
 import { useToast } from "@/hooks/use-toast";
 
-const CreateGroup = () => {
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const { organizationId } = useParams<{organizationId: string}>();
+interface CreateGroupProps {
+  onGroupCreated: () => void;
+}
 
-  const [name, setGroupName] = useState<string>("")
+const CreateGroup = ({ onGroupCreated }: { onGroupCreated: () => void }) => {
+  const { toast } = useToast();
+  const { organizationId } = useParams<{ organizationId: string }>();
+
+  const [name, setGroupName] = useState<string>("");
 
   const data = {
-    groupName: name
-  }
+    groupName: name,
+  };
 
   const createGrp = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const response = await createGroup(e, {data, organizationId});
+    e.preventDefault();
+    const response = await createGroup({ data, organizationId });
 
     if (response.status === 200) {
       toast({
         title: "Group Created ",
         description: response.data,
       });
-      // navigate(`/organization/${organizationId}/groups`);
-      window.location.reload()
+
+      onGroupCreated();
     } else {
       toast({
         title: "Error creating group ",
-        description: response.response.data,
+        description: response.response.data || "Unknown error",
         variant: "destructive",
       });
     }
   };
-
-  // useEffect(() => {
-  //   createGrp
-  // })
 
   return (
     <DialogContent className="sm:max-w-[425px]">
@@ -61,7 +61,12 @@ const CreateGroup = () => {
           <Label htmlFor="name" className="text-right">
             Name
           </Label>
-          <Input id="name" placeholder="Frontend Team" onChange={e => setGroupName(e.target.value)} className="col-span-3" />
+          <Input
+            id="name"
+            placeholder="Frontend Team"
+            onChange={(e) => setGroupName(e.target.value)}
+            className="col-span-3"
+          />
         </div>
         <div className="grid grid-cols-4 items-center gap-4"></div>
       </div>

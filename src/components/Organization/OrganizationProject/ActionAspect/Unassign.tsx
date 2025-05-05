@@ -66,7 +66,7 @@ const Unassign = ({
           <Label htmlFor="name" className="text-right">
             Group:
           </Label>
-          <h4>{assignedGroupName}</h4>
+          <h4 className="w-[280px]">{assignedGroupName}</h4>
         </div>
       </div>
       <DialogFooter>
@@ -76,7 +76,7 @@ const Unassign = ({
           }}
           variant="destructive"
         >
-          Delete
+          Revoke
         </Button>
       </DialogFooter>
     </DialogContent>

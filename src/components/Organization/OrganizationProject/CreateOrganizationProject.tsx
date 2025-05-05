@@ -25,10 +25,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { getOrganizationGroup } from "../api/api";
 import { IOrganizationGroup } from "../utils/utils";
+import { useToast } from "@/hooks/use-toast";
 
 const CreateOrganizationProject = () => {
   const { organizationId } = useParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [getGroupId, setGroupId] = useState<string>("");
+
   const [formData, setFormData] = useState({
     name: "",
     overview: "",
@@ -36,20 +40,27 @@ const CreateOrganizationProject = () => {
     complexity: "",
   });
 
-  const [getComplexity, setComplexity] = useState<string>("");
+  enum complexity {
+    Easy = "Easy",
+    Medium = "Medium",
+    Complex = "Complex",
+  }
+  const [getComplexity, setComplexity] = useState<complexity | string>(
+    complexity.Easy
+  );
 
   const data = {
     name: formData.name,
     overview: formData.overview,
     description: formData.description,
-    complexity: getComplexity,
+    complexity: getComplexity ? getComplexity : complexity.Easy,
   };
 
-  let getGroupFilter: string | null = null;
+  let getGroupFilter: string = "groupId";
 
   const generateUrl = () => {
     const param = new URLSearchParams();
-    if (getGroupFilter) param.append(getGroupId, getGroupFilter);
+    if (getGroupId) param.append(getGroupFilter, getGroupId);
 
     return `${ApiUrl}/organization/${organizationId}/create-project?${param.toString()}`;
   };
@@ -67,30 +78,36 @@ const CreateOrganizationProject = () => {
     })
       .then((res) => {
         if (res.status === 200) {
+          toast({
+            title: "Action Status",
+            description: "Project created successfully",
+          });
           navigate(`/organization/${organizationId}/projects`);
-          window.location.reload();
         }
       })
       .catch((ex) => {
-        console.log(ex);
+        toast({
+          title: "Action Status",
+          variant: "destructive",
+          description: ex.response.data,
+        });
       });
   };
 
-  //   to fetch groups under this organization
-  const [getGroupId, setGroupId] = useState<string>("")
-  const [getGroups, setGroups] = useState<IOrganizationGroup[]>([])
+  const [getGroups, setGroups] = useState<IOrganizationGroup[]>([]);
   const fetchOrganizationGroup = async () => {
     try {
-        const response = await getOrganizationGroup(organizationId)
-        response ? setGroups(response) : null
-    } catch (error:any) {
-        console.log(error)
+      const response = await getOrganizationGroup(organizationId);
+      response ? setGroups(response) : null;
+    } catch (error: any) {
+      console.log(error);
     }
   };
 
+  console.log(getGroupId);
   useEffect(() => {
-    fetchOrganizationGroup()
-  }, [location.pathname])
+    fetchOrganizationGroup();
+  }, [location.pathname]);
 
   return (
     <Card className="max-w-full">
@@ -155,7 +172,7 @@ const CreateOrganizationProject = () => {
                       ) : (
                         getGroups.map((grp) => (
                           <SelectItem value={grp.id}>
-                            {grp.name.substring(0,15)}
+                            {grp.name.substring(0, 15)}
                           </SelectItem>
                         ))
                       )}

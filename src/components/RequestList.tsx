@@ -80,9 +80,9 @@ const RequestList = () => {
 
   return (
     <>
-      <section className=" pt-3 pb-6 antialiased md:py-16">
+      <section className="  antialiased md:py-16">
         <form action="#" className="mx-auto max-w-screen-xl px-4 2xl:px-0">
-          <div className=" max-w-3xl">
+          <div className=" ">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
               Invitation Requests
             </h2>

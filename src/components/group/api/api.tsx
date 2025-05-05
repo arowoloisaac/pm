@@ -4,10 +4,10 @@ import { ApiUrl, Token } from "@/components/Storage/Storage";
 import React from "react";
 
 const createGroup = async (
-  e: React.MouseEvent<HTMLButtonElement>,
+  // e: React.MouseEvent<HTMLButtonElement>,
   { data, organizationId }: { data: any; organizationId: string | any }
 ): Promise<any> => {
-  e.preventDefault();
+  // e.preventDefault();
   try {
     const response = await Axios.post(
       `${ApiUrl}/org=${organizationId}/create?groupName=${data.groupName}`,
@@ -26,7 +26,7 @@ const createGroup = async (
 
 const retrieveGroup = async (id: string | any) => {
   try {
-    const response = await Axios.get(`${ApiUrl}/org=${id}/groups`, {
+    const response = await Axios.get(`${ApiUrl}/organization/${id}/groups`, {
       headers: {
         Authorization: `Bearer ${Token}`,
       },

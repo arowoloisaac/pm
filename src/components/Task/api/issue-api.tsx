@@ -77,7 +77,7 @@ const createSubIssue = async (
   e.preventDefault();
   try {
     const response = await Axios.post(
-      `${ApiUrl}/project=${projectId}/issue=${issueId}/create-subIssue`,
+      `${ApiUrl}/project/${projectId}/issue/${issueId}/child`,
       data,
       {
         headers: {
@@ -85,7 +85,7 @@ const createSubIssue = async (
         },
       }
     );
-    return response.status;
+    return response;
   } catch (error: any) {
     console.error("Error creating sub issue:", error.message || error);
   }

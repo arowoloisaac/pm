@@ -39,10 +39,8 @@ const OrgUserList = () => {
               <th scope="col" className="px-6 py-3">
                 Position
               </th>
-              <th scope="col" className="px-6 py-3">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-3">
+             
+              <th scope="col" className="text-right px-6 py-3">
                 Action
               </th>
             </tr>
@@ -75,13 +73,8 @@ const OrgUserList = () => {
                     ? "Administrator"
                     : "Member"}
                 </td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
-                    Online
-                  </div>
-                </td>
-                <td className="px-6 py-4">
+           
+                <td className=" text-right px-6 py-4">
                   <a
                     href="#"
                     className="font-medium text-blue-600 dark:text-blue-500 hover:underline"

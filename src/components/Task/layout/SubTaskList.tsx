@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import { IIssue } from "../utils/utils";
 import { subIssueList } from "../api/issue-api";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
@@ -16,10 +23,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate, useParams } from "react-router-dom";
+import Loader from "@/components/loader";
 
 const SubIssue = () => {
-
-  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
   const { projectId, issueId } = useParams<{
     projectId: string | any;
     issueId: string | any;
@@ -28,16 +36,22 @@ const SubIssue = () => {
 
   const fetchSubs = async () => {
     const data = await subIssueList(projectId, issueId);
-
-    data ? setSubIssues(data) : null;
+    // data ? setSubIssues(data) : null;
+    if (data) {
+      setSubIssues(data);
+      setIsLoading(false);
+    } else null;
   };
+
   useEffect(() => {
     fetchSubs();
-  }, []);
+  }, [getSubIssues]);
 
   return (
     <>
-      {getSubIssues.length < 1 ? (
+      {isLoading ? (
+        <Loader />
+      ) : getSubIssues.length < 1 ? (
         <div className="h-[200px] content-center">
           <div className="flex flex-row justify-center">
             <div>
@@ -82,24 +96,24 @@ const SubIssue = () => {
                   </div>
                 </div>
 
-                <p>
+                <h5 className="pt-4 font-semibold text-md">
                   This contains the list of child(ren) that belongs to the task
-                </p>
+                </h5>
               </div>
             </div>
           </div>
-          <Table>
+          <Table className="pt-2">
             <TableBody>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">id</TableHead>
-                  <TableHead>Title</TableHead>
+                  <TableHead className="">id</TableHead>
+                  <TableHead></TableHead>
                   <TableHead className="text-right"></TableHead>
                 </TableRow>
               </TableHeader>
               {getSubIssues.map((item, index) => (
                 <TableRow key={item.id}>
-                  <TableCell className="font-medium w-1.5">
+                  <TableCell className="w-[10px]">
                     {index + 1}
                   </TableCell>
                   <TableCell>{item.name}</TableCell>

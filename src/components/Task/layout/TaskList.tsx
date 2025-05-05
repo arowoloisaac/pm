@@ -25,6 +25,7 @@ import {
   Brush,
   Bug,
   Code,
+  FeatherIcon,
   LayoutList,
   MoreHorizontal,
   TestTubeDiagonal,
@@ -68,16 +69,16 @@ const IssueList = ({ items }: { items: IIssue[] }) => {
               <TableHeader className="">
                 <TableRow className="items-center">
                   <TableHead className="">#</TableHead>
-                  <TableHead className="lg:w-[400px] 2xl:w-[800px]">
+                  <TableHead className="lg:w-[500px] 2xl:w-[750px]">
                     Title
                   </TableHead>
 
-                  <TableHead className="text-center">Type</TableHead>
+                  <TableHead className="text-center ">Type</TableHead>
                   {isVisible ? (
                     <>
                       {" "}
                       <TableHead className="text-center">Status</TableHead>
-                      <TableHead className="text-center w-[150px]">Priority</TableHead>
+                      <TableHead className="text-center ">Priority</TableHead>
                     </>
                   ) : (
                     <></>
@@ -105,11 +106,12 @@ const IssueList = ({ items }: { items: IIssue[] }) => {
                         {
                           {
                             Task: <LayoutList size={18} />,
-                            Design: <Brush size={18} />,
-                            Test: <TestTubeDiagonal size={18} />,
-                            Documentation: <BookOpen size={18} />,
-                            Bug: <Bug />,
-                            Code: <Code />,
+                            Research: <Brush size={18} />,
+                            Incident: <TestTubeDiagonal size={18} />,
+                            Documentation: <BookOpen size={16} />,
+                            Bug: <Bug size={18} />,
+                            Improvement: <Code size={18} />,
+                            Feature: <FeatherIcon size={18} />,
                           }[issue.issueType]
                         }{" "}
                         {issue.issueType}
@@ -180,7 +182,6 @@ const IssueList = ({ items }: { items: IIssue[] }) => {
                                   assignedGroupName={project.assignedTo}
                                 /> */}
                               </Dialog>
-                            
                             </DropdownMenuGroup>
                           </DropdownMenuContent>
                         </DropdownMenu>

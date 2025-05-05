@@ -40,13 +40,13 @@ const EditOrganization = () => {
           <Label htmlFor="name" className="text-right">
             Name
           </Label>
-          <Input id="name" value={getDetails.name} className="col-span-3" />
+          <Input id="name" defaultValue={getDetails.name} className="col-span-3" />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="username" className="text-right">
             Overview
           </Label>
-          <Input id="username" value={getDetails.description} className="col-span-3" />
+          <Input id="username" defaultValue={getDetails.description} className="col-span-3" />
         </div>
       </div>
       <DialogFooter>

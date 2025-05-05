@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { IWiki } from "../utils/utils";
 import Axios from "axios";
 import { ApiUrl, Token } from "@/components/Storage/Storage";
-import App from "@/components/Markdown/mdxedit";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import CreateDocumentation from "./CreateDocumentation";
 import { Plus } from "lucide-react";
+import DocumentationDetails from "./DocumentationDetails";
 
 const Documentation = () => {
   const { projectId } = useParams<{ projectId: string | any }>();
@@ -29,7 +29,6 @@ const Documentation = () => {
     });
     setWiki(response.data);
     setIsLoading(false);
-    console.log(response.data);
   };
 
   useEffect(() => {
@@ -41,11 +40,15 @@ const Documentation = () => {
         <Loader />
       ) : (
         <div className="flex  flex-row gap-3">
-          <div className="flex-none border w-52">
+          <div className="flex-none w-52">
             <div className="flex justify-end mt-2 mr-2">
-              <Button className="text-xs px-2 py-1 flex items-center h-8 w-20 gap-1" variant="ghost">
+              <Button
+                className="text-xs px-2 py-1 flex items-center h-8 w-20 gap-1 underline"
+                variant="ghost"
+                onClick={handleCreate}
+              >
                 <Plus className="w-2 h-4" />
-                 Wiki
+                Wiki
               </Button>
             </div>
 
@@ -53,7 +56,8 @@ const Documentation = () => {
           </div>
           <div className="grow">
             <Routes>
-              <Route path="create" element={<CreateDocumentation />} />
+              <Route path="/:wikiId" element={<DocumentationDetails />}/>
+              <Route path="/create" element={<CreateDocumentation />} />
             </Routes>
           </div>
         </div>

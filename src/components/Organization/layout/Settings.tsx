@@ -18,13 +18,15 @@ const Settings = () => {
 
   return (
     <>
-      <div>Setting</div>
+      <div className="prose p-2">
+        <h3 className="text-md font-bold">Setting</h3>
+      </div>
       <div>
         <div>
           <div>
-            <div className="flex-1 border p-1">
+            <div className="flex-1 p-1">
               <div className="grid grid-cols-5 gap-2">
-                <div className="col-start-1 border p-3 h-fit">
+                <div className="col-start-1 p-3 h-fit">
                   <div className="flex flex-col gap-2 ">
                     <div
                       onClick={() => {
@@ -37,8 +39,7 @@ const Settings = () => {
                     </div>
                     <Separator orientation="horizontal" />
                     <div>
-                      <Dialog
-                      >
+                      <Dialog>
                         <DialogTrigger asChild>
                           <h5 className="italic font-serif">edit</h5>
                         </DialogTrigger>
@@ -46,27 +47,20 @@ const Settings = () => {
                       </Dialog>
                     </div>
                     <Separator orientation="horizontal" />
-                    <div
-                      onClick={() => {
-                        navigate(
-                          `/organization/${organizationId}/settings/edit`
-                        );
-                      }}
-                    >
-                      <h5 className="italic font-serif">users</h5>
-                    </div>
-                    <Separator orientation="horizontal" />
+
                     <div>
                       <Dialog>
                         <DialogTrigger asChild>
-                          <h5 className="italic font-serif">delete</h5>
+                          <h5 className="italic font-serif text-red-500">
+                            delete
+                          </h5>
                         </DialogTrigger>
                         <DeleteOrganization />
                       </Dialog>
                     </div>
                   </div>
                 </div>
-                <div className="col-start-2 col-end-7 border p-3 h-fit">
+                <div className="col-start-2 col-end-7 border-l p-3 h-fit">
                   <div>
                     <Routes>
                       <Route

@@ -219,23 +219,27 @@ const Issue = () => {
                     </Select>
 
                     {/* item filter */}
-                    <Select
-                      onValueChange={(value) =>
-                        handleFilterChange("itemPerPage", value)
-                      }
-                    >
-                      <SelectTrigger className="w-[80px] md:w-20 p-2">
-                        <SelectValue placeholder="Items" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Complexity</SelectLabel>
-                          <SelectItem value="10">15</SelectItem>
-                          <SelectItem value="15">20</SelectItem>
-                          <SelectItem value="20">25</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
+                    {Number(getPaginations?.totalItems) < 15 ? (
+                      <></>
+                    ) : (
+                      <Select
+                        onValueChange={(value) =>
+                          handleFilterChange("itemPerPage", value)
+                        }
+                      >
+                        <SelectTrigger className="w-[80px] md:w-20 p-2">
+                          <SelectValue placeholder="Items" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Complexity</SelectLabel>
+                            <SelectItem value="15">15</SelectItem>
+                            <SelectItem value="20">20</SelectItem>
+                            <SelectItem value="25">25</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    )}
                   </div>
 
                   {/* Search Button */}
@@ -247,7 +251,7 @@ const Issue = () => {
                         }}
                       >
                         <Plus />
-                        Add Issue
+                        Add Task
                       </Button>
                     </a>
                   </div>
@@ -261,7 +265,7 @@ const Issue = () => {
           </div>
           <div className="p-0.5"></div>
           {/* pagination */}
-          {Number(getPaginations?.totalItems) < 1 || 15 ? (
+          {Number(getPaginations?.totalItems) < 15 ? (
             <span></span>
           ) : (
             <div className="container mx-auto  border-0 px-4 py-4">

@@ -58,10 +58,7 @@ const projectDetail = async (projectId: string | any): Promise<IProject> => {
   }
 };
 
-const deleteProject = async (
-  e: React.MouseEvent,
-  projectId: any
-) => {
+const deleteProject = async (e: React.MouseEvent, projectId: any) => {
   e.stopPropagation();
   try {
     const response = await Axios.delete(
@@ -97,7 +94,7 @@ const projectIssues = async (projectId: any): Promise<IIssue[]> => {
 //function: aids in displaying the gannt data
 const projectGanntIssue = async (id: string): Promise<IIssues[]> => {
   try {
-    const response = await Axios.get(`${ApiUrl}/project=${id}/issues`, {
+    const response = await Axios.get(`${ApiUrl}/project/${id}/issues`, {
       headers: {
         Authorization: `Bearer ${Token}`,
       },
@@ -108,19 +105,39 @@ const projectGanntIssue = async (id: string): Promise<IIssues[]> => {
   }
 };
 
-const createWiki = async (e: React.MouseEvent, id: string, data:{}) => {
-  e.preventDefault()
+const createWiki = async (e: React.MouseEvent<HTMLButtonElement>, id: string, data: {}) => {
+  e.preventDefault();
   try {
-    const response = await Axios.post(`${ApiUrl}/project/${id}/wiki/create`, data, {
-      headers: {
-        Authorization: `Bearer ${Token}`,
-      },
-    });
+    const response = await Axios.post(
+      `${ApiUrl}/project/${id}/wiki/create`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
     return response;
-  } catch (error:any) {
-    return error
+  } catch (error: any) {
+    return error;
   }
-}
+};
+
+const fetchWiki = async (projectId: string|any, wikiId: string|any) => {
+  try {
+    const request = await Axios.get(
+      `${ApiUrl}/project/${projectId}/wiki/${wikiId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
+    return request;
+  } catch (error: any) {
+    return error;
+  }
+};
 
 export {
   editProject,
@@ -130,4 +147,5 @@ export {
   projectIssues,
   projectGanntIssue,
   createWiki,
+  fetchWiki,
 };

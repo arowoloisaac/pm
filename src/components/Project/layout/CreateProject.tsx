@@ -23,7 +23,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreateProject = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     overview: "",
@@ -37,32 +37,34 @@ const CreateProject = () => {
     name: formData.name,
     overview: formData.overview,
     description: formData.description,
-    complexity: getComplexity,
+    complexity: getComplexity ? getComplexity : "Easy",
   };
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleCreateProject = (event: any) => {
+  const handleCreateProject = async (event: any) => {
     event.preventDefault();
-    Axios.post(`${ApiUrl}/project/create`, data, {
-      headers: {
-        Authorization: `Bearer ${Token}`,
-      },
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          navigate("/")
-        }
-      })
-      .catch((ex) => {
-        console.log(ex);
+    try {
+      const response = await Axios.post(`${ApiUrl}/project/create`, data, {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
       });
+      if (response.status === 200) {
+        navigate("/");
+      }
+    } catch (error: any) {
+      console.log(error.response);
+      alert(error.response.data.message);
+    }
   };
-  
+
+  console.log(data);
+
   return (
-    <Card className="mx-[100px]">
+    <Card className="2xl:mx-[100px]">
       <CardHeader>
         <CardTitle>Create project</CardTitle>
         <CardDescription>Deploy your new project in one-click.</CardDescription>

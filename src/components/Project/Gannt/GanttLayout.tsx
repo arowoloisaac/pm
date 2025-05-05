@@ -11,6 +11,8 @@ const GanttOverview = () => {
   const { projectId } = useParams<{ projectId: string | any }>();
   const [getIssue, setGanntIssue] = useState<IIssues[]>([]);
 
+  console.log(getIssue);
+
   const retrieveIssue = async () => {
     try {
       const data = await projectGanntIssue(projectId);
@@ -39,7 +41,7 @@ const GanttOverview = () => {
       progress: issue.issueLevel,
       isDisabled: false,
       // styles: { progressColor: "#ffbb54", progressSelectedColor: "#ff9e0d" },
-      subTasks: issue.subIssues?.map((subIssue: IIssues) =>
+      subTasks: issue.subIssue?.map((subIssue: IIssues) =>
         mapToTask(subIssue)
       ),
     };
@@ -49,6 +51,41 @@ const GanttOverview = () => {
   const ganttData = useMemo(() => {
     return getIssue.length > 0 ? getIssue.map(mapToTask) : [];
   }, [getIssue]);
+
+console.log(ganttData);
+
+  /*function mapToTask(issue: IIssues, parentId?: string | null): IGanttIssue[] {
+    const startDateObject = new Date(issue.startDate);
+    startDateObject.setHours(0, 0, 0, 0);
+
+    const endDateObject = new Date(issue.endDate);
+    endDateObject.setHours(23, 59, 59, 999);
+
+    const task: IGanttIssue = {
+      start: startDateObject,
+      end: endDateObject,
+      name: issue.name,
+      id: issue.id, // id: parentId ? `${parentId}-${issue.id}` : issue.id,
+      type: "task",
+      progress: issue.issueLevel,
+      isDisabled: false,
+      parent: issue.parentId, // <--- This is key for subtasks
+    };
+
+    // Flatten subtasks recursively
+    const subTasks =
+      issue.subIssue?.flatMap((subIssue: IIssues) =>
+        mapToTask(subIssue, issue.parentId)
+      ) || [];
+
+    return [task, ...subTasks];
+  }
+  // Then, to get all tasks:
+  const ganttData = useMemo(() => {
+    return getIssue.length > 0
+      ? getIssue.flatMap((issue) => mapToTask(issue))
+      : [];
+  }, [getIssue]);*/
 
   interface DisplayOption {
     viewMode?: "Hour" | "Day" | "Week" | "Month" | "Year" | any;
@@ -60,12 +97,12 @@ const GanttOverview = () => {
 
   return ganttData.length > 0 ? (
     <>
-      <div className="inline-flex rounded-md shadow-xs pb-2" role="group">
+      <div className="flex justify-end shadow-xs pb-2" role="group">
         {["Hour", "Day", "Week", "Month", "Year"].map((mode) => (
           <Button
             key={mode}
             onClick={() => setViewMode(mode)}
-            className="px-4 py-2 text-sm font-medium"
+            className="px-4 py-2 h-8 rounded-sm text-sm font-medium"
             variant="outline"
           >
             {mode}
