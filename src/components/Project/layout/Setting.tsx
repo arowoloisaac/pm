@@ -1,0 +1,80 @@
+import { Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { Separator } from "@/components/ui/separator";
+import {
+  Dialog,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import EditProject from "./EditProject";
+import ProjectDetail from "./ProjectDetail";
+import DeleteProject from "./DeleteProject";
+const Setting = () => {
+  const navigate = useNavigate();
+  const { projectId } = useParams();
+
+  return (
+    <>
+      <div>Setting</div>
+      <div>
+        <div>
+          <div>
+            <div className="flex-1 border p-1">
+              <div className="grid grid-cols-5 gap-2">
+                <div className="col-start-1 border p-3 h-fit">
+                  <div className="flex flex-col gap-2 ">
+                    <div
+                      onClick={() => {
+                        navigate(
+                          `/project/${projectId}/overview/settings/details`
+                        );
+                      }}
+                    >
+                      <h5 className="italic font-serif">detail</h5>
+                    </div>
+                    <Separator orientation="horizontal" />
+                    <div
+                      onClick={() => {
+                        navigate(
+                          `/project/${projectId}/overview/settings/edit`
+                        );
+                      }}
+                    >
+                      <h5 className="italic font-serif">edit</h5>
+                    </div>
+                    <Separator orientation="horizontal" />
+                    <div>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <h5 className="italic font-serif">delete</h5>
+                        </DialogTrigger>
+                        <DeleteProject />
+                      </Dialog>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-start-2 col-end-7 border p-3 h-fit">
+                  <div>
+                    <Routes>
+                      <Route
+                        index
+                        element={
+                          <Navigate
+                            to={`/project/${projectId}/overview/settings/details`}
+                            replace
+                          />
+                        }
+                      />
+                      <Route path="details" element={<ProjectDetail />} />
+                      <Route path="edit" element={<EditProject />} />
+                    </Routes>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Setting;

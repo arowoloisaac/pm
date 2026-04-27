@@ -8,5 +8,11 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },  
+  server: {
+    watch: {
+       usePolling: true,
+      ignored: ['**/dist/**', '**/node_modules/**'],
+    },
   },
 })

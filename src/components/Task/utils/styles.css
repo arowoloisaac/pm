@@ -1,0 +1,7 @@
+
+
+@media (max-width: 768px) { /* Adjust the breakpoint as needed */
+  .add-child-container {
+    display: none; /* hidden on smaller screens */
+  }
+}

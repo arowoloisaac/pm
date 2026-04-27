@@ -1,0 +1,195 @@
+import { ApiUrl, Token } from "@/components/Storage/Storage";
+import Axios from "axios";
+import { IIssue, IIssues } from "../utils/utils";
+
+const subIssueList = async (
+  projectId: string,
+  issueId: string
+): Promise<IIssue[]> => {
+  try {
+    const response = await Axios.get(
+      `${ApiUrl}/parentId=${issueId}?projectId=${projectId}`,
+      {
+        headers: { Authorization: `Bearer ${Token}` },
+      }
+    );
+    return response.data;
+  } catch (err: any) {
+    console.error("Error fetching issues:", err.message || err);
+    // return null;
+    return err;
+  }
+};
+
+const relatedIssueList = () => {};
+
+const issueDetail = async (
+  projectId: string,
+  issueId: string
+): Promise<IIssue> => {
+  try {
+    const response = await Axios.get(
+      `${ApiUrl}/project=${projectId}/issue=${issueId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+const createIssue = async (
+  e: React.MouseEvent<HTMLButtonElement>,
+  { data, projectId }: { data: any; projectId: string | any }
+): Promise<any> => {
+  e.preventDefault();
+  try {
+    const response = await Axios.post(
+      `${ApiUrl}/project=${projectId}/create-issue`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
+    console.log(response);
+    return response;
+  } catch (error: any) {
+    console.error("Error creating issue:", error || error);
+    return error;
+  }
+};
+
+const createSubIssue = async (
+  e: React.MouseEvent<HTMLButtonElement>,
+  {
+    data,
+    projectId,
+    issueId,
+  }: { data: any; projectId: string; issueId: string }
+) => {
+  e.preventDefault();
+  try {
+    const response = await Axios.post(
+      `${ApiUrl}/project/${projectId}/issue/${issueId}/child`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error: any) {
+    console.error("Error creating sub issue:", error.message || error);
+  }
+};
+
+const updateTaskProgress = async (
+  e: React.MouseEvent<HTMLButtonElement>,
+  projectId: any,
+  issueId: any,
+  data: {} | any
+): Promise<any> => {
+  e.preventDefault();
+  try {
+    const response = await Axios.put(
+      `${ApiUrl}/project=${projectId}/issue=${issueId}/update`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${Token}` },
+      }
+    );
+
+    return response;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+const updateTask = async (
+  e: React.MouseEvent<HTMLButtonElement>,
+  projectId: any,
+  issueId: any,
+  data: {}
+) => {
+  e.preventDefault();
+  try {
+    const response = await Axios.put(
+      `${ApiUrl}/project=${projectId}/issue=${issueId}/update`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${Token}` },
+      }
+    );
+
+    return response;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+const getIssueAndChildren = async (projectId: any): Promise<IIssues[]> => {
+  try {
+    const response = await Axios.get(
+      `${ApiUrl}/projectId=${projectId}/issues`,
+      {
+        headers: { Authorization: `Bearer ${Token}` },
+      }
+    );
+    return response.data;
+  } catch (err: any) {
+    return err;
+  }
+};
+
+const deleteTask = async (
+  event: any,
+  projectId: string,
+  issueId: string,
+  isChildren: string
+) => {
+  event.preventDefault();
+  try {
+    const response = await Axios.delete(
+      `${ApiUrl}/project=${projectId}/issue=${issueId}/delete?isDeleteChildren=${isChildren}`,
+      {
+        headers: { Authorization: `Bearer ${Token}` },
+      }
+    );
+    console.log(response);
+    return response;
+  } catch (error: any) {
+    console.log(error);
+    return error;
+  }
+};
+
+function mapTasks(apiResponse: any[]): IIssues[] | any {
+  return apiResponse.map((issue) => ({
+    id: issue.id,
+    name: issue.name,
+    startDate: issue.startDate,
+    endDate: issue.endDate,
+    progress: issue.progress,
+    subIssues: issue.subtasks ? mapTasks(issue.subtasks) : undefined, // Recursively map subtasks
+  }));
+}
+
+export {
+  subIssueList,
+  relatedIssueList,
+  createIssue,
+  issueDetail,
+  createSubIssue,
+  getIssueAndChildren,
+  updateTaskProgress,
+  updateTask,
+  deleteTask,
+};
